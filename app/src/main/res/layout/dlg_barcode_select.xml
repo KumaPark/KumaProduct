@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/color_white"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
+            android:paddingTop="5dp"
+            android:orientation="vertical" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                >
+
+                <ImageView
+                    android:layout_width="43dp"
+                    android:layout_height="23dp"
+                    android:background="@drawable/pop_logo"
+                    android:layout_alignParentLeft="true"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_weight="1"
+                    android:text="입력장비 선택"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dcdcdc"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <!--장비-->
+                <!--*  트랜듀서-->
+                <!--*  풋 스위치-->
+                <!--*  바이옵시-->
+                <!--*  동글-->
+                <!--*  워크스테이션-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="280"
+                    >
+                    <TextView
+                        android:id="@+id/barcode_type_device"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="139.5"
+                        android:text="장비"
+                        android:background="#aaFFB85A"
+                        android:gravity="center"
+                        />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@color/color_bg" />
+                    <TextView
+                        android:id="@+id/barcode_type_tranducer"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="139.5"
+                        android:text="트랜듀서"
+                        android:background="#ffffff"
+                        android:gravity="center"
+                        />
+                    </LinearLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="280"
+                    >
+                    <TextView
+                        android:id="@+id/barcode_type_foot_switch"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="139.5"
+                        android:text="풋스위치"
+                        android:gravity="center"
+                        />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@color/color_bg" />
+                    <TextView
+                        android:id="@+id/barcode_type_biopsy"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="139.5"
+                        android:text="바이옵시"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/color_bg" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="280"
+                    >
+                    <TextView
+                        android:id="@+id/barcode_type_doggle"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="139.5"
+                        android:text="동글"
+                        android:gravity="center"
+                        />
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="1"
+                        android:background="@color/color_bg" />
+                    <TextView
+                        android:id="@+id/barcode_type_work_station"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="139.5"
+                        android:text="워크스테이션"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_bg" />
+        </LinearLayout>
+
+            <!-- button -->
+
+            <LinearLayout
+                android:id="@+id/ll_dlg_yes_no"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:orientation="horizontal"
+                android:weightSum="320"
+                >
+                <Button
+                    android:id="@+id/btn_dlg_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="160"
+                    android:background="@xml/sel_dlg_cancle"
+                    android:text="@string/str_dlg_cancel"
+                    android:textColor="@color/color_white"
+                    android:textSize="16dp" />
+
+                <Button
+                    android:id="@+id/btn_dlg_yes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="160"
+                    android:background="@xml/sel_dlg_confirm"
+                    android:text="@string/str_dlg_confirm"
+                    android:textColor="@color/color_white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+</LinearLayout>

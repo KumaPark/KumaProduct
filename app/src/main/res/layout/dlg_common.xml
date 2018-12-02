@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/color_white"
+            android:paddingTop="5dp"
+            android:orientation="vertical" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                >
+
+                <ImageView
+                    android:layout_width="73dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/pop_logo"
+                    android:layout_centerInParent="true"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dcdcdc"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+
+            <!-- message area -->
+
+            <com.example.kuma.myapplication.ui.common.MsgScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp" >
+
+                <TextView
+                    android:id="@+id/tv_msg"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="8dp"
+                    android:text=""
+                    android:textColor="@color/color_text"
+                    android:textSize="13dp" />
+            </LinearLayout>
+            </com.example.kuma.myapplication.ui.common.MsgScrollView>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_bg" />
+
+            <!-- button -->
+
+            <LinearLayout
+                android:id="@+id/ll_dlg_yes_no"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal"
+                android:weightSum="320"
+                 >
+
+                <Button
+                    android:id="@+id/btn_dlg_no"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="160"
+                    android:background="@xml/sel_dlg_cancle"
+                    android:text="@string/str_dlg_cancel"
+                    android:textColor="@color/color_white"
+                    android:textSize="16dp" />
+
+                <Button
+                    android:id="@+id/btn_dlg_yes"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="160"
+                    android:background="@xml/sel_dlg_confirm"
+                    android:text="@string/str_dlg_confirm"
+                    android:textColor="@color/color_white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_dlg_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btn_dlg_confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@xml/sel_dlg_confirm"
+                    android:text="@string/str_dlg_confirm"
+                    android:textColor="@color/color_white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

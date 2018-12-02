@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1080"
+        android:gravity="center"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:weightSum="720"
+        android:layout_weight="80"
+        android:gravity="center"
+        >
+        <EditText
+            android:id="@+id/ev_id"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="300"
+            android:hint="id"
+            />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="720"
+            android:layout_weight="80"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            >
+            <EditText
+                android:id="@+id/ev_pw"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="300"
+                android:hint="password"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:weightSum="720"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            >
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="300"
+                android:text="Login"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
