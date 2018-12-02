@@ -13,18 +13,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Kuma on 2018-01-20.
+ * Created by Kuma on 2018-02-22.
+ * 제품조회 상세
  */
 
-public class ResMainDeviceList extends ResponseProtocol{
+public class ResDeviceInfo extends ResponseProtocol{
 
     private String m_strResult = "";
 
     private String m_strMsg = "";
 
-    private ArrayList<DeviceInfo> arrResult = new ArrayList<>();
+    private DeviceInfo mDeviceInfo;
 
-    public ResMainDeviceList()
+    public ResDeviceInfo()
     {
         // TODO Auto-generated constructor stub
     }
@@ -39,14 +40,14 @@ public class ResMainDeviceList extends ResponseProtocol{
         return m_strMsg;
     }
 
-    public  ArrayList<DeviceInfo> getListData(){
-        return this.arrResult;
+    public  DeviceInfo getDeviceInfo(){
+        return this.mDeviceInfo;
     }
 
     @Override
     protected void parseXMLResponseData(JSONObject jsonObject) {
         try {
-            KumaLog.d("============ ResMainDeviceList parseXMLResponseData  ");
+            KumaLog.d("============ ResDeviceInfo parseXMLResponseData  ");
 
             try {
                 m_strResult = jsonObject.getString(JSONDefines.JSON_RESP.STR_RESULT_CODE).toString();
@@ -62,28 +63,22 @@ public class ResMainDeviceList extends ResponseProtocol{
 
             if( m_strResult.equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS) ) {
 
-                JSONArray objList = jsonObject.getJSONArray("data");
+                JSONObject obj = jsonObject.getJSONObject("data");
                 try {
-                    if( objList.length() > 0 ) {
-                        KumaLog.d("MainDeviceData : " + objList.length());
-                        Gson gson = new Gson();
-                        for (int i = 0; i < objList.length(); i++) {
-                            JSONObject obj = objList.getJSONObject(i);
-                            DeviceInfo data = gson.fromJson(obj.toString(), DeviceInfo.class);
-                            arrResult.add(data);
-                        }
-                    }
+                    KumaLog.d("MainDeviceData : " + obj.toString());
+                    Gson gson = new Gson();
+                    mDeviceInfo = gson.fromJson(obj.toString(), DeviceInfo.class);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
 
-            KumaLog.i("+++ ResMainDeviceList STR_TAG_RESULT  " + m_strResult);
-            KumaLog.i("+++ ResMainDeviceList STR_TAG_MSG  " + m_strMsg);
+            KumaLog.i("+++ ResDeviceInfo STR_TAG_RESULT  " + m_strResult);
+            KumaLog.i("+++ ResDeviceInfo STR_TAG_MSG  " + m_strMsg);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        KumaLog.d("============ ResMainDeviceList parseXMLResponseData  ");
+        KumaLog.d("============ ResDeviceInfo parseXMLResponseData  ");
     }
 }

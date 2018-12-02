@@ -44,6 +44,8 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        mEvID.setText("admin");
+        mEvPw.setText("admin");
     }
     /**
      * 로그인

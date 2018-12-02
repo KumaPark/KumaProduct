@@ -20,16 +20,21 @@ import android.widget.Toast;
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
+import com.example.kuma.myapplication.Network.request.ReqDeviceInfo;
 import com.example.kuma.myapplication.Network.request.ReqLogin;
 import com.example.kuma.myapplication.Network.request.ReqMainDeviceList;
+import com.example.kuma.myapplication.Network.response.ResDeviceInfo;
 import com.example.kuma.myapplication.Network.response.ResLogin;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
 import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.adapter.MyAdapter;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
+import com.example.kuma.myapplication.data.DeviceInfo;
 import com.example.kuma.myapplication.data.MainDeviceData;
 import com.example.kuma.myapplication.ui.dialog.BarcodeTypeSelectDialog;
+import com.example.kuma.myapplication.ui.dialog.CommonDialog;
+import com.example.kuma.myapplication.ui.dialog.IDialogListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -40,6 +45,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private final static int TAG_REQ_DEVICE_LIST = 100;
     private final static int TAG_REQ_EMPLOY_LIST = 101;
+    private final static int TAG_REQ_DEVICE_INFO = 102;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -52,6 +58,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     Toolbar toolbar;
     int MAX_VERTICAL_OFFSET = 396;
 
+    private String mSerialNum = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +94,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 super.onScrolled(recyclerView, dx, dy);
 
                 Log.d("kuma"," mRlToolbar.getAlpha() " + recyclerView.getAlpha());
-                if (mRlToolbar.getAlpha() < 0.5 && mFloatingActionButton.getVisibility() == View.VISIBLE) {
-                    mFloatingActionButton.hide();
-                } else if (mRlToolbar.getAlpha() > 0.5 && mFloatingActionButton.getVisibility() != View.VISIBLE) {
-                    mFloatingActionButton.show();
-                }
+//                if (mRlToolbar.getAlpha() < 0.5 && mFloatingActionButton.getVisibility() == View.VISIBLE) {
+//                    mFloatingActionButton.hide();
+//                } else if (mRlToolbar.getAlpha() > 0.5 && mFloatingActionButton.getVisibility() != View.VISIBLE) {
+//                    mFloatingActionButton.show();
+//                }
             }
         });
 
@@ -103,10 +110,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }, 100);
 
         mFloatingActionButton.setOnClickListener(this);
+        mFloatingActionButton.show();
+
+        findViewById(R.id.btn_regi).setOnClickListener(this);
+        findViewById(R.id.btn_equipment).setOnClickListener(this);
+
     }
 
-    private void setMainListUI(ArrayList<MainDeviceData> data){
-        mAdapter = new MyAdapter(data);
+    private void setMainListUI(ArrayList<DeviceInfo> data){
+        mAdapter = new MyAdapter(data, new MyAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(DeviceInfo data) {
+                gotoEdit(data);
+            }
+        });
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -127,7 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             e.printStackTrace();
         }
     }
-    /**
+     /**
      * 메인 리스트
      */
     private void resDataList(ResMainDeviceList resprotocol)
@@ -143,15 +160,110 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             }
         }
     }
+    /**
+     * 장비 상세 요청
+     */
+    private void reqDeviceInfo()
+    {
+        try {
+            ReqDeviceInfo reqDeviceInfo = new ReqDeviceInfo();
+
+            reqDeviceInfo.setTag(TAG_REQ_DEVICE_INFO);
+            reqDeviceInfo.setSerialNo(mSerialNum);
+            requestProtocol(true, reqDeviceInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 장비 상세 요청
+     */
+    private void resDeviceInfo(ResDeviceInfo resprotocol)
+    {
+        KumaLog.d("++++++++++++resDataList++++++++++++++");
+        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            gotoEdit(resprotocol.getDeviceInfo());
+        }  else {
+            CommonDialog commonDia = new CommonDialog(this);
+            commonDia.setType(CommonDialog.DLG_TYPE_YES_NO);
+            commonDia.setDialogListener(1, new IDialogListener() {
+                @Override
+                public void onDialogResult(int nTag, int nResult, Dialog dialog) {
+                    if( nResult ==  CommonDialog.RESULT_OK) {
+                        gotoRegist(mSerialNum);
+                    }
+                }
+            });
+            commonDia.setCancelable(false);
+            commonDia.setMessage("제품이 존재하지않습니다. 등록하시겠습니까?");
+            commonDia.show();
+
+//            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+//                showSimpleMessagePopup(resprotocol.getMsg());
+//            } else {
+//                showSimpleMessagePopup();
+//            }
+        }
+    }
+
+    private void gotoEdit(DeviceInfo data){
+        Intent intent = new Intent(MainActivity.this,DeviceManagementActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("detailData",data);
+        intent.putExtras(bundle);
+        intent.putExtra("dataState",  true);
+        intent.putExtra("type",  102);
+        startActivity(intent);
+    }
+    private void gotoRegist(String serialNum){
+        Intent intent = new Intent(MainActivity.this, DeviceManagementActivity.class);
+        intent.putExtra("dataState",  false);
+        intent.putExtra("serialNum",  serialNum);
+        intent.putExtra("type",  101);
+        startActivity(intent);
+    }
+
+    private boolean  onPauseState = false;
+    @Override
+    protected void onPause() {
+        super.onPause();
+        KumaLog.d("onPause >>> ");
+        onPauseState = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        KumaLog.d("onResume >>> ");
+        if( onPauseState ) {
+            onPauseState = false;
+            reqDataList();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        KumaLog.d("onActivityResult: .");
+        KumaLog.d("onActivityResult requestCode >>  " + requestCode);
         if (resultCode == Activity.RESULT_OK) {
             IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-            String re = scanResult.getContents();
-            String message = re;
-            KumaLog.d( "onActivityResult: ." + re);
-            Toast.makeText(this, re, Toast.LENGTH_LONG).show();
+            mSerialNum = scanResult.getContents();
+            KumaLog.d( "onActivityResult: ." + mSerialNum);
+            reqDeviceInfo();
         }
     }
     @Override
@@ -160,6 +272,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case TAG_REQ_DEVICE_LIST:
                 resDataList((ResMainDeviceList)resProtocol);
                 break;
+            case TAG_REQ_DEVICE_INFO:
+                resDeviceInfo((ResDeviceInfo)resProtocol);
+                break;
+
             default:
                 break;
         }
@@ -169,10 +285,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     public void onDialogResult(int nTag, int nResult, Dialog dialog) {
         switch (nTag){
             case 1:
-                if( ddd.getObject() == null ) {
+                if( dlgBarcode.getObject() == null ) {
                     return;
                 }
-               int type = ((Intent)ddd.getObject()).getIntExtra("type", Constance.TAG_CAPTURE_DEVICE);
+               int type = ((Intent)dlgBarcode.getObject()).getIntExtra("type", Constance.TAG_CAPTURE_DEVICE);
                 KumaLog.d(" type : " + type);
                 //                바코드 스캐너 동작
                 IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
@@ -183,16 +299,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 break;
         }
     }
-    BarcodeTypeSelectDialog ddd;
+    BarcodeTypeSelectDialog dlgBarcode;
     @Override
     public void onClick(View v) {
         int id = v.getId();
 
         switch (id) {
             case R.id.fab:
-                ddd = new BarcodeTypeSelectDialog(this);
-                ddd.setDialogListener(1, this);
-                ddd.show();
+                dlgBarcode = new BarcodeTypeSelectDialog(this);
+                dlgBarcode.setDialogListener(1, this);
+                dlgBarcode.show();
+                break;
+            case R.id.btn_regi:
+                gotoRegist("");
+                break;
+            case R.id.btn_equipment:
+                move2OtherActivity(DeviceConditionActivity.class);
                 break;
             default:
                 break;

@@ -4,17 +4,21 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.webkit.WebView;
 
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
+import com.example.kuma.myapplication.Utils.DateUtility;
+import com.example.kuma.myapplication.Utils.KumaLog;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Kuma on 2017-12-12.
@@ -24,7 +28,6 @@ public class IntroActivity extends BaseActivity {
 
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1000;
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +58,8 @@ public class IntroActivity extends BaseActivity {
         }
     }
 
+
+
     @Override
     public void onResponseProtocol(int nTag, ResponseProtocol resProtocol) {
 
@@ -78,7 +83,7 @@ public class IntroActivity extends BaseActivity {
                     }, 2000);
                 } else {
                     // 권한 거부
-// 사용자가 해당권한을 거부했을때 해주어야 할 동작을 수행합니다
+                    // 사용자가 해당권한을 거부했을때 해주어야 할 동작을 수행합니다
                 }
                 return;
         }

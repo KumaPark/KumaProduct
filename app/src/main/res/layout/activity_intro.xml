@@ -13,11 +13,4 @@
         android:scaleType="centerCrop"
         android:fitsSystemWindows="true"
         android:src="@drawable/test"/>
-
-    <WebView
-        android:id="@+id/dddd"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </WebView>
 </RelativeLayout>

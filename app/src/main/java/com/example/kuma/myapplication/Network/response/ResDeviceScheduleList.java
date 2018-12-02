@@ -4,7 +4,7 @@ import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.parser.JSONDefines;
 import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.data.DeviceInfo;
-import com.example.kuma.myapplication.data.MainDeviceData;
+import com.example.kuma.myapplication.data.ScheduleInfo;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -13,18 +13,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Kuma on 2018-01-20.
+ * Created by Kuma on 2018-03-03.
  */
 
-public class ResMainDeviceList extends ResponseProtocol{
+public class ResDeviceScheduleList extends ResponseProtocol{
 
     private String m_strResult = "";
 
     private String m_strMsg = "";
 
-    private ArrayList<DeviceInfo> arrResult = new ArrayList<>();
+    private ArrayList<ScheduleInfo> arrResult = new ArrayList<>();
 
-    public ResMainDeviceList()
+    public ResDeviceScheduleList()
     {
         // TODO Auto-generated constructor stub
     }
@@ -39,14 +39,14 @@ public class ResMainDeviceList extends ResponseProtocol{
         return m_strMsg;
     }
 
-    public  ArrayList<DeviceInfo> getListData(){
+    public  ArrayList<ScheduleInfo> getListData(){
         return this.arrResult;
     }
 
     @Override
     protected void parseXMLResponseData(JSONObject jsonObject) {
         try {
-            KumaLog.d("============ ResMainDeviceList parseXMLResponseData  ");
+            KumaLog.d("============ ResDeviceScheduleList parseXMLResponseData  ");
 
             try {
                 m_strResult = jsonObject.getString(JSONDefines.JSON_RESP.STR_RESULT_CODE).toString();
@@ -65,11 +65,11 @@ public class ResMainDeviceList extends ResponseProtocol{
                 JSONArray objList = jsonObject.getJSONArray("data");
                 try {
                     if( objList.length() > 0 ) {
-                        KumaLog.d("MainDeviceData : " + objList.length());
+                        KumaLog.d(" ScheduleInfo : " + objList.length());
                         Gson gson = new Gson();
                         for (int i = 0; i < objList.length(); i++) {
                             JSONObject obj = objList.getJSONObject(i);
-                            DeviceInfo data = gson.fromJson(obj.toString(), DeviceInfo.class);
+                            ScheduleInfo data = gson.fromJson(obj.toString(), ScheduleInfo.class);
                             arrResult.add(data);
                         }
                     }
@@ -78,12 +78,12 @@ public class ResMainDeviceList extends ResponseProtocol{
                 }
             }
 
-            KumaLog.i("+++ ResMainDeviceList STR_TAG_RESULT  " + m_strResult);
-            KumaLog.i("+++ ResMainDeviceList STR_TAG_MSG  " + m_strMsg);
+            KumaLog.i("+++ ResDeviceScheduleList STR_TAG_RESULT  " + m_strResult);
+            KumaLog.i("+++ ResDeviceScheduleList STR_TAG_MSG  " + m_strMsg);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        KumaLog.d("============ ResMainDeviceList parseXMLResponseData  ");
+        KumaLog.d("============ ResDeviceScheduleList parseXMLResponseData  ");
     }
 }
