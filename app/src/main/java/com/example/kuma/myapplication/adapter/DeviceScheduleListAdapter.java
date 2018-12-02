@@ -300,21 +300,31 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
                 nWeightCnt++;
             }
 
-            if (Integer.parseInt(info.startDate.replaceAll("-", "")) < Integer.parseInt(strDate)
-                    && Integer.parseInt(info.endDate.replaceAll("-", "")) > Integer.parseInt(strDate)) {
+            try {
+                if (Integer.parseInt(info.startDate.replaceAll("-", "")) < Integer.parseInt(strDate)
+                        && Integer.parseInt(info.endDate.replaceAll("-", "")) > Integer.parseInt(strDate)) {
 //                KumaLog.d(" addDeviceArrowView  view_line position : " + position);
-                ((ViewHolderDevice) holder).bindLineArrow();
-                bBlankState = false;
-                nWeightCnt++;
+                    ((ViewHolderDevice) holder).bindLineArrow();
+                    bBlankState = false;
+                    nWeightCnt++;
+                }
+
+            } catch (Exception e) {
+                bBlankState  = true;
             }
 
-            if (Integer.parseInt(info.endDate.replaceAll("-", "")) == Integer.parseInt(strDate)) {
+            try {
+                if (Integer.parseInt(info.endDate.replaceAll("-", "")) == Integer.parseInt(strDate)) {
 //                KumaLog.d(" addDeviceArrowView  arrow_end position : " + position);
-                ((ViewHolderDevice) holder).bindEndArrow();
-                bBlankState = false;
-                nWeightCnt++;
-                ((ViewHolderDevice) holder).bindHospital((158 * nWeightCnt ), info.hospital);
+                    ((ViewHolderDevice) holder).bindEndArrow();
+                    bBlankState = false;
+                    nWeightCnt++;
+                    ((ViewHolderDevice) holder).bindHospital((158 * nWeightCnt ), info.hospital);
+                }
+            } catch (Exception e) {
+                bBlankState  = true;
             }
+
 
             if (bBlankState) {
 //                KumaLog.d(" addDeviceBlankView : " + data.year + "-" + data.month + "-" + data.day);
