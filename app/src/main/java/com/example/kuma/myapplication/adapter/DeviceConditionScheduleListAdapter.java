@@ -131,7 +131,7 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
 
             for( int i= 0;  i < mArrTv.length; i++)  {
                 if(  i < data.getScheduleInfoList().size() ){
-                    mArrTv[i].setText(data.getScheduleInfoList().get(i).serialNo);
+                    mArrTv[i].setText(data.getScheduleInfoList().get(i).name);
                 } else {
                     setBlankDate(mArrTv[i]);
                 }

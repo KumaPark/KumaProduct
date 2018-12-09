@@ -11,8 +11,10 @@ public class ProtocolDefines {
 	}
 
 	public static class BBUrl {
-		private static final String URL_DEV = "http://106.10.84.105:8080/"; // 개발
+//		private static final String URL_DEV = "http://106.10.84.105:8080/"; // 개발
+		private static final String URL_DEV = "http://lionskaphp.cafe24.com/"; // 개발
 		private static final String URL_COM = "http://106.10.84.105:8080/"; // 운영
+
 
 		public static final String getURL()
 		{

@@ -31,4 +31,17 @@
         <item>"TS4"</item>
     </string-array>
 
+    <string-array name="arr_color">
+        <item>"#FF3636"</item>
+        <item>"#FF8224"</item>
+        <item>"#FFCD12"</item>
+        <item>"#CFFF24"</item>
+        <item>"#53FF4C"</item>
+        <item>"#36FFFF"</item>
+        <item>"#2478FF"</item>
+        <item>"#A748FF"</item>
+        <item>"#FF6CFF"</item>
+        <item>"#CF6E36"</item>
+    </string-array>
+
 </resources>

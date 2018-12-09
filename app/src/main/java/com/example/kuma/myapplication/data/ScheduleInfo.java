@@ -19,6 +19,7 @@ public class ScheduleInfo implements Serializable {
     public String message = "";
     public String insertTime = "";
     public String updateTime = "";
+    public String name = "";
 
     public String getProductCode() {
         return productCode;
@@ -38,6 +39,14 @@ public class ScheduleInfo implements Serializable {
 
     public String getSerialNo() {
         return serialNo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setSerialNo(String serialNo) {
