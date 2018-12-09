@@ -337,30 +337,6 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
         }
         KumaLog.d(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
 
-
-//
-//        ((ViewHolderDevice) holder).deviceArrowView.addView(arrowView1);
-//        ((ViewHolderDevice) holder).deviceArrowView.addView(arrowView2);
-//
-//        View arrowView1_arrow = (View) arrowView1.findViewById(R.id.v_arrow);
-//
-//        arrowView1_arrow.setBackgroundResource(R.drawable.arrow_start);
-//        LinearLayout.LayoutParams params
-//                = (LinearLayout.LayoutParams) arrowView1.getLayoutParams();
-//        params.width = 0;
-//        params.weight = 158;
-//        arrowView1.setLayoutParams(params);
-//
-//        View arrowView2_arrow = (View) arrowView2.findViewById(R.id.v_arrow);
-//        arrowView2_arrow.setBackgroundColor(Color.parseColor("#51AC0B"));
-//
-//        LinearLayout.LayoutParams arrowView2_params
-//                = (LinearLayout.LayoutParams) arrowView2.getLayoutParams();
-//        arrowView2_params.width = 0;
-//        arrowView2_params.weight = 158;
-//        arrowView2.setLayoutParams(arrowView2_params);
-
-
     }
 
     private ScheduleListDTO getItem(int position) {

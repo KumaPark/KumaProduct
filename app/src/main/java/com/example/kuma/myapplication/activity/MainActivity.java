@@ -3,7 +3,6 @@ package com.example.kuma.myapplication.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -15,16 +14,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.request.ReqDeviceInfo;
-import com.example.kuma.myapplication.Network.request.ReqLogin;
 import com.example.kuma.myapplication.Network.request.ReqMainDeviceList;
 import com.example.kuma.myapplication.Network.response.ResDeviceInfo;
-import com.example.kuma.myapplication.Network.response.ResLogin;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
 import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.adapter.MyAdapter;
@@ -39,7 +35,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
-import java.util.logging.LogRecord;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
@@ -316,9 +311,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.btn_equipment:
                 move2OtherActivity(DeviceConditionActivity.class);
                 break;
+            case R.id.btn_employ:
+                move2OtherActivity(DeviceDetailConditionActivity.class);
+                break;
             default:
                 break;
-
         }
     }
 }

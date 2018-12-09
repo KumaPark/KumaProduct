@@ -39,9 +39,12 @@
             android:name=".activity.DeviceManagementActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"/>
-
         <activity
             android:name=".activity.DeviceConditionActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"/>
+        <activity
+            android:name=".activity.DeviceDetailConditionActivity"
             android:screenOrientation="landscape"
             android:label="@string/app_name"/>
         <activity

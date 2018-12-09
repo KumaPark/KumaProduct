@@ -16,6 +16,10 @@ public class ScheduleListDTO implements Serializable {
     public String serialNo = "";
     public int lowNumber = 0;
 
+    public int nCompanyCnt = 0;
+    public int nInvalbCnt = 0;
+    public int nMoveCnt = 0;
+
     public int getViewType() {
         return viewType;
     }
@@ -46,6 +50,30 @@ public class ScheduleListDTO implements Serializable {
 
     public void setDeviceName(String deviceName) {
         this.deviceName = deviceName;
+    }
+
+    public int getnCompanyCnt() {
+        return nCompanyCnt;
+    }
+
+    public void setnCompanyCnt(int nCompanyCnt) {
+        this.nCompanyCnt = nCompanyCnt;
+    }
+
+    public int getnInvalbCnt() {
+        return nInvalbCnt;
+    }
+
+    public void setnInvalbCnt(int nInvalbCnt) {
+        this.nInvalbCnt = nInvalbCnt;
+    }
+
+    public int getnMoveCnt() {
+        return nMoveCnt;
+    }
+
+    public void setnMoveCnt(int nMoveCnt) {
+        this.nMoveCnt = nMoveCnt;
     }
 
     public ArrayList<ScheduleListDayDTO> getmArrScheduleListDayDTO() {

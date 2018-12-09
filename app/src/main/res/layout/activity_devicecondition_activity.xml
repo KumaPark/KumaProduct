@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F8FFFF"
     android:fitsSystemWindows="true">
 
     <RelativeLayout
@@ -29,36 +30,69 @@
             android:textSize="23dp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp">
+        <TextView
+            android:id="@+id/tv_color_office"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#8BBDFF"
+            android:text="Office"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="10dp" />
+        <TextView
+            android:id="@+id/tv_color_hospital"
+            android:layout_below="@+id/tv_color_office"
+            android:layout_marginLeft="10dp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#FF9595"
+            android:text="Hospital"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="10dp" />
+        <TextView
+            android:id="@+id/tv_color_move"
+            android:layout_below="@+id/tv_color_hospital"
+            android:layout_marginLeft="10dp"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="#FFFF8F"
+            android:text="Move"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="10dp" />
+    <TextView
+        android:id="@+id/tv_mon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textSize="16dp"
+        android:text="12월"
+        />
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/tv_color_move"
         android:id="@+id/rsv_schedule_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="1dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
         android:background="@drawable/default_line_back"
         />
-
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent">-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginRight="10dp"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:background="@drawable/default_line_back"-->
-            <!--android:orientation="vertical"-->
-            <!--android:padding="1dp">-->
-
-            <!--<LinearLayout-->
-                <!--android:id="@+id/ll_contents"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="vertical"/>-->
-        <!--</LinearLayout>-->
-    <!--</ScrollView>-->
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

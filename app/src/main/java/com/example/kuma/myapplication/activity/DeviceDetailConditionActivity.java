@@ -1,9 +1,5 @@
 package com.example.kuma.myapplication.activity;
 
-/**
- * Created by Kuma on 2018-12-03.
- */
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,7 +16,6 @@ import com.example.kuma.myapplication.Network.response.ResDeviceScheduleList;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
 import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.adapter.DeviceConditionScheduleListAdapter;
 import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
 import com.example.kuma.myapplication.data.ScheduleInfo;
 import com.example.kuma.myapplication.data.ScheduleListDTO;
@@ -34,7 +29,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-public class DeviceConditionActivity extends BaseActivity {
+
+/**
+ * Created by Kuma on 2018-B02-19.
+ */
+
+public class DeviceDetailConditionActivity extends BaseActivity {
 
     private static final int TAG_REQ_SCHEDULE_LIST = 1000;
 
@@ -44,7 +44,7 @@ public class DeviceConditionActivity extends BaseActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private DeviceConditionScheduleListAdapter mDeviceScheduleListAdapter;
+    private DeviceScheduleListAdapter mDeviceScheduleListAdapter;
 
     private ArrayList<ScheduleListDTO> mArrScheduleListDTO = new ArrayList<>();
     private ArrayList<ScheduleListLowDTO> mArrScheduleListLowDTO = new ArrayList<>();
@@ -62,7 +62,7 @@ public class DeviceConditionActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_devicecondition_activity);
+        setContentView(R.layout.activity_device_detail_condition_activity);
 
         init();
 
@@ -82,6 +82,66 @@ public class DeviceConditionActivity extends BaseActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+//        mLlContents = (LinearLayout) findViewById(R.id.ll_contents);
+//        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        LinearLayout dateView = (LinearLayout) inflater.inflate(R.layout.view_schedule_date, null);
+//        LinearLayout deviceView = (LinearLayout) inflater.inflate(R.layout.view_schedule_device, null);
+//
+//        LinearLayout deviceArrowView = (LinearLayout) deviceView.findViewById(R.id.ll_device_schedule_arrow);
+//        LinearLayout deviceViewHospital = (LinearLayout) deviceView.findViewById(R.id.ll_device_schedule_desr);
+//
+//        LinearLayout arrowView1 = (LinearLayout) inflater.inflate(R.layout.view_arrow, null);
+//        LinearLayout arrowView2 = (LinearLayout) inflater.inflate(R.layout.view_line, null);
+//        LinearLayout arrowView3 = (LinearLayout) inflater.inflate(R.layout.view_arrow, null);
+//
+//        deviceArrowView.addView(arrowView1);
+//        deviceArrowView.addView(arrowView2);
+//        deviceArrowView.addView(arrowView3);
+//
+//        View arrowView1_arrow = (View) arrowView1.findViewById(R.id.v_arrow);
+//
+//        arrowView1_arrow.setBackgroundResource(R.drawable.arrow_start);
+//        LinearLayout.LayoutParams params
+//                = (LinearLayout.LayoutParams) arrowView1.getLayoutParams();
+//        params.width = 0;
+//        params.weight = 158;
+//        arrowView1.setLayoutParams(params);
+//
+//
+//        View arrowView2_arrow = (View) arrowView2.findViewById(R.id.v_arrow);
+//        arrowView2_arrow.setBackgroundColor(Color.parseColor("#51AC0B"));
+//
+//        LinearLayout.LayoutParams arrowView2_params
+//                = (LinearLayout.LayoutParams) arrowView2.getLayoutParams();
+//        arrowView2_params.width = 0;
+//        arrowView2_params.weight = 158;
+//        arrowView2.setLayoutParams(arrowView2_params);
+//
+//
+//        View arrowView3_arrow = (View) arrowView3.findViewById(R.id.v_arrow);
+//        arrowView3_arrow.setBackgroundResource(R.drawable.arrow_end);
+//        LinearLayout.LayoutParams arrowView3_params
+//                = (LinearLayout.LayoutParams) arrowView3.getLayoutParams();
+//        arrowView3_params.width = 0;
+//        arrowView3_params.weight = 158;
+//        arrowView3.setLayoutParams(arrowView3_params);
+//
+//        LinearLayout hospitalView = (LinearLayout) inflater.inflate(R.layout.view_hospital, null);
+//        deviceViewHospital.addView(hospitalView);
+//
+//        LinearLayout.LayoutParams hospitalView_params
+//                = (LinearLayout.LayoutParams) hospitalView.getLayoutParams();
+//        hospitalView_params.width = 0;
+//        hospitalView_params.weight = (158 * 3);
+//        hospitalView.setLayoutParams(hospitalView_params);
+//
+//        TextView tvHospital = (TextView) hospitalView.findViewById(R.id.tv_hospital);
+//        tvHospital.setText("잠실 24시 동물");
+//
+//
+//        mLlContents.addView(dateView);
+//        mLlContents.addView(deviceView);
     }
     /**
      * 데모 정보 조회 리스트
@@ -117,7 +177,7 @@ public class DeviceConditionActivity extends BaseActivity {
         if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
             KumaLog.d("++++++++++++ resDeviceScheduleList 11  ++++++++++++++");
             if( mDeviceScheduleListAdapter == null ) {
-                mDeviceScheduleListAdapter = new DeviceConditionScheduleListAdapter(DeviceConditionActivity.this, new DeviceConditionScheduleListAdapter.OnItemClickListener() {
+                mDeviceScheduleListAdapter = new DeviceScheduleListAdapter(DeviceDetailConditionActivity.this, new DeviceScheduleListAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(ScheduleInfo data) {
                         gotoDetail(data);
@@ -147,7 +207,7 @@ public class DeviceConditionActivity extends BaseActivity {
         }
     }
     private void gotoDetail(ScheduleInfo data){
-        Intent intent = new Intent(DeviceConditionActivity.this,DeviceDemoDetailActivity.class);
+        Intent intent = new Intent(DeviceDetailConditionActivity.this,DeviceDemoDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("detailData",data);
         intent.putExtras(bundle);
@@ -207,6 +267,18 @@ public class DeviceConditionActivity extends BaseActivity {
             infoDate.setViewType(DeviceScheduleListAdapter.VIEW_TYPE_DATE);
             infoDate.setLowNumber(i);
             mArrScheduleListDTO.add(infoDate);
+
+            Iterator<String> iter = mDataset.keySet().iterator();
+
+            while(iter.hasNext()) {
+                String key = iter.next();
+                ScheduleInfo value = (ScheduleInfo)mDataset.get(key);
+                ScheduleListDTO infoDevice  = new ScheduleListDTO();
+                infoDevice.setViewType(DeviceScheduleListAdapter.VIEW_TYPE_DEVICE);
+                infoDevice.setDeviceName(value.getProductCode());
+                infoDevice.setSerialNo(value.getSerialNo());
+                mArrScheduleListDTO.add(infoDevice);
+            }
         }
 
         setCurDateView();
@@ -259,9 +331,6 @@ public class DeviceConditionActivity extends BaseActivity {
             ScheduleListDayDTO data = new ScheduleListDayDTO();
             data.setYear(strYear);
             data.setMonth( strMonth );
-            data.setnCompanyCnt( "" + i);
-            data.setnMoveCnt( "" +  ( i + 1 ) );
-            data.setnInvalbCnt( "" +  ( i + 2 ) );
             String strDay = "";
             if( i < 10 )  {
                 strDay =  "0" + i;

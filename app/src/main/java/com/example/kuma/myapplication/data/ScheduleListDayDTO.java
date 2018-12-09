@@ -11,7 +11,9 @@ public class ScheduleListDayDTO implements Serializable {
     public String month = "";
     public String day = "";
     public String diplayDay = "";
-
+    public String nCompanyCnt = "";
+    public String nInvalbCnt = "";
+    public String nMoveCnt = "";
     public String getYear() {
         return year;
     }
@@ -38,5 +40,17 @@ public class ScheduleListDayDTO implements Serializable {
 
     public void setDiplayDay(String diplayDay) {
         this.diplayDay = diplayDay;
+    }
+
+    public void setnCompanyCnt(String nCompanyCnt) {
+        this.nCompanyCnt = nCompanyCnt;
+    }
+
+    public void setnInvalbCnt(String nInvalbCnt) {
+        this.nInvalbCnt = nInvalbCnt;
+    }
+
+    public void setnMoveCnt(String nMoveCnt) {
+        this.nMoveCnt = nMoveCnt;
     }
 }

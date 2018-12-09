@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="31dp"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="31dp">
+
+        <LinearLayout
+            android:id="@+id/ll_back"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+            android:weightSum="1280">
+
+            <TextView
+                android:id="@+id/tv_device_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:background="#C4DEFF"
+                android:gravity="center"
+                android:text=""
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_6"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#a6a6a6" />
+
+            <TextView
+                android:id="@+id/tv_cnt_7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="158"
+                android:gravity="center"
+                android:textSize="16dp" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#a6a6a6" />
+    </RelativeLayout>
+</LinearLayout>
