@@ -9,7 +9,15 @@ import com.example.kuma.myapplication.Constance.Constance;
 public class KumaLog {
 	
 	private static String TAG_TITLE = "Kuma";
-	
+
+	public static void line()
+	{
+		if(Constance.LOG_STATE)
+		{
+			Log.v(TAG_TITLE, "=====================================================================================================================");
+		}
+	}
+
 	public static void v(Context context, String a_strLogMsg)
 	{
 		if(Constance.LOG_STATE)

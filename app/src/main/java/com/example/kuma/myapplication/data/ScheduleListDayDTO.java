@@ -1,6 +1,7 @@
 package com.example.kuma.myapplication.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Kuma on 2018-03-04.
@@ -14,6 +15,16 @@ public class ScheduleListDayDTO implements Serializable {
     public String nCompanyCnt = "";
     public String nInvalbCnt = "";
     public String nMoveCnt = "";
+    private ArrayList<ScheduleInfo> arrScheduleInfo = new ArrayList<>();
+
+    public ArrayList<ScheduleInfo> getScheduleInfoList() {
+        return arrScheduleInfo;
+    }
+
+    public void setScheduleInfoList(ScheduleInfo info) {
+        this.arrScheduleInfo.add(info);
+    }
+
     public String getYear() {
         return year;
     }

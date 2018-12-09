@@ -41,7 +41,7 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
     private LayoutInflater inflater;
 
     public interface OnItemClickListener {
-        void onItemClick(ScheduleInfo data);
+        void onItemClick(ScheduleListDayDTO data);
     }
 
     public class ViewHolderDate extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -57,11 +57,9 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
         public LinearLayout mllContents;
 
         public TextView tv_11;
-//        public int[] mArrCompanyCntTvid = {R.id.tv_cnt_11,R.id.tv_cnt_12,  R.id.tv_cnt_13, R.id.tv_cnt_14, R.id.tv_cnt_15, R.id.tv_cnt_16, R.id.tv_cnt_17};
-//        public int[] mArrInvalbCntTvid = {R.id.tv_cnt_21,R.id.tv_cnt_22,  R.id.tv_cnt_23, R.id.tv_cnt_24, R.id.tv_cnt_25, R.id.tv_cnt_26, R.id.tv_cnt_27};
-//        public int[] mArrMoveCntTvid = {R.id.tv_cnt_31,R.id.tv_cnt_32,  R.id.tv_cnt_33, R.id.tv_cnt_34, R.id.tv_cnt_35, R.id.tv_cnt_36, R.id.tv_cnt_37};
+//        public int[] mArrTvid = {R.id.tv_office_cnt,R.id.tv_invalb_cnt,  R.id.tv_move_cnt};
 
-        public TextView[]  mArrCompanyCntTv = new TextView[7];
+
         public TextView[]  mArrInvalbCntTv = new TextView[7];
         public TextView[]  mArrMoveCntTv = new TextView[7];
 
@@ -77,11 +75,8 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
 //            mTvFriday = (TextView) view.findViewById(R.id.tv_friday);
 //            mTvSaturday = (TextView) view.findViewById(R.id.tv_saturday);
 //            tv_11= (TextView) view.findViewById(R.id.tv_cnt_11);
-//            for( int i= 0;  i < mArrCompanyCntTvid.length; i++)  {
-//                KumaLog.d("+++++++++++++++++++++++++++++++++++++ asdkjashdlkjahsdlkjhsd");
-//                mArrCompanyCntTv[i] = (TextView) view.findViewById(mArrCompanyCntTvid[i]);
-//                mArrInvalbCntTv[i] = (TextView) view.findViewById(mArrInvalbCntTvid[i]);
-//                mArrMoveCntTv[i] = (TextView) view.findViewById(mArrMoveCntTvid[i]);
+//            for( int i= 0;  i < mArrTvid.length; i++)  {
+//                mArrTv[i] = (TextView) view.findViewById(mArrTvid[i]);
 //            }
         }
 
@@ -105,20 +100,55 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
             llDateData_params.width = 0;
             llDateData_params.weight = 160;
             llDateData.setLayoutParams(llDateData_params);
+            TextView[]  mArrTv = new TextView[3];
+            mArrTv[0] = (TextView) llDateData.findViewById(R.id.tv_office_cnt);
+            mArrTv[1] = (TextView) llDateData.findViewById(R.id.tv_invalb_cnt);
+            mArrTv[2] = (TextView) llDateData.findViewById(R.id.tv_move_cnt);
 
-            ((TextView) llDateData.findViewById(R.id.tv_date)).setText(data.diplayDay);
-            ((TextView) llDateData.findViewById(R.id.tv_office_cnt)).setText(data.nCompanyCnt);
-            ((TextView) llDateData.findViewById(R.id.tv_invalb_cnt)).setText(data.nInvalbCnt);
-            ((TextView) llDateData.findViewById(R.id.tv_move_cnt)).setText(data.nMoveCnt);
+            if( Integer.parseInt(data.diplayDay) == 0  ) {
+                setBlankDate(((TextView) llDateData.findViewById(R.id.tv_date)));
+                for( int i= 0;  i < mArrTv.length; i++)  {
+                    setBlankDate(mArrTv[i]);
+                }
+            } else {
+                ((TextView) llDateData.findViewById(R.id.tv_date)).setText(data.diplayDay);
+                setStateData(mArrTv, data);
+//                ((TextView) llDateData.findViewById(R.id.tv_office_cnt)).setText(data.nCompanyCnt);
+//                ((TextView) llDateData.findViewById(R.id.tv_invalb_cnt)).setText(data.nInvalbCnt);
+//                ((TextView) llDateData.findViewById(R.id.tv_move_cnt)).setText(data.nMoveCnt);
+            }
+            llDateData.setTag(data);
+            llDateData.setOnClickListener(this);
+
         }
 
-        public void setStateData(int tag, ScheduleListDayDTO data ){
-            KumaLog.d(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> tag  : " + tag);
+        private void setBlankDate(TextView view){
+            view.setText("");
+            view.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
+
+        public void setStateData(TextView[]  mArrTv, ScheduleListDayDTO data){
+
+            for( int i= 0;  i < mArrTv.length; i++)  {
+                if(  i < data.getScheduleInfoList().size() ){
+                    mArrTv[i].setText(data.getScheduleInfoList().get(i).serialNo);
+                } else {
+                    setBlankDate(mArrTv[i]);
+                }
+
+            }
+
+            KumaLog.d(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> diplayDay  : " +  data.diplayDay + " size >> "+  data.getScheduleInfoList().size());
         }
 
         @Override
         public void onClick(View view) {
+            KumaLog.d("getAdapterPosition >> " + getAdapterPosition());
+            if (mListener != null) {
+                ScheduleListDayDTO info = (ScheduleListDayDTO) view.getTag();
 
+                mListener.onItemClick(info);
+            }
         }
     }
 
@@ -140,7 +170,7 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.view_condition_schedule_date, parent, false);
         holder = new ViewHolderDate(itemView);
-//            ((ViewHolderDate) holder).deviceArrowView.setTag(info);
+        ((ViewHolderDate) holder).mllContents.setTag(position);
         return holder;
     }
 
@@ -173,21 +203,9 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
 
         for (int i = 0; i < mArrScheduleListLowDTO.get(nPosition).getmArrScheduleListDayDTO().size(); i++) {
             ScheduleListDayDTO data = mArrScheduleListLowDTO.get(nPosition).getmArrScheduleListDayDTO().get(i);
-//            KumaLog.d(" mArrScheduleListLowDTO : " + data.year + "-" + data.month + "-" + data.day);
-//            if (i == 0) {
-//                ((ViewHolderDate) holder).mTvSunday.setText(data.diplayDay);
-//            } else if (i == 1) {
-//                ((ViewHolderDate) holder).mTvMonday.setText(data.diplayDay);
-//            } else if (i == 2) {
-//                ((ViewHolderDate) holder).mTvYuesday.setText(data.diplayDay);
-//            } else if (i == 3) {
-//                ((ViewHolderDate) holder).mTvWednesday.setText(data.diplayDay);
-//            } else if (i == 4) {
-//                ((ViewHolderDate) holder).mTvThursday.setText(data.diplayDay);
-//            } else if (i == 5) {
-//                ((ViewHolderDate) holder).mTvFriday.setText(data.diplayDay);
-//            } else if (i == 6) {
-//                ((ViewHolderDate) holder).mTvSaturday.setText(data.diplayDay);
+
+//            if (Integer.parseInt(strartDate) == Integer.parseInt(strDate)) {
+//
 //            }
             ((ViewHolderDate) holder).bindData(i, data);
 //            ((ViewHolderDate) holder).setStateData( i, data);

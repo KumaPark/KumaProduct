@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.widget.LinearLayout;
 
 import com.example.kuma.myapplication.BaseActivity;
+import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.request.ReqDeviceScheduleList;
 import com.example.kuma.myapplication.Network.response.ResDeviceScheduleList;
@@ -26,6 +27,8 @@ import com.example.kuma.myapplication.data.ScheduleInfo;
 import com.example.kuma.myapplication.data.ScheduleListDTO;
 import com.example.kuma.myapplication.data.ScheduleListDayDTO;
 import com.example.kuma.myapplication.data.ScheduleListLowDTO;
+import com.example.kuma.myapplication.ui.dialog.ProductSelectDialog;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +41,8 @@ public class DeviceConditionActivity extends BaseActivity {
 
     private static final int TAG_REQ_SCHEDULE_LIST = 1000;
 
+    private final static int DLG_PRODUCT_SELECT = 201;
+
     private LinearLayout mLlContents;
 
     private RecyclerView mRecyclerView;
@@ -47,6 +52,7 @@ public class DeviceConditionActivity extends BaseActivity {
     private DeviceConditionScheduleListAdapter mDeviceScheduleListAdapter;
 
     private ArrayList<ScheduleListDTO> mArrScheduleListDTO = new ArrayList<>();
+    private ArrayList<ScheduleInfo> mArrScheduleInfoListDTO = new ArrayList<>();
     private ArrayList<ScheduleListLowDTO> mArrScheduleListLowDTO = new ArrayList<>();
     private HashMap<String, Object> mDataset = new HashMap<>();
 
@@ -59,6 +65,7 @@ public class DeviceConditionActivity extends BaseActivity {
     private boolean mViewTypeSeletedState = false;
     private boolean  onPauseState = false;
 
+    private ProductSelectDialog dlgProductChoide;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,18 +120,21 @@ public class DeviceConditionActivity extends BaseActivity {
      * 데모 정보 조회 리스트 결과
      */
     private void resDeviceScheduleList(ResDeviceScheduleList resprotocol) {
-        KumaLog.d("++++++++++++ resDeviceScheduleList ++++++++++++++");
+        KumaLog.d("++++++++++++ >>>>>>> resDeviceScheduleList ++++++++++++++");
         if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
             KumaLog.d("++++++++++++ resDeviceScheduleList 11  ++++++++++++++");
             if( mDeviceScheduleListAdapter == null ) {
-                mDeviceScheduleListAdapter = new DeviceConditionScheduleListAdapter(DeviceConditionActivity.this, new DeviceConditionScheduleListAdapter.OnItemClickListener() {
+                mDeviceScheduleListAdapter = new DeviceConditionScheduleListAdapter(DeviceConditionActivity.this,
+                        new DeviceConditionScheduleListAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(ScheduleInfo data) {
-                        gotoDetail(data);
+                    public void onItemClick(ScheduleListDayDTO data) {
+                        showProductChoiceDlg(data);
                     }
                 });
                 mRecyclerView.setAdapter(mDeviceScheduleListAdapter);
             }
+
+            mArrScheduleInfoListDTO.addAll(resprotocol.getListData());
             for( int i = 0; i < resprotocol.getListData().size(); i++ ) {
                 String key = resprotocol.getListData().get(i).getSerialNo();
                 mDataset.put(key, resprotocol.getListData().get(i));
@@ -146,12 +156,16 @@ public class DeviceConditionActivity extends BaseActivity {
             }
         }
     }
-    private void gotoDetail(ScheduleInfo data){
-        Intent intent = new Intent(DeviceConditionActivity.this,DeviceDemoDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("detailData",data);
-        intent.putExtras(bundle);
-        startActivity(intent);
+
+
+    private void showProductChoiceDlg(ScheduleListDayDTO data){
+        if( dlgProductChoide == null ) {
+            dlgProductChoide = new ProductSelectDialog(this);
+        }
+
+        dlgProductChoide.setDialogListener(DLG_PRODUCT_SELECT, this);
+        dlgProductChoide.show();
+        dlgProductChoide.setData(data);
     }
 
     /**
@@ -252,6 +266,7 @@ public class DeviceConditionActivity extends BaseActivity {
         endDay = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         int nLow = 0;
+        KumaLog.i(" DATE >>>>  " + strYear + strMonth+ strDate);
         for( int i = 1; i <= endDay; i ++ ) {
             mCal.set(Integer.parseInt(strYear), Integer.parseInt(strMonth) - 1, i);
             dayNum = mCal.get(Calendar.DAY_OF_WEEK);
@@ -269,15 +284,42 @@ public class DeviceConditionActivity extends BaseActivity {
                 strDay = "" + i;
             }
             data.setDiplayDay(i + "");
-
+            String strDetailDate = strYear+ strMonth + strDay;
+            setDateScheduleInfo(data, strDetailDate);
             data.setDay( strDay );
             mArrScheduleListLowDTO.get(nLow).getmArrScheduleListDayDTO().add(data);
             if( dayNum == 7 ) {
                 nLow ++;
             }
 
-            KumaLog.d("i : " + i +" dayNum >> " + dayNum);
+//            KumaLog.d("i : " + i +" dayNum >> " + dayNum);
         }
+    }
+
+    private void setDateScheduleInfo(ScheduleListDayDTO data, String strDate){
+        for( ScheduleInfo info : mArrScheduleInfoListDTO ) {
+            String startDate = info.startDate.replaceAll("-", "");
+            String endDate = info.endDate.replaceAll("-", "");
+            KumaLog.line();
+            KumaLog.d(" startDate : " + startDate);
+            KumaLog.d(" endDate : " + endDate);
+            KumaLog.d(" curDate : " + strDate);
+            KumaLog.d(" serialNo : " + info.serialNo);
+
+            try {
+                if (Integer.parseInt(startDate) <= Integer.parseInt(strDate)
+                        && Integer.parseInt(endDate) >= Integer.parseInt(strDate)) {
+                    KumaLog.d(" Integer.parseInt(startDate) <= Integer.parseInt(strDate)\n" +
+                            "                        && Integer.parseInt(endDate) >= Integer.parseInt(strDate) : " + info.serialNo);
+                    data.setScheduleInfoList(info);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            KumaLog.line();
+        }
+//        mArrScheduleInfoListDTO
     }
 
     private void setPrevMonthDate(String strYear, String strMonth, String  strDate, int nMinusDay){
@@ -303,17 +345,17 @@ public class DeviceConditionActivity extends BaseActivity {
             data.setYear(strYear);
             data.setMonth( r );
 
-            String strDay = "";
+            String strDay = "0";
 
-            if( i < 10 )  {
-                strDay =  "0" + i;
-            } else {
-                strDay = "" + i;
-            }
-            data.setDiplayDay(i + "");
+//            if( i < 10 )  {
+//                strDay =  "0" + i;
+//            } else {
+//                strDay = "" + i;
+//            }
+            data.setDiplayDay(strDay);
             data.setDay( strDay );
             mArrScheduleListLowDTO.get(0).getmArrScheduleListDayDTO().add(data);
-            KumaLog.d("i : " + i +" dayNum >> " + dayNum);
+//            KumaLog.d("i : " + i +" dayNum >> " + dayNum);
         }
     }
 
@@ -349,5 +391,14 @@ public class DeviceConditionActivity extends BaseActivity {
 
     @Override
     public void onDialogResult(int nTag, int nResult, Dialog dialog) {
+        switch (nTag){
+            case DLG_PRODUCT_SELECT:
+                if( dlgProductChoide.getObject() == null ) {
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

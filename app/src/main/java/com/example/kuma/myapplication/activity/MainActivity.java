@@ -42,6 +42,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private final static int TAG_REQ_EMPLOY_LIST = 101;
     private final static int TAG_REQ_DEVICE_INFO = 102;
 
+    private final static int DLG_BARCODE = 201;
+
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -279,7 +281,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     @Override
     public void onDialogResult(int nTag, int nResult, Dialog dialog) {
         switch (nTag){
-            case 1:
+            case DLG_BARCODE:
                 if( dlgBarcode.getObject() == null ) {
                     return;
                 }
@@ -302,7 +304,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         switch (id) {
             case R.id.fab:
                 dlgBarcode = new BarcodeTypeSelectDialog(this);
-                dlgBarcode.setDialogListener(1, this);
+                dlgBarcode.setDialogListener(DLG_BARCODE, this);
                 dlgBarcode.show();
                 break;
             case R.id.btn_regi:
