@@ -19,7 +19,8 @@ public class ScheduleInfo implements Serializable {
     public String message = "";
     public String insertTime = "";
     public String updateTime = "";
-    public String name = "";
+    public String productName = "";
+    public String productColor = "";
 
     public String getProductCode() {
         return productCode;
@@ -41,12 +42,20 @@ public class ScheduleInfo implements Serializable {
         return serialNo;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductColor() {
+        return productColor;
+    }
+
+    public void setProductColor(String productColor) {
+        this.productColor = productColor;
     }
 
     public void setSerialNo(String serialNo) {

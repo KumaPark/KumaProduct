@@ -113,9 +113,6 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
             } else {
                 ((TextView) llDateData.findViewById(R.id.tv_date)).setText(data.diplayDay);
                 setStateData(mArrTv, data);
-//                ((TextView) llDateData.findViewById(R.id.tv_office_cnt)).setText(data.nCompanyCnt);
-//                ((TextView) llDateData.findViewById(R.id.tv_invalb_cnt)).setText(data.nInvalbCnt);
-//                ((TextView) llDateData.findViewById(R.id.tv_move_cnt)).setText(data.nMoveCnt);
             }
             llDateData.setTag(data);
             llDateData.setOnClickListener(this);
@@ -131,7 +128,8 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
 
             for( int i= 0;  i < mArrTv.length; i++)  {
                 if(  i < data.getScheduleInfoList().size() ){
-                    mArrTv[i].setText(data.getScheduleInfoList().get(i).name);
+                    mArrTv[i].setText(data.getScheduleInfoList().get(i).productName);
+                    mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).productColor));
                 } else {
                     setBlankDate(mArrTv[i]);
                 }

@@ -12,6 +12,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.kuma.myapplication.AppManager;
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Network.MyVolley;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
@@ -82,6 +83,7 @@ public class LoginActivity extends BaseActivity {
     {
         KumaLog.d("++++++++++++resResetUserInfo++++++++++++++");
         if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+//            AppManager.setToken(resprotocol.getToken());
             move2OtherActivity(MainActivity.class, true);
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {

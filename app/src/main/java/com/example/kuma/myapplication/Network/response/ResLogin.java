@@ -15,7 +15,7 @@ public class ResLogin extends ResponseProtocol{
 
     private String m_strMsg = "";
 
-    private String m_strAppVerSion;
+    private String m_strToken;
 
     private String m_strAppUrl;
 
@@ -34,9 +34,9 @@ public class ResLogin extends ResponseProtocol{
         return m_strMsg;
     }
 
-    public String getAppVerSion()
+    public String getToken()
     {
-        return m_strAppVerSion;
+        return m_strToken;
     }
 
     public String getAppUrl()
@@ -62,6 +62,11 @@ public class ResLogin extends ResponseProtocol{
             }
 
             if( m_strResult.equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS) ) {
+                try {
+                    m_strToken = jsonObject.getString("token").toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 //                JSONObject object = jsonObject.getJSONObject(JSONDefines.JSON_RESP.STR_APP_VERSION);
                 try {
