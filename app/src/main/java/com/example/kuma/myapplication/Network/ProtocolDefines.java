@@ -35,6 +35,9 @@ public class ProtocolDefines {
 
 		public static String URL_LOGIN = getURL() + "mdevice/api_auth/login?";
 
+		//버젼조회
+		public static String URL_VERSION = getURL() + "mdevice/api_config/get-version?";
+
 		// 제품 요약 집계
 		public static String URL_SUMMARY_DEVICE = getURL() + "mdevice/api_product/get-summary-by-state?";
 

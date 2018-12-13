@@ -26,17 +26,24 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public interface OnItemClickListener {
         void onItemClick(DeviceInfo data);
     }
+
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         // each data item is just a string in this case
         public TextView mTextView;
-
+        public TextView mTvHospital;
+        public TextView mTvDate;
+        public TextView mTvStatus;
         public ViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             mTextView = (TextView)view.findViewById(R.id.textview);
+            mTvHospital = (TextView)view.findViewById(R.id.tv_hospital);
+            mTvDate = (TextView)view.findViewById(R.id.tv_date);
+            mTvStatus = (TextView)view.findViewById(R.id.tv_status);
+
         }
 
         @Override

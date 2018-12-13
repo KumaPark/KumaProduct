@@ -17,14 +17,22 @@ import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.BuildConfig;
+import com.example.kuma.myapplication.Network.ProtocolDefines;
+import com.example.kuma.myapplication.Network.request.ReqLogin;
+import com.example.kuma.myapplication.Network.request.ReqVersion;
+import com.example.kuma.myapplication.Network.response.ResLogin;
+import com.example.kuma.myapplication.Network.response.ResVersion;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
 import com.example.kuma.myapplication.Utils.DateUtility;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 import com.example.kuma.myapplication.Utils.KumaLog;
+import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,6 +55,8 @@ import java.util.Locale;
 
 public class IntroActivity extends BaseActivity {
 
+    private final static int TAG_VERSION = 100;
+
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1000;
     private File outputFile; //파일명까지 포함한 경로
     private File path;//디렉토리경로
@@ -67,22 +77,57 @@ public class IntroActivity extends BaseActivity {
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE},
                     MY_PERMISSIONS_REQUEST_READ_CONTACTS);
         } else {
-            gotoLogin();
+            reqVersion();
         }
     }
 
     private void gotoLogin(){
 //        getDownloadApk();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(IntroActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        }, 2000);
+        Intent intent = new Intent(IntroActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
+    /**
+     * 버젼조회
+     */
+    private void reqVersion()
+    {
+        try {
+            ReqVersion reqVersion = new ReqVersion();
+
+            reqVersion.setTag(TAG_VERSION);
+            requestProtocol(true, reqVersion);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 버젼조회 결과
+     */
+    private void resVersion(ResVersion resprotocol)
+    {
+        KumaLog.d("++++++++++++resVersion++++++++++++++");
+        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+
+            if( resprotocol.isUpdate(DeviceUtils.getAppVersion(this))) {
+                    if( resprotocol.isForceUpdate()) {
+
+                    } else {
+
+                    }
+            } else {
+
+            }
+            gotoLogin();
+        }  else {
+            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
     private void getDownloadApk(){
         progressBar=new ProgressDialog(IntroActivity.this);
         progressBar.setMessage("다운로드중");
@@ -261,7 +306,13 @@ public class IntroActivity extends BaseActivity {
     }
     @Override
     public void onResponseProtocol(int nTag, ResponseProtocol resProtocol) {
-
+        switch (nTag) {
+            case TAG_VERSION:
+                resVersion((ResVersion)resProtocol);
+                break;
+                default:
+                    break;
+        }
     }
 
     @Override
