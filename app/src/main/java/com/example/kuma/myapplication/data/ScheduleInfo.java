@@ -8,11 +8,11 @@ import java.io.Serializable;
  */
 
 public class ScheduleInfo implements Serializable {
-    public String pk = "";
-    public String productCode = "";
-    public String serialNo = "";
-    public String startDate = "";//2018-01-31
-    public String endDate = "";
+        public String pk = "";
+        public String productCode = "";
+        public String serialNo = "";
+        public String startDate = "";//2018-01-31
+        public String endDate = "";
     public String deliver = "";
     public String receiver = "";
     public String hospital = "";

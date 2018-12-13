@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.example.kuma.myapplication.Utils.KumaLog;
+import com.example.kuma.myapplication.Utils.SharedPref.ShareDataManager;
 
 public class AppManager extends Application {
 
@@ -15,13 +16,15 @@ public class AppManager extends Application {
     ///////////////////////////////////////////////////////////////////////////////
 
     public String m_strToken = "";
-    
-    
+
+
     ///////////////////////////////////////////////////////////////////////////////
     // Field
     ///////////////////////////////////////////////////////////////////////////////
     private ArrayList<Activity>         m_activities    = new ArrayList<Activity>();
     private Hashtable<String, Object>   m_Objects       = new Hashtable<String, Object>();
+
+    private ShareDataManager m_objShareDataManager = new ShareDataManager();
 
     ///////////////////////////////////////////////////////////////////////////////
     // android.app.Application Overriding Methods
@@ -33,9 +36,6 @@ public class AppManager extends Application {
         
         //EOFExcetpion 발생 문제로 적용
         System.setProperty("http.keepAlive", "false");
-        
-//        "";
-        KumaLog.d("PushClientHelper.setDebugMode ");
 
     }
 
@@ -50,6 +50,10 @@ public class AppManager extends Application {
     ///////////////////////////////////////////////////////////////////////////////
     // Activity Management Methods
     ///////////////////////////////////////////////////////////////////////////////
+    public ShareDataManager getShareDataManager()
+    {
+        return m_objShareDataManager;
+    }
 
     /**
      * 현재 쌓여있는 Activity 갯수

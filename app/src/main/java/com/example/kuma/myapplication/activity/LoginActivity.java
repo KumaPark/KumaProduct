@@ -21,6 +21,7 @@ import com.example.kuma.myapplication.Network.response.ResLogin;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
 import com.example.kuma.myapplication.Utils.KumaLog;
+import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
 
 import org.json.JSONObject;
 
@@ -83,7 +84,8 @@ public class LoginActivity extends BaseActivity {
     {
         KumaLog.d("++++++++++++resResetUserInfo++++++++++++++");
         if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
-//            AppManager.setToken(resprotocol.getToken());
+
+            getAppManager().getShareDataManager().setStringPref(this, SharedPref.PREF_LOGIN_TOKEN, resprotocol.getToken());
             move2OtherActivity(MainActivity.class, true);
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {

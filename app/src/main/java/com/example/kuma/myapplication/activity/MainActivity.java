@@ -20,13 +20,16 @@ import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.request.ReqDeviceInfo;
 import com.example.kuma.myapplication.Network.request.ReqMainDeviceList;
+import com.example.kuma.myapplication.Network.request.ReqSummaryDevice;
 import com.example.kuma.myapplication.Network.response.ResDeviceInfo;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
+import com.example.kuma.myapplication.Network.response.ResSummaryDevice;
 import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.adapter.MyAdapter;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
 import com.example.kuma.myapplication.data.DeviceInfo;
+import com.example.kuma.myapplication.data.DeviceSummary;
 import com.example.kuma.myapplication.data.MainDeviceData;
 import com.example.kuma.myapplication.ui.dialog.BarcodeTypeSelectDialog;
 import com.example.kuma.myapplication.ui.dialog.CommonDialog;
@@ -41,8 +44,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private final static int TAG_REQ_DEVICE_LIST = 100;
     private final static int TAG_REQ_EMPLOY_LIST = 101;
     private final static int TAG_REQ_DEVICE_INFO = 102;
+    private final static int TAG_REQ_SUMMARY_DEVICE = 103;
 
     private final static int DLG_BARCODE = 201;
+
+    //	장비
+    private DeviceSummary m_DataProduct;
+    //	프로브
+    private DeviceSummary m_Datarobe;
+    //	악세사리
+    private DeviceSummary m_DataAcc;
+
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -109,10 +121,28 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mFloatingActionButton.setOnClickListener(this);
         mFloatingActionButton.show();
 
-        findViewById(R.id.btn_regi).setOnClickListener(this);
-        findViewById(R.id.btn_equipment).setOnClickListener(this);
+        findViewById(R.id.ll_regist).setOnClickListener(this);
+        findViewById(R.id.ll_equipment).setOnClickListener(this);
 
     }
+
+    private void gotoEdit(DeviceInfo data){
+        Intent intent = new Intent(MainActivity.this,DeviceManagementActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("detailData",data);
+        intent.putExtras(bundle);
+        intent.putExtra("dataState",  true);
+        intent.putExtra("type",  102);
+        startActivity(intent);
+    }
+    private void gotoRegist(String serialNum){
+        Intent intent = new Intent(MainActivity.this, DeviceManagementActivity.class);
+        intent.putExtra("dataState",  false);
+        intent.putExtra("serialNum",  serialNum);
+        intent.putExtra("type",  101);
+        startActivity(intent);
+    }
+
 
     private void setMainListUI(ArrayList<DeviceInfo> data){
         mAdapter = new MyAdapter(data, new MyAdapter.OnItemClickListener() {
@@ -124,6 +154,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         mRecyclerView.setAdapter(mAdapter);
 
+    }
+
+    private void setSummaryDEviceInfoUI(){
+//        m_DataProduct = resprotocol.getProductSummaryInfo();
+//        m_Datarobe = resprotocol.getProbeSummaryInfo();
+//        m_DataAcc = resprotocol.getAccSummaryInfo();
     }
     /**
      * 메인 리스트
@@ -203,22 +239,39 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
-    private void gotoEdit(DeviceInfo data){
-        Intent intent = new Intent(MainActivity.this,DeviceManagementActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("detailData",data);
-        intent.putExtras(bundle);
-        intent.putExtra("dataState",  true);
-        intent.putExtra("type",  102);
-        startActivity(intent);
+    /**
+     * 제품요약집계
+     */
+    private void reqSummaryDeviceInfo()
+    {
+        try {
+            ReqSummaryDevice reqSummaryDevice = new ReqSummaryDevice();
+
+            reqSummaryDevice.setTag(TAG_REQ_SUMMARY_DEVICE);
+            requestProtocol(true, reqSummaryDevice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    private void gotoRegist(String serialNum){
-        Intent intent = new Intent(MainActivity.this, DeviceManagementActivity.class);
-        intent.putExtra("dataState",  false);
-        intent.putExtra("serialNum",  serialNum);
-        intent.putExtra("type",  101);
-        startActivity(intent);
+    /**
+     * 제품요약집계
+     */
+    private void resSummaryDeviceInfo(ResSummaryDevice resprotocol)
+    {
+        KumaLog.d("++++++++++++resDataList++++++++++++++");
+        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            m_DataProduct = resprotocol.getProductSummaryInfo();
+            m_Datarobe = resprotocol.getProbeSummaryInfo();
+            m_DataAcc = resprotocol.getAccSummaryInfo();
+        }  else {
+            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
     }
+
 
     private boolean  onPauseState = false;
     @Override
@@ -272,6 +325,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case TAG_REQ_DEVICE_INFO:
                 resDeviceInfo((ResDeviceInfo)resProtocol);
                 break;
+            case TAG_REQ_SUMMARY_DEVICE:
+                resSummaryDeviceInfo((ResSummaryDevice)resProtocol);
+                break;
 
             default:
                 break;
@@ -307,15 +363,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 dlgBarcode.setDialogListener(DLG_BARCODE, this);
                 dlgBarcode.show();
                 break;
-            case R.id.btn_regi:
+            case R.id.ll_regist:
                 gotoRegist("");
                 break;
-            case R.id.btn_equipment:
+            case R.id.ll_equipment:
                 move2OtherActivity(DeviceConditionActivity.class);
                 break;
-            case R.id.btn_employ:
-                move2OtherActivity(DeviceDetailConditionActivity.class);
-                break;
+//            case R.id.btn_employ:
+//                move2OtherActivity(DeviceDetailConditionActivity.class);
+//                break;
             default:
                 break;
         }

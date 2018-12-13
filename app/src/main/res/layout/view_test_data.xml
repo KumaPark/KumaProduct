@@ -29,11 +29,12 @@
         <TextView
             android:id="@+id/tv_office_cnt"
             android:layout_width="match_parent"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:gravity="center"
-            android:background="#8BBDFF"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:text="1"
-            android:textSize="16dp" />
+            android:textSize="11dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -41,11 +42,12 @@
         <TextView
             android:id="@+id/tv_invalb_cnt"
             android:layout_width="match_parent"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:gravity="center"
-            android:background="#FF9595"
-            android:text="2"
-            android:textSize="16dp" />
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text=""
+            android:textSize="11dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -53,11 +55,12 @@
         <TextView
             android:id="@+id/tv_move_cnt"
             android:layout_width="match_parent"
-            android:layout_height="15dp"
+            android:layout_height="20dp"
             android:gravity="center"
-            android:background="#FFFF8F"
-            android:text="3"
-            android:textSize="16dp" />
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text=""
+            android:textSize="11dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

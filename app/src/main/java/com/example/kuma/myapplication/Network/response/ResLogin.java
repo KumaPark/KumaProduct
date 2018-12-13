@@ -1,5 +1,6 @@
 package com.example.kuma.myapplication.Network.response;
 
+import com.example.kuma.myapplication.AppManager;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.parser.JSONDefines;
 import com.example.kuma.myapplication.Utils.KumaLog;

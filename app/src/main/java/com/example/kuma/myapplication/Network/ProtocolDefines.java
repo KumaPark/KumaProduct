@@ -34,6 +34,11 @@ public class ProtocolDefines {
 		public static final String CHECK_STATUS = "/chk/getDeviceInfo?";
 
 		public static String URL_LOGIN = getURL() + "mdevice/api_auth/login?";
+
+		// 제품 요약 집계
+		public static String URL_SUMMARY_DEVICE = getURL() + "mdevice/api_product/get-summary-by-state?";
+
+
 		//제품조회 리스트
 		public static String URL_MAIN_LIST = getURL() + "mdevice/api_product/get-products?";
 		//제품조회

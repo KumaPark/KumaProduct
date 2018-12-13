@@ -62,16 +62,17 @@ public class Constance {
      판매완료 : 데모제품을 판매한 상태
      */
     public static final String TAG_DEVICE_STATE_STANDBY = "R";
-    public static final String TAG_DEVICE_STATE_MOVE_HOSPITAL = "M";
-    public static final String TAG_DEVICE_STATE_MOVE_COMPANY = "MC";
+    public static final String TAG_DEVICE_STATE_NOMAL = "N";
+    public static final String TAG_DEVICE_STATE_MOVE_HOSPITAL = "MH";
+    public static final String TAG_DEVICE_STATE_MOVE_COMPANY = "MO";
     public static final String TAG_DEVICE_STATE_RECEIVE = "RE";
-    public static final String TAG_DEVICE_STATE_DEMO_ING = "DS";
+    public static final String TAG_DEVICE_STATE_DEMO_ING = "DM";
     public static final String TAG_DEVICE_STATE_DEMO_COMPLETE = "DE";
 
-    public static final String TAG_DEVICE_STATE_TROBLE = "TS1";
-    public static final String TAG_DEVICE_STATE_REPAIR = "TS2";
-    public static final String TAG_DEVICE_STATE_SCRAP = "TS3";
-    public static final String TAG_DEVICE_STATE_SALE = "TS4";
+    public static final String TAG_DEVICE_STATE_TROBLE = "T";
+    public static final String TAG_DEVICE_STATE_REPAIR = "F";
+    public static final String TAG_DEVICE_STATE_SCRAP = "D";
+    public static final String TAG_DEVICE_STATE_SALE = "S";
 
     public static String changeStringToState(String strCode){
         String result = "";
@@ -79,6 +80,9 @@ public class Constance {
         switch (strCode) {
             case TAG_DEVICE_STATE_STANDBY:
                 result = "대기";
+                break;
+            case TAG_DEVICE_STATE_NOMAL:
+                result = "정상";
                 break;
             case TAG_DEVICE_STATE_MOVE_HOSPITAL:
                 result = "병원이동";
