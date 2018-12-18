@@ -1,8 +1,11 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.ResDeviceScheduleInfo;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-03-03.
@@ -17,9 +20,11 @@ public class ReqDeviceScheduleInfo extends RequestJSON
 
     private String serialNo = "";
 
-    public ReqDeviceScheduleInfo()
-    {
+    private Context mContext;
 
+    public ReqDeviceScheduleInfo(Context context)
+    {
+        mContext = context;
     }
 
     public void setSerialNo(String serialNo) {
@@ -53,7 +58,8 @@ public class ReqDeviceScheduleInfo extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("serialNo").append("=").append(serialNo);
+        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
     }

@@ -1,9 +1,12 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
 import com.example.kuma.myapplication.Network.response.ResSummaryDevice;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-12-12.
@@ -15,9 +18,11 @@ public class ReqSummaryDevice extends RequestJSON
     private int m_nTag;
     private StringBuffer m_sbParameter;
 
-    public ReqSummaryDevice()
-    {
+    private Context mContext;
 
+    public ReqSummaryDevice(Context context)
+    {
+        mContext = context;
     }
 
     @Override
@@ -47,6 +52,7 @@ public class ReqSummaryDevice extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
         return m_sbParameter;
     }
 }

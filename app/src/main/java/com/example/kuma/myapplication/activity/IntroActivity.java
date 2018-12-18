@@ -33,6 +33,8 @@ import com.example.kuma.myapplication.Utils.DateUtility;
 import com.example.kuma.myapplication.Utils.DeviceUtils;
 import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
+import com.example.kuma.myapplication.ui.dialog.CommonDialog;
+import com.example.kuma.myapplication.ui.dialog.IDialogListener;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -61,6 +63,9 @@ public class IntroActivity extends BaseActivity {
     private File outputFile; //파일명까지 포함한 경로
     private File path;//디렉토리경로
 
+    private ProgressDialog progressBar;
+    private String m_strApkPath = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +75,10 @@ public class IntroActivity extends BaseActivity {
 
     private void getPermision() {
         // Activity에서 실행하는경우
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 ) {
             ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE},
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE },
                     MY_PERMISSIONS_REQUEST_READ_CONTACTS);
         } else {
             reqVersion();
@@ -112,14 +116,13 @@ public class IntroActivity extends BaseActivity {
 
             if( resprotocol.isUpdate(DeviceUtils.getAppVersion(this))) {
                     if( resprotocol.isForceUpdate()) {
-
+                        showAlterDialog(true, "보다 안정적이고 편리한 서비스 이용을 위해 앱을 최신버전으로 업데이트 해주세요.");
                     } else {
-
+                        showAlterDialog(false, "보다 안정적이고 편리한 서비스 이용을 위해 앱을 최신버전으로 업데이트 해주세요.");
                     }
             } else {
-
+                gotoLogin();
             }
-            gotoLogin();
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {
                 showSimpleMessagePopup(resprotocol.getMsg());
@@ -148,9 +151,32 @@ public class IntroActivity extends BaseActivity {
         });
 //        new apkDownload().execute();
     }
+    private void showAlterDialog( boolean forceState, String strMsg){
+        CommonDialog updateDlg = new CommonDialog(this);
+        if( forceState ) {
+            updateDlg.setType(CommonDialog.DLG_TYPE_NOTI);
+        } else {
+            updateDlg.setType(CommonDialog.DLG_TYPE_YES_NO);
+        }
 
-    private ProgressDialog progressBar;
-    private String m_strApkPath = "";
+        updateDlg.setDialogListener(DLG_ID_NOTI, new IDialogListener() {
+            @Override
+            public void onDialogResult(int nTag, int nResult, Dialog dialog) {
+                // TODO Auto-generated method stub
+                if (nResult == CommonDialog.RESULT_OK) {
+                    getDownloadApk();
+                } else {
+                    gotoLogin();
+                }
+            }
+        });
+        if( forceState ) {
+            updateDlg.setCancelable(false);
+        }
+        updateDlg.setMessage(strMsg);
+        updateDlg.show();
+    }
+
     private class DownloadFilesTask extends AsyncTask<String, String, Long> {
 
         private Context context;
@@ -323,7 +349,7 @@ public class IntroActivity extends BaseActivity {
 
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    gotoLogin();
+                    reqVersion();
                 } else {
                     // 권한 거부
                     // 사용자가 해당권한을 거부했을때 해주어야 할 동작을 수행합니다

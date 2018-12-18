@@ -1,8 +1,13 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.CommonResponse;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
+import com.example.kuma.myapplication.Utils.SharedPref.ShareDataManager;
+import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
 
 /**
  * Created by Kuma on 2018-02-22.
@@ -17,10 +22,10 @@ public class ReqDeviceDelete extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
-
-    public ReqDeviceDelete()
+    private  Context mContext;
+    public ReqDeviceDelete(Context context)
     {
-
+        mContext = context;
     }
 
     @Override
@@ -54,7 +59,8 @@ public class ReqDeviceDelete extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("serialNo").append("=").append(serialNo);
+        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
     }

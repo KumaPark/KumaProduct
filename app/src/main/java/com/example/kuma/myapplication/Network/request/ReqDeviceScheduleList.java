@@ -1,8 +1,11 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.ResDeviceScheduleList;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-03-03.
@@ -16,10 +19,11 @@ public class ReqDeviceScheduleList extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
+    private Context mContext;
 
-    public ReqDeviceScheduleList()
+    public ReqDeviceScheduleList(Context context)
     {
-
+        mContext = context;
     }
 
     @Override
@@ -49,6 +53,7 @@ public class ReqDeviceScheduleList extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
         return m_sbParameter;
     }
 }

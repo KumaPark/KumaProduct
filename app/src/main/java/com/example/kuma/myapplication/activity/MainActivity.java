@@ -167,7 +167,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void reqDataList()
     {
         try {
-            ReqMainDeviceList reqMainDeviceList = new ReqMainDeviceList();
+            ReqMainDeviceList reqMainDeviceList = new ReqMainDeviceList(this);
 
             reqMainDeviceList.setTag(TAG_REQ_DEVICE_LIST);
             reqMainDeviceList.setUserId("");
@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void reqDeviceInfo()
     {
         try {
-            ReqDeviceInfo reqDeviceInfo = new ReqDeviceInfo();
+            ReqDeviceInfo reqDeviceInfo = new ReqDeviceInfo(this);
 
             reqDeviceInfo.setTag(TAG_REQ_DEVICE_INFO);
             reqDeviceInfo.setSerialNo(mSerialNum);
@@ -245,7 +245,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void reqSummaryDeviceInfo()
     {
         try {
-            ReqSummaryDevice reqSummaryDevice = new ReqSummaryDevice();
+            ReqSummaryDevice reqSummaryDevice = new ReqSummaryDevice(this);
 
             reqSummaryDevice.setTag(TAG_REQ_SUMMARY_DEVICE);
             requestProtocol(true, reqSummaryDevice);

@@ -11,14 +11,15 @@
         android:id="@+id/rl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#aaFF9436">
+        android:background="#EDCE7A">
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/iv_back"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/menu_icon" />
+            android:background="@drawable/back_arrow_1" />
 
         <TextView
             android:layout_width="140dp"
@@ -26,50 +27,39 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="장비현황"
-            android:textSize="23dp" />
+            android:text="장비 스케줄"
+            android:textSize="20dp" />
+
+        <ImageView
+            android:id="@+id/iv_filter"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ico_filter" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="50dp">
-        <TextView
-            android:id="@+id/tv_color_office"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="#8BBDFF"
-            android:text="Office"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="10dp" />
-        <TextView
-            android:id="@+id/tv_color_hospital"
-            android:layout_below="@+id/tv_color_office"
-            android:layout_marginLeft="10dp"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="#FF9595"
-            android:text="Hospital"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="10dp" />
-        <TextView
-            android:id="@+id/tv_color_move"
-            android:layout_below="@+id/tv_color_hospital"
-            android:layout_marginLeft="10dp"
-            android:layout_width="70dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:background="#FFFF8F"
-            android:text="Move"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:textSize="10dp" />
+        <ImageView
+            android:id="@+id/iv_prev_month"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/back" />
+        <ImageView
+            android:id="@+id/iv_next_month"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/right_arrow" />
     <TextView
         android:id="@+id/tv_mon"
         android:layout_width="match_parent"
@@ -78,10 +68,9 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textSize="16dp"
-        android:text="12월"
         />
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/tv_color_move"
+        android:layout_below="@+id/tv_mon"
         android:id="@+id/rsv_schedule_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,9 +1,12 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.CommonResponse;
 import com.example.kuma.myapplication.Network.response.ResDeviceScheduleInfo;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-03-03.
@@ -33,9 +36,11 @@ public class ReqDeviceScheduleEdit extends RequestJSON
     //비고
     private String message = "";
 
-    public ReqDeviceScheduleEdit()
-    {
+    private Context mContext;
 
+    public ReqDeviceScheduleEdit(Context context)
+    {
+        mContext = context;
     }
 
     public void setSerialNo(String serialNo) {
@@ -104,7 +109,8 @@ public class ReqDeviceScheduleEdit extends RequestJSON
         m_sbParameter.append("deliver").append("=").append(deliver).append("&");
         m_sbParameter.append("receiver").append("=").append(receiver).append("&");
         m_sbParameter.append("message").append("=").append(message).append("&");
-        m_sbParameter.append("serialNo").append("=").append(serialNo);
+        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
     }

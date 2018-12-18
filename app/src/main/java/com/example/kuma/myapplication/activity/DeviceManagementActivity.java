@@ -169,7 +169,7 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
     {
         KumaLog.d("++++++++++++ reqDeviceInsert  ++++++++++++++");
         try {
-            ReqDeviceInsert reqDeviceInsert = new ReqDeviceInsert();
+            ReqDeviceInsert reqDeviceInsert = new ReqDeviceInsert(this);
 
             reqDeviceInsert.setTag(TAG_REQ_DEVICE_INSERT);
             reqDeviceInsert.setMakeYear(mEvMakeYear.getText().toString().trim());
@@ -190,7 +190,7 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
     {
         KumaLog.d("++++++++++++ reqDeviceEdit  ++++++++++++++");
         try {
-            ReqDeviceEdit reqDeviceEdit = new ReqDeviceEdit();
+            ReqDeviceEdit reqDeviceEdit = new ReqDeviceEdit(this);
 
             reqDeviceEdit.setTag(TAG_REQ_DEVICE_EDIT);
             reqDeviceEdit.setMakeYear(mEvMakeYear.getText().toString().trim());
@@ -212,7 +212,7 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
     {
         KumaLog.d("++++++++++++ reqDeviceDelete  ++++++++++++++");
         try {
-            ReqDeviceDelete reqDeviceDelete = new ReqDeviceDelete();
+            ReqDeviceDelete reqDeviceDelete = new ReqDeviceDelete(this);
 
             reqDeviceDelete.setTag(TAG_REQ_DEVICE_DELETE);
             reqDeviceDelete.setSerialNo(mTvSerial.getText().toString().trim());

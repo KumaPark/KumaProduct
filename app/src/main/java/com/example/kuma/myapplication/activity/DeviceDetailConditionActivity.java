@@ -159,7 +159,7 @@ public class DeviceDetailConditionActivity extends BaseActivity {
             }
 
 //            mDataset, mArrScheduleListDTO, mArrScheduleListLowDTO
-            ReqDeviceScheduleList reqDeviceScheduleList = new ReqDeviceScheduleList();
+            ReqDeviceScheduleList reqDeviceScheduleList = new ReqDeviceScheduleList(this);
 
             reqDeviceScheduleList.setTag(TAG_REQ_SCHEDULE_LIST);
 

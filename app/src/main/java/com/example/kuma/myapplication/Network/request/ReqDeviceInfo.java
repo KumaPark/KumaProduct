@@ -1,9 +1,12 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.ResDeviceInfo;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-02-22.
@@ -19,9 +22,11 @@ public class ReqDeviceInfo extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
+    private Context mContext;
 
-    public ReqDeviceInfo()
+    public ReqDeviceInfo(Context context)
     {
+        mContext = context;
 
     }
 
@@ -56,7 +61,8 @@ public class ReqDeviceInfo extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("serialNo").append("=").append(serialNo);
+        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
     }

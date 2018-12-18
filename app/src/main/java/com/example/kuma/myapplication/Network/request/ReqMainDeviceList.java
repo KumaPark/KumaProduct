@@ -1,9 +1,12 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.ResLogin;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-01-20.
@@ -21,10 +24,11 @@ public class ReqMainDeviceList extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
+    private Context mContext;
 
-    public ReqMainDeviceList()
+    public ReqMainDeviceList(Context context)
     {
-
+        mContext = context;
     }
 
     @Override
@@ -63,7 +67,8 @@ public class ReqMainDeviceList extends RequestJSON
         m_sbParameter = new StringBuffer();
 
         m_sbParameter.append("loginId").append("=").append(userId).append("&");
-        m_sbParameter.append("loginPw").append("=").append(password);
+        m_sbParameter.append("loginPw").append("=").append(password).append("&");
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
     }

@@ -1,9 +1,12 @@
 package com.example.kuma.myapplication.Network.request;
 
+import android.content.Context;
+
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.CommonResponse;
 import com.example.kuma.myapplication.Network.response.ResLogin;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-02-22.
@@ -27,10 +30,10 @@ public class ReqDeviceInsert extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
-
-    public ReqDeviceInsert()
+    private Context mContext;
+    public ReqDeviceInsert(Context context)
     {
-
+        mContext = context;
     }
 
     @Override
@@ -84,7 +87,8 @@ public class ReqDeviceInsert extends RequestJSON
         m_sbParameter.append("productCode").append("=").append(productCode).append("&");
         m_sbParameter.append("makeYear").append("=").append(makeYear).append("&");
         m_sbParameter.append("version").append("=").append(version).append("&");
-        m_sbParameter.append("message").append("=").append(message);
+        m_sbParameter.append("message").append("=").append(message).append("&");
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
     }

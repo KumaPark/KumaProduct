@@ -11,7 +11,9 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Constance.Constance;
@@ -30,6 +32,7 @@ import com.example.kuma.myapplication.data.ScheduleListLowDTO;
 import com.example.kuma.myapplication.ui.dialog.ProductSelectDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +40,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-public class DeviceConditionActivity extends BaseActivity {
+public class DeviceConditionActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int TAG_REQ_SCHEDULE_LIST = 1000;
 
@@ -60,6 +63,7 @@ public class DeviceConditionActivity extends BaseActivity {
     private String mStrMonth = "";
     private String mStrDay = "";
 
+    private TextView mTvMonth;
     private Calendar mCal;
 
     private boolean mViewTypeSeletedState = false;
@@ -82,6 +86,8 @@ public class DeviceConditionActivity extends BaseActivity {
     }
 
     private void init(){
+
+        mTvMonth = (TextView) findViewById(R.id.tv_mon);
         mRecyclerView = (RecyclerView) findViewById(R.id.rsv_schedule_list);
 
         mRecyclerView.setHasFixedSize(true);
@@ -89,6 +95,10 @@ public class DeviceConditionActivity extends BaseActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        findViewById(R.id.iv_prev_month).setOnClickListener(this);
+        findViewById(R.id.iv_next_month).setOnClickListener(this);
+        findViewById(R.id.iv_back).setOnClickListener(this);
+        findViewById(R.id.iv_filter).setOnClickListener(this);
     }
     /**
      * 데모 정보 조회 리스트
@@ -106,7 +116,7 @@ public class DeviceConditionActivity extends BaseActivity {
             }
 
 //            mDataset, mArrScheduleListDTO, mArrScheduleListLowDTO
-            ReqDeviceScheduleList reqDeviceScheduleList = new ReqDeviceScheduleList();
+            ReqDeviceScheduleList reqDeviceScheduleList = new ReqDeviceScheduleList(this);
 
             reqDeviceScheduleList.setTag(TAG_REQ_SCHEDULE_LIST);
 
@@ -140,11 +150,7 @@ public class DeviceConditionActivity extends BaseActivity {
                 mDataset.put(key, resprotocol.getListData().get(i));
             }
 
-            if( mViewTypeSeletedState ) {
-                setViewType(mStrYear, mStrMonth, mStrDay);
-            } else{
-                setType();
-            }
+            setType();
 
             mDeviceScheduleListAdapter.setItems(mDataset, mArrScheduleListDTO, mArrScheduleListLowDTO);
             mDeviceScheduleListAdapter.notifyDataSetChanged();
@@ -179,18 +185,25 @@ public class DeviceConditionActivity extends BaseActivity {
 
         //연,월,일을 따로 저장
         final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-
+        mStrYear = curYearFormat.format(date);
         final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
-
+        mStrMonth = curMonthFormat.format(date);
         final SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
-
-        setViewType(curYearFormat.format(date), curMonthFormat.format(date), curDayFormat.format(date));
+        mStrDay = curDayFormat.format(date);
+        setViewType(mStrYear, mStrMonth, mStrDay);
     }
 
     private void setViewType(String strYear, String strMonth, String  strDate){
+        KumaLog.d(" setViewType >> " + mStrYear+ "  " + mStrMonth);
+
+
+        mArrScheduleListLowDTO.clear();
+        mArrScheduleListDTO.clear();
         mCal = Calendar.getInstance();
 
         mCal.set(Integer.parseInt(strYear), Integer.parseInt(strMonth) - 1, 1);
+        KumaLog.d(" mStrYear >> " + mStrYear+ " mStrMonth >> " + mStrMonth);
+        mTvMonth.setText(strYear +"년 " +strMonth + "월" );
 
         int dayNum = 0;
 
@@ -213,8 +226,6 @@ public class DeviceConditionActivity extends BaseActivity {
                 nWeekCnt++;
             }
         }
-
-
         KumaLog.d("nWeekCnt >> " + nWeekCnt);
         for( int i = 0; i < nWeekCnt; i ++ ) {
             ScheduleListDTO infoDate  = new ScheduleListDTO();
@@ -242,7 +253,7 @@ public class DeviceConditionActivity extends BaseActivity {
 
         final SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
 
-        setDateView(curYearFormat.format(date), curMonthFormat.format(date), curDayFormat.format(date));
+        setDateView(mStrYear, mStrMonth, mStrDay);
     }
 
     private void setDateView(String strYear, String strMonth, String  strDate){
@@ -400,5 +411,64 @@ public class DeviceConditionActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void prevMonth(){
+        KumaLog.line();
+        KumaLog.d("showPrevMonth >> ");
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance( );
+        cal.set(Integer.parseInt(mStrYear), Integer.parseInt(mStrMonth) - 1, 1);
+        cal.add ( cal.MONTH, -1 ); // 이전달
+
+        setNewDate(cal);
+
+        KumaLog.d(" mStrYear >> " + mStrYear+ " mStrMonth >> " + mStrMonth);
+
+        setViewType(mStrYear, mStrMonth, mStrDay);
+    }
+
+    private void nextMonth(){
+        KumaLog.line();
+        KumaLog.d("nextMonth >> ");
+
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        Calendar cal = Calendar.getInstance( );
+        cal.set(Integer.parseInt(mStrYear), Integer.parseInt(mStrMonth) - 1, 1);
+        cal.add ( cal.MONTH, + 1 ); //다음달
+
+        setNewDate(cal);
+
+        KumaLog.d(" mStrYear >> " + mStrYear+ " mStrMonth >> " + mStrMonth);
+
+        setViewType(mStrYear, mStrMonth, mStrDay);
+    }
+
+    private void setNewDate(Calendar cal){
+        SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy");
+        SimpleDateFormat monthFormatter = new SimpleDateFormat("MM");
+        SimpleDateFormat dayFormatter = new SimpleDateFormat("dd");
+
+        mStrYear = yearFormatter.format(cal.getTime());
+        mStrMonth = monthFormatter.format(cal.getTime());
+        mStrDay = dayFormatter.format(cal.getTime());
+    }
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                break;
+            case R.id.iv_filter:
+                break;
+            case R.id.iv_prev_month:
+                prevMonth();
+                break;
+            case R.id.iv_next_month:
+                nextMonth();
+                break;
+            default:
+                break;
+        }
+
     }
 }

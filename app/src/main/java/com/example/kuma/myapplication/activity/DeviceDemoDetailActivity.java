@@ -176,7 +176,7 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
     {
         KumaLog.d("++++++++++++ reqDeviceScheduleEdit  ++++++++++++++");
         try {
-            ReqDeviceScheduleEdit reqReqDeviceScheduleEdit = new ReqDeviceScheduleEdit();
+            ReqDeviceScheduleEdit reqReqDeviceScheduleEdit = new ReqDeviceScheduleEdit(this);
 
             reqReqDeviceScheduleEdit.setTag(TAG_REQ_DEVICE_EDIT);
             reqReqDeviceScheduleEdit.setSerialNo(mScheduleInfo.getSerialNo());
