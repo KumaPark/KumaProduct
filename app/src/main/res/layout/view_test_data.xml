@@ -15,52 +15,71 @@
         android:layout_weight="158"
         android:orientation="vertical">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
         <TextView
             android:id="@+id/tv_date"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:text="1"
-            android:textSize="16dp" />
+            android:textStyle="bold"
+            android:textSize="12dp" />
+        </RelativeLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#22a6a6a6" />
+            android:background="#00a6a6a6" />
         <TextView
             android:id="@+id/tv_office_cnt"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="12dp"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
             android:text="1"
-            android:textSize="11dp" />
+            android:textSize="9dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#22a6a6a6" />
+            android:background="#00a6a6a6" />
         <TextView
             android:id="@+id/tv_invalb_cnt"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="12dp"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
             android:text=""
-            android:textSize="11dp" />
+            android:textSize="8dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#22a6a6a6" />
+            android:background="#00a6a6a6" />
         <TextView
             android:id="@+id/tv_move_cnt"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="12dp"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
             android:text=""
-            android:textSize="11dp" />
+            android:textSize="9dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#00a6a6a6" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:gravity="center"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text=""
+            android:textSize="8dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

@@ -66,7 +66,12 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
         public ViewHolderDate(View view) {
             super(view);
 
-            mllContents = (LinearLayout) view.findViewById(R.id.ll_contents);
+            if( mllContents != null )  {
+                mllContents.removeAllViews();
+            }  else {
+                mllContents = (LinearLayout) view.findViewById(R.id.ll_contents);
+            }
+
 //            mTvSunday = (TextView) view.findViewById(R.id.tv_sunday);
 //            mTvMonday = (TextView) view.findViewById(R.id.tv_monday);
 //            mTvYuesday = (TextView) view.findViewById(R.id.tv_tuesday);
@@ -81,6 +86,10 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
         }
 
         public void bindData(int tag, ScheduleListDayDTO data) {
+
+            mllContents.removeAllViews();
+
+            KumaLog.d(" >>>>>>>>>>>>>>>>> bindData >>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
             if( tag == 0 ) {
 //                LinearLayout llDateline = (LinearLayout) inflater.inflate(R.layout.view_date_line, null);
 //                LinearLayout.LayoutParams viewLineFront_params
@@ -90,6 +99,8 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
 //                llDateline.setLayoutParams(viewLineFront_params);
 //                mllContents.addView(llDateline);
             }
+
+
 
             LinearLayout llDateData = (LinearLayout) inflater.inflate(R.layout.view_test_data, null);
 
@@ -160,7 +171,7 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
     // Create new views (invoked by the layout manager)
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int position) {
-
+        KumaLog.d(" >>>>>>>>>>>>>>>>> onCreateViewHolder >>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
         int viewType = getItem(position).getViewType();
         ScheduleListDTO info = getItem(position);
         RecyclerView.ViewHolder holder;
@@ -177,6 +188,7 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
+        KumaLog.d(" >>>>>>>>>>>>>>>>> onBindViewHolder >>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         String strModel = "";

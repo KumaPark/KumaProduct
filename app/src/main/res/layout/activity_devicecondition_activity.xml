@@ -50,7 +50,7 @@
             android:layout_height="15dp"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/back" />
         <ImageView
             android:id="@+id/iv_next_month"
@@ -58,30 +58,63 @@
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/right_arrow" />
     <TextView
         android:id="@+id/tv_mon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:textSize="16dp"
         />
-    <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/tv_mon"
-        android:id="@+id/rsv_schedule_list"
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:layout_below="@+id/tv_mon"-->
+        <!--android:id="@+id/rsv_schedule_list"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:paddingLeft="1dp"-->
+        <!--android:paddingTop="1dp"-->
+        <!--android:paddingBottom="1dp"-->
+        <!--android:background="@drawable/default_line_back"-->
+        <!--/>-->
+
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/tv_mon"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:paddingLeft="1dp"
-        android:paddingTop="1dp"
-        android:paddingBottom="1dp"
-        android:background="@drawable/default_line_back"
-        />
+            android:layout_marginBottom="20dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:orientation="vertical"
+            android:background="@drawable/default_line_back"
+        >
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            layout="@layout/day_weekend"
+            />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#22a6a6a6" />
+        <ListView
+            android:id="@+id/lv_schedule_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:dividerHeight="0dp"
+            android:divider="#00000000"
+            />
+        </LinearLayout>
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

@@ -12,9 +12,7 @@ public class ScheduleListDayDTO implements Serializable {
     public String month = "";
     public String day = "";
     public String diplayDay = "";
-    public String nCompanyCnt = "";
-    public String nInvalbCnt = "";
-    public String nMoveCnt = "";
+    public int dayNum =  0;
     private ArrayList<ScheduleInfo> arrScheduleInfo = new ArrayList<>();
 
     public ArrayList<ScheduleInfo> getScheduleInfoList() {
@@ -53,15 +51,7 @@ public class ScheduleListDayDTO implements Serializable {
         this.diplayDay = diplayDay;
     }
 
-    public void setnCompanyCnt(String nCompanyCnt) {
-        this.nCompanyCnt = nCompanyCnt;
-    }
-
-    public void setnInvalbCnt(String nInvalbCnt) {
-        this.nInvalbCnt = nInvalbCnt;
-    }
-
-    public void setnMoveCnt(String nMoveCnt) {
-        this.nMoveCnt = nMoveCnt;
+    public void setDayNum(int dayNum) {
+        this.dayNum = dayNum;
     }
 }

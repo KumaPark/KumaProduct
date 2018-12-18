@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.kuma.myapplication.BaseActivity;
@@ -23,6 +24,7 @@ import com.example.kuma.myapplication.Network.response.ResDeviceScheduleList;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
 import com.example.kuma.myapplication.Utils.KumaLog;
+import com.example.kuma.myapplication.adapter.DeviceConditionScheduleAdapter;
 import com.example.kuma.myapplication.adapter.DeviceConditionScheduleListAdapter;
 import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
 import com.example.kuma.myapplication.data.ScheduleInfo;
@@ -48,11 +50,16 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
 
     private LinearLayout mLlContents;
 
-    private RecyclerView mRecyclerView;
+//    private RecyclerView mRecyclerView;
+
+    private ListView mScheduleList;
+
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private DeviceConditionScheduleListAdapter mDeviceScheduleListAdapter;
+//    private DeviceConditionScheduleListAdapter mDeviceScheduleListAdapter;
+    private DeviceConditionScheduleAdapter mDeviceScheduleListAdapter_1;
+
 
     private ArrayList<ScheduleListDTO> mArrScheduleListDTO = new ArrayList<>();
     private ArrayList<ScheduleInfo> mArrScheduleInfoListDTO = new ArrayList<>();
@@ -76,7 +83,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         setContentView(R.layout.activity_devicecondition_activity);
 
         init();
-
+        setCurDate();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -88,13 +95,25 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
     private void init(){
 
         mTvMonth = (TextView) findViewById(R.id.tv_mon);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rsv_schedule_list);
+//        mRecyclerView = (RecyclerView) findViewById(R.id.rsv_schedule_list);
+        mScheduleList = (ListView)  findViewById(R.id.lv_schedule_list);
 
-        mRecyclerView.setHasFixedSize(true);
+        mDeviceScheduleListAdapter_1 = new DeviceConditionScheduleAdapter(this,
+                new DeviceConditionScheduleAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(ScheduleListDayDTO data) {
+                        showProductChoiceDlg(data);
+                    }
+                });
+
+        mScheduleList.setAdapter(mDeviceScheduleListAdapter_1);
+
+
+//        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mLayoutManager = new LinearLayoutManager(this);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
         findViewById(R.id.iv_prev_month).setOnClickListener(this);
         findViewById(R.id.iv_next_month).setOnClickListener(this);
         findViewById(R.id.iv_back).setOnClickListener(this);
@@ -133,16 +152,18 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         KumaLog.d("++++++++++++ >>>>>>> resDeviceScheduleList ++++++++++++++");
         if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
             KumaLog.d("++++++++++++ resDeviceScheduleList 11  ++++++++++++++");
-            if( mDeviceScheduleListAdapter == null ) {
-                mDeviceScheduleListAdapter = new DeviceConditionScheduleListAdapter(DeviceConditionActivity.this,
-                        new DeviceConditionScheduleListAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(ScheduleListDayDTO data) {
-                        showProductChoiceDlg(data);
-                    }
-                });
-                mRecyclerView.setAdapter(mDeviceScheduleListAdapter);
-            }
+            mArrScheduleInfoListDTO.clear();
+            mDataset.clear();
+//            if( mDeviceScheduleListAdapter == null ) {
+//                mDeviceScheduleListAdapter = new DeviceConditionScheduleListAdapter(DeviceConditionActivity.this,
+//                        new DeviceConditionScheduleListAdapter.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(ScheduleListDayDTO data) {
+//                        showProductChoiceDlg(data);
+//                    }
+//                });
+//                mRecyclerView.setAdapter(mDeviceScheduleListAdapter);
+//            }
 
             mArrScheduleInfoListDTO.addAll(resprotocol.getListData());
             for( int i = 0; i < resprotocol.getListData().size(); i++ ) {
@@ -150,10 +171,14 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
                 mDataset.put(key, resprotocol.getListData().get(i));
             }
 
-            setType();
+            setViewType(mStrYear, mStrMonth, mStrDay);
 
-            mDeviceScheduleListAdapter.setItems(mDataset, mArrScheduleListDTO, mArrScheduleListLowDTO);
-            mDeviceScheduleListAdapter.notifyDataSetChanged();
+            KumaLog.d("mDataset Size  > "  +mDataset.size());
+            KumaLog.d("mArrScheduleListDTO Size  > "  +mArrScheduleListDTO.size());
+            KumaLog.d("mArrScheduleListLowDTO Size  > "  +mArrScheduleListLowDTO.size());
+
+            mDeviceScheduleListAdapter_1.setItems(mDataset, mArrScheduleListDTO, mArrScheduleListLowDTO);
+            mDeviceScheduleListAdapter_1.notifyDataSetChanged();
         } else {
             if (!TextUtils.isEmpty(resprotocol.getMsg())) {
                 showSimpleMessagePopup(resprotocol.getMsg());
@@ -177,7 +202,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
     /**
      * 현재 시간을 기준으로 View Type 셋팅
      */
-    private void setType(){
+    private void setCurDate(){
         KumaLog.d("++++++++++++ setType ++++++++++++++");
         long now = System.currentTimeMillis();
 
@@ -190,8 +215,8 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         mStrMonth = curMonthFormat.format(date);
         final SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
         mStrDay = curDayFormat.format(date);
-        setViewType(mStrYear, mStrMonth, mStrDay);
     }
+
 
     private void setViewType(String strYear, String strMonth, String  strDate){
         KumaLog.d(" setViewType >> " + mStrYear+ "  " + mStrMonth);
@@ -285,9 +310,6 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
             ScheduleListDayDTO data = new ScheduleListDayDTO();
             data.setYear(strYear);
             data.setMonth( strMonth );
-            data.setnCompanyCnt( "" + i);
-            data.setnMoveCnt( "" +  ( i + 1 ) );
-            data.setnInvalbCnt( "" +  ( i + 2 ) );
             String strDay = "";
             if( i < 10 )  {
                 strDay =  "0" + i;
@@ -298,6 +320,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
             String strDetailDate = strYear+ strMonth + strDay;
             setDateScheduleInfo(data, strDetailDate);
             data.setDay( strDay );
+            data.setDayNum(dayNum);
             mArrScheduleListLowDTO.get(nLow).getmArrScheduleListDayDTO().add(data);
             if( dayNum == 7 ) {
                 nLow ++;
@@ -311,24 +334,22 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         for( ScheduleInfo info : mArrScheduleInfoListDTO ) {
             String startDate = info.startDate.replaceAll("-", "");
             String endDate = info.endDate.replaceAll("-", "");
-            KumaLog.line();
-            KumaLog.d(" startDate : " + startDate);
-            KumaLog.d(" endDate : " + endDate);
-            KumaLog.d(" curDate : " + strDate);
-            KumaLog.d(" serialNo : " + info.serialNo);
-
             try {
                 if (Integer.parseInt(startDate) <= Integer.parseInt(strDate)
                         && Integer.parseInt(endDate) >= Integer.parseInt(strDate)) {
-                    KumaLog.d(" Integer.parseInt(startDate) <= Integer.parseInt(strDate)\n" +
-                            "                        && Integer.parseInt(endDate) >= Integer.parseInt(strDate) : " + info.serialNo);
+                    KumaLog.line();
+                    KumaLog.d(" startDate : " + startDate);
+                    KumaLog.d(" endDate : " + endDate);
+                    KumaLog.d(" curDate : " + strDate);
+                    KumaLog.d(" serialNo : " + info.serialNo);
+                    KumaLog.line();
                     data.setScheduleInfoList(info);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            KumaLog.line();
+
         }
 //        mArrScheduleInfoListDTO
     }
@@ -425,7 +446,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
 
         KumaLog.d(" mStrYear >> " + mStrYear+ " mStrMonth >> " + mStrMonth);
 
-        setViewType(mStrYear, mStrMonth, mStrDay);
+        reqDeviceScheduleList();
     }
 
     private void nextMonth(){
@@ -441,7 +462,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
 
         KumaLog.d(" mStrYear >> " + mStrYear+ " mStrMonth >> " + mStrMonth);
 
-        setViewType(mStrYear, mStrMonth, mStrDay);
+        reqDeviceScheduleList();
     }
 
     private void setNewDate(Calendar cal){
@@ -469,6 +490,5 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
             default:
                 break;
         }
-
     }
 }
