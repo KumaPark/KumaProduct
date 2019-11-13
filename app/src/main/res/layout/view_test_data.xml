@@ -36,12 +36,15 @@
         <TextView
             android:id="@+id/tv_office_cnt"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="1dp"
+            android:textStyle="bold"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
+            android:textColor="#ffffff"
             android:text="1"
-            android:textSize="9dp" />
+            android:textSize="10dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -49,12 +52,14 @@
         <TextView
             android:id="@+id/tv_invalb_cnt"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="1dp"
+            android:textStyle="bold"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
             android:text=""
-            android:textSize="8dp" />
+            android:textSize="10dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -62,24 +67,28 @@
         <TextView
             android:id="@+id/tv_move_cnt"
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="1dp"
+            android:textStyle="bold"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
             android:text=""
-            android:textSize="9dp" />
+            android:textSize="10dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:visibility="gone"
             android:background="#00a6a6a6" />
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="12dp"
+            android:layout_height="20dp"
             android:gravity="center"
             android:singleLine="true"
             android:ellipsize="end"
+            android:visibility="gone"
             android:text=""
-            android:textSize="8dp" />
+            android:textSize="10dp" />
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"

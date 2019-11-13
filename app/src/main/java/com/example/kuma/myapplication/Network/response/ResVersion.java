@@ -49,6 +49,7 @@ public class ResVersion extends ResponseProtocol{
         if( forceUpdate.equals("0")) {
             return false;
         } else {
+            // 강제 업데이트
             return true;
         }
     }

@@ -18,9 +18,13 @@ import android.widget.RelativeLayout;
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
+import com.example.kuma.myapplication.Network.request.ReqAgencyList;
+import com.example.kuma.myapplication.Network.request.ReqDestinationList;
 import com.example.kuma.myapplication.Network.request.ReqDeviceInfo;
 import com.example.kuma.myapplication.Network.request.ReqMainDeviceList;
 import com.example.kuma.myapplication.Network.request.ReqSummaryDevice;
+import com.example.kuma.myapplication.Network.response.ResAgencyList;
+import com.example.kuma.myapplication.Network.response.ResDestinationList;
 import com.example.kuma.myapplication.Network.response.ResDeviceInfo;
 import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
 import com.example.kuma.myapplication.Network.response.ResSummaryDevice;
@@ -45,6 +49,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private final static int TAG_REQ_EMPLOY_LIST = 101;
     private final static int TAG_REQ_DEVICE_INFO = 102;
     private final static int TAG_REQ_SUMMARY_DEVICE = 103;
+
+    private final static int TAG_REQ_DESTINATION_LIST = 104;
+    private final static int TAG_REQ_AGENCY_LIST = 105;
 
     private final static int DLG_BARCODE = 201;
 
@@ -115,6 +122,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             @Override
             public void run() {
                 reqDataList();
+                reqDestinationList();
+                reqAgencyList();
             }
         }, 100);
 
@@ -123,6 +132,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
         findViewById(R.id.ll_regist).setOnClickListener(this);
         findViewById(R.id.ll_equipment).setOnClickListener(this);
+        findViewById(R.id.ll_employ_schedule).setOnClickListener(this);
 
     }
 
@@ -156,6 +166,76 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     }
 
+    /**
+     * 목적지 조회
+     */
+    private void reqDestinationList() {
+        try {
+            ReqDestinationList reqDestinationList = new ReqDestinationList(this);
+
+            reqDestinationList.setTag(TAG_REQ_DESTINATION_LIST);
+            requestProtocol(true, reqDestinationList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 목적지 조회
+     */
+    private void resDestinationList(ResDestinationList resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resDestinationList  ++++++++++++++");
+            Constance.mArrDestinationList.clear();
+            Constance.mArrDestinationList.addAll(resprotocol.getmArrDropBoaxCommonDTO());
+
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
+
+    /**
+     * 본사 및 대리점명 조회
+     */
+    private void reqAgencyList() {
+        try {
+            ReqAgencyList reqAgencyList = new ReqAgencyList(this);
+
+            reqAgencyList.setTag(TAG_REQ_AGENCY_LIST);
+            requestProtocol(true, reqAgencyList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 본사 및 대리점명 조회
+     */
+    private void resAgencyList(ResAgencyList resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resAgencyList  ++++++++++++++");
+            Constance.mArrAgencyList.clear();
+            Constance.mArrAgencyList.addAll(resprotocol.getmArrDropBoaxCommonDTO());
+
+            KumaLog.i("+++ ResAgencyList Constance.mArrAgencyList.size()  " + Constance.mArrAgencyList.size());
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
+
+
+
+
     private void setSummaryDEviceInfoUI(){
 //        m_DataProduct = resprotocol.getProductSummaryInfo();
 //        m_Datarobe = resprotocol.getProbeSummaryInfo();
@@ -167,12 +247,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void reqDataList()
     {
         try {
-            ReqMainDeviceList reqMainDeviceList = new ReqMainDeviceList(this);
+            ReqAgencyList reqAgencyList = new ReqAgencyList(this);
 
-            reqMainDeviceList.setTag(TAG_REQ_DEVICE_LIST);
-            reqMainDeviceList.setUserId("");
-            reqMainDeviceList.setPassword("" );
-            requestProtocol(true, reqMainDeviceList);
+            reqAgencyList.setTag(TAG_REQ_DEVICE_LIST);
+            requestProtocol(true, reqAgencyList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -183,15 +261,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void resDataList(ResMainDeviceList resprotocol)
     {
         KumaLog.d("++++++++++++resDataList++++++++++++++");
-        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
-            setMainListUI(resprotocol.getListData());
-        }  else {
-            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
-                showSimpleMessagePopup(resprotocol.getMsg());
-            } else {
-                showSimpleMessagePopup();
-            }
-        }
+//        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+//            setMainListUI(resprotocol.getListData());
+//        }  else {
+//            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+//                showSimpleMessagePopup(resprotocol.getMsg());
+//            } else {
+//                showSimpleMessagePopup();
+//            }
+//        }
     }
     /**
      * 장비 상세 요청
@@ -287,7 +365,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         KumaLog.d("onResume >>> ");
         if( onPauseState ) {
             onPauseState = false;
-            reqDataList();
+//            reqDataList();
         }
     }
 
@@ -328,7 +406,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case TAG_REQ_SUMMARY_DEVICE:
                 resSummaryDeviceInfo((ResSummaryDevice)resProtocol);
                 break;
-
+            case TAG_REQ_DESTINATION_LIST : {
+                resDestinationList((ResDestinationList)resProtocol);
+                break;
+            }
+            case TAG_REQ_AGENCY_LIST : {
+                resAgencyList((ResAgencyList)resProtocol);
+                break;
+            }
             default:
                 break;
         }
@@ -369,9 +454,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             case R.id.ll_equipment:
                 move2OtherActivity(DeviceConditionActivity.class);
                 break;
-//            case R.id.btn_employ:
-//                move2OtherActivity(DeviceDetailConditionActivity.class);
-//                break;
+            case R.id.ll_employ_schedule:
+                move2OtherActivity(AppsScheduleActivity.class);
+                break;
             default:
                 break;
         }

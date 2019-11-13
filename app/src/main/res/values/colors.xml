@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="app_blue">#045CB1</color>
+
     <color name="fabPrimary">#FF9436</color>
     <color name="fabPressed">#6EB5F7</color>
     <color name="fabRipple">#AED6FC</color>

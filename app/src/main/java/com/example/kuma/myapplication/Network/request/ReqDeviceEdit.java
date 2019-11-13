@@ -16,16 +16,14 @@ public class ReqDeviceEdit extends RequestJSON
 {
 
     private int m_nTag;
-    //	시리얼번호
-    private String serialNo = "";
-    //	장비모델
-    private String productCode = "";
-    //	제조년
-    private String makeYear = "";
-    //	OS버젼
-    private String version = "";
-    //	비고
-    private String message = "";
+    //	고유번호
+    private String pk = "";
+    //	모델번호
+    private String modelPk = "";
+    //	제조일 (장비인경우 : YYYY-MM-DD 형식, 그외 : YYYY형식)
+    private String makeDate = "";
+    //	OS버젼 (장비인 경우에만 해당)
+    private String osPk = "";
 
     private StringBuffer m_sbParameter;
 
@@ -53,24 +51,20 @@ public class ReqDeviceEdit extends RequestJSON
         m_nTag = nTag;
     }
 
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo;
+    public void setPk(String pk) {
+        this.pk = pk;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
+    public void setModelPk(String modelPk) {
+        this.modelPk = modelPk;
     }
 
-    public void setMakeYear(String makeYear) {
-        this.makeYear = makeYear;
+    public void setMakeDate(String makeDate) {
+        this.makeDate = makeDate;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
+    public void setOsPk(String osPk) {
+        this.osPk = osPk;
     }
 
     @Override
@@ -83,11 +77,10 @@ public class ReqDeviceEdit extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
-        m_sbParameter.append("productCode").append("=").append(productCode).append("&");
-        m_sbParameter.append("makeYear").append("=").append(makeYear).append("&");
-        m_sbParameter.append("version").append("=").append(version).append("&");
-        m_sbParameter.append("message").append("=").append(message).append("&");
+        m_sbParameter.append("pk").append("=").append(pk).append("&");
+        m_sbParameter.append("modelPk").append("=").append(modelPk).append("&");
+        m_sbParameter.append("makeDate").append("=").append(makeDate).append("&");
+        m_sbParameter.append("osPk").append("=").append(osPk).append("&");
         m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;

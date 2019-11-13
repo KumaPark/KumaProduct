@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_product_dlg_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#77222222"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_pop"
+        android:layout_width="280dp"
+        android:layout_height="390dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/back_schedue_popup"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
+            android:paddingTop="5dp"
+            android:orientation="vertical" >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                >
+
+                <ImageView
+                    android:layout_width="63dp"
+                    android:layout_height="33dp"
+                    android:background="@drawable/pop_logo"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    />
+                <TextView
+                    android:id="@+id/tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:layout_centerHorizontal="true"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#dcdcdc"
+                    android:layout_alignParentBottom="true"
+                    />
+            </RelativeLayout>
+            <ListView
+                android:id="@+id/lv_common_list"
+                android:layout_width="match_parent"
+                android:background="#ffffff"
+                android:dividerHeight="0px"
+                android:divider="#ffffff"
+                android:layout_height="match_parent"></ListView>
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

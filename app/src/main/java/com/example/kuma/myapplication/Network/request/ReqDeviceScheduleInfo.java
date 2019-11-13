@@ -18,7 +18,7 @@ public class ReqDeviceScheduleInfo extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
-    private String serialNo = "";
+    private String pk = "";
 
     private Context mContext;
 
@@ -27,8 +27,8 @@ public class ReqDeviceScheduleInfo extends RequestJSON
         mContext = context;
     }
 
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo;
+    public void setPk(String serialNo) {
+        this.pk = serialNo;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ReqDeviceScheduleInfo extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("pk").append("=").append(pk).append("&");
         m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;

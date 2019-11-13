@@ -140,18 +140,18 @@ public class DeviceConditionScheduleAdapter extends BaseAdapter {
         } else {
             if( data.dayNum ==  1 ) {
                 ((TextView) llDateData.findViewById(R.id.tv_date)).setTextColor(Color.parseColor("#FF0000"));
-                for( int i= 0;  i < mArrTv.length; i++)  {
-                    setBlankDate(mArrTv[i]);
-                }
+//                for( int i= 0;  i < mArrTv.length; i++)  {
+//                    setBlankDate(mArrTv[i]);
+//                }
             } else if( data.dayNum ==  7 ) {
                 ((TextView) llDateData.findViewById(R.id.tv_date)).setTextColor(Color.parseColor("#489CFF"));
-                for( int i= 0;  i < mArrTv.length; i++)  {
-                    setBlankDate(mArrTv[i]);
-                }
+//                for( int i= 0;  i < mArrTv.length; i++)  {
+//                    setBlankDate(mArrTv[i]);
+//                }
             } else {
-                setStateData(mArrTv, data);
+//                setStateData(mArrTv, data);
             }
-
+            setStateData(mArrTv, data);
             ((TextView) llDateData.findViewById(R.id.tv_date)).setText(data.diplayDay);
 
         }
@@ -178,8 +178,9 @@ public class DeviceConditionScheduleAdapter extends BaseAdapter {
 
         for( int i= 0;  i < mArrTv.length; i++)  {
             if(  i < data.getScheduleInfoList().size() ){
-                mArrTv[i].setText(data.getScheduleInfoList().get(i).productName);
-                mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).productColor));
+                mArrTv[i].setText(data.getScheduleInfoList().get(i).title);
+                mArrTv[i].setTextColor(Color.parseColor("#ffffff"));
+                mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).color));
             } else {
                 setBlankDate(mArrTv[i]);
             }

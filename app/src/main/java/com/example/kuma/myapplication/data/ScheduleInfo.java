@@ -8,58 +8,90 @@ import java.io.Serializable;
  */
 
 public class ScheduleInfo implements Serializable {
-        public String pk = "";
-        public String productCode = "";
-        public String serialNo = "";
-        public String startDate = "";//2018-01-31
-        public String endDate = "";
-    public String deliver = "";
-    public String receiver = "";
-    public String hospital = "";
+    public String id = "";
+    public String start = "";
+    public String end = "";
+    public String description = "";
+    public String memberPk = "";
+    public String memberName = "";
+    public String title = "";
+    public String color = "";
+
+//    id : 스케쥴 고유번호
+//  - start : 시작일
+//  - end : 종료일
+//  - title : 데모명
+//  - description : 비고
+
+    public int pk = -1;
+    public String kind = "";
+    public String state = "";
+    public String productPk = "";
+    public String startDate = "";
+    public String endDate = "";
+    public int destinationPk = -1;
+    public int agencyPk = -1;
+    public int receiver = -1;
     public String message = "";
-    public String insertTime = "";
-    public String updateTime = "";
-    public String productName = "";
-    public String productColor = "";
+    public String serialNo = "";
 
-    public String getProductCode() {
-        return productCode;
+//    - pk : 데모고유번호
+//  - kind : 종류
+//  - state : 상태
+//  - productPk : 제품고유번호
+//  - startDate : 시작일
+//  - endDate : 종료일
+//  - agencyPk : 수신자 대리점번호(0 : 본사)
+//  - receiver : 수신자고유번호
+//  - message : 비고
+
+
+    public int getDestinationPk() {
+        return destinationPk;
     }
 
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    public String getPk() {
-        return pk;
-    }
-
-    public void setPk(String pk) {
-        this.pk = pk;
+    public void setDestinationPk(int destinationPk) {
+        this.destinationPk = destinationPk;
     }
 
     public String getSerialNo() {
         return serialNo;
     }
 
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductColor() {
-        return productColor;
-    }
-
-    public void setProductColor(String productColor) {
-        this.productColor = productColor;
-    }
-
     public void setSerialNo(String serialNo) {
         this.serialNo = serialNo;
+    }
+
+    public int getPk() {
+        return pk;
+    }
+
+    public void setPk(int pk) {
+        this.pk = pk;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getProductPk() {
+        return productPk;
+    }
+
+    public void setProductPk(String productPk) {
+        this.productPk = productPk;
     }
 
     public String getStartDate() {
@@ -78,28 +110,20 @@ public class ScheduleInfo implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getDeliver() {
-        return deliver;
+    public int getAgencyPk() {
+        return agencyPk;
     }
 
-    public void setDeliver(String deliver) {
-        this.deliver = deliver;
+    public void setAgencyPk(int agencyPk) {
+        this.agencyPk = agencyPk;
     }
 
-    public String getReceiver() {
+    public int getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(String receiver) {
+    public void setReceiver(int receiver) {
         this.receiver = receiver;
-    }
-
-    public String getHospital() {
-        return hospital;
-    }
-
-    public void setHospital(String hospital) {
-        this.hospital = hospital;
     }
 
     public String getMessage() {
@@ -110,19 +134,68 @@ public class ScheduleInfo implements Serializable {
         this.message = message;
     }
 
-    public String getInsertTime() {
-        return insertTime;
+
+    public String getId() {
+        return id;
     }
 
-    public void setInsertTime(String insertTime) {
-        this.insertTime = insertTime;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getUpdateTime() {
-        return updateTime;
+    public String getStart() {
+        return start;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = updateTime;
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getMemberPk() {
+        return memberPk;
+    }
+
+    public void setMemberPk(String memberPk) {
+        this.memberPk = memberPk;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

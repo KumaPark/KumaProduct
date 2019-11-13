@@ -11,12 +11,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.example.kuma.myapplication.Constance.Constance;
+import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.ProtocolListener;
+import com.example.kuma.myapplication.Network.request.ReqLogOut;
+import com.example.kuma.myapplication.Network.request.ReqVersion;
 import com.example.kuma.myapplication.Network.request.RequestJSON;
+import com.example.kuma.myapplication.Network.response.CommonResponse;
+import com.example.kuma.myapplication.Network.response.ResVersion;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.example.kuma.myapplication.Utils.DeviceUtils;
 import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.Utils.NetUtility;
 import com.example.kuma.myapplication.ui.dialog.CommonDialog;
@@ -88,6 +96,11 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     protected void onRestart() {
         // TODO Auto-generated method stub
         super.onRestart();
@@ -133,8 +146,8 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
             public void onDialogResult(int nTag, int nResult, Dialog dialog) {
                 // TODO Auto-generated method stub
                 if (nResult == CommonDialog.RESULT_OK) {
-                    finish();
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    reqLogOut();
+
                 }
             }
         });
@@ -142,6 +155,37 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
         patternSaveDlg.show();
     }
 
+    /**
+     * 로그아웃
+     */
+    private void reqLogOut()
+    {
+        try {
+            ReqLogOut reqLogOut = new ReqLogOut(this);
+
+            reqLogOut.setTag(22221);
+            requestProtocol(true, reqLogOut);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 버젼조회 결과
+     */
+    private void resLogOut(CommonResponse resprotocol)
+    {
+        KumaLog.d("++++++++++++resVersion++++++++++++++");
+        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
+        }  else {
+            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
     private static boolean m_bAppBackGroundState = false;
     @Override
     protected void onPause() {
@@ -438,6 +482,8 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
 //            resResetUserInfo((ResResetUserInfo) resProtocol);
         } else if(  nTag == REQ_ID_JOB_NOTICE ){
 //            resJobNotice((ResJobNotice)resProtocol);
+        }  else if(  nTag == 22221 ){
+            resLogOut((CommonResponse) resProtocol);
         } else {
             onResponseProtocol(nTag, resProtocol);
         }

@@ -21,11 +21,17 @@ public class ReqDeviceScheduleList extends RequestJSON
 
     private Context mContext;
 
+    private String month = "";
+
+
+
     public ReqDeviceScheduleList(Context context)
     {
         mContext = context;
     }
-
+    public void setMonth(String month) {
+        this.month = month;
+    }
     @Override
     protected ResponseProtocol createResponseProtocol()
     {
@@ -53,7 +59,8 @@ public class ReqDeviceScheduleList extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
+        m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext)).append("&");
+        m_sbParameter.append("month").append("=").append(month);
         return m_sbParameter;
     }
 }

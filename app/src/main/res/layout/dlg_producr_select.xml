@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_product_dlg_bg"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:background="@color/color_white"
+    android:background="#77222222"
+    >
+    <RelativeLayout
+        android:id="@+id/rl_pop"
+        android:layout_width="280dp"
+        android:layout_height="390dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/back_schedue_popup"
         android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginBottom="2dp"
             android:layout_marginLeft="6dp"
             android:layout_marginRight="6dp"
@@ -27,16 +28,19 @@
                 >
 
                 <ImageView
-                    android:layout_width="43dp"
-                    android:layout_height="23dp"
+                    android:layout_width="63dp"
+                    android:layout_height="33dp"
                     android:background="@drawable/pop_logo"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     />
                 <TextView
+                    android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:layout_weight="1"
                     android:text="장비 선택"
+                    android:textSize="16dp"
                     android:gravity="center"
                     android:textColor="#000000"
                     android:layout_centerHorizontal="true"
@@ -54,7 +58,29 @@
                 android:background="#ffffff"
                 android:dividerHeight="0px"
                 android:divider="#ffffff"
-                android:layout_height="200dp"></ListView>
+                android:layout_height="match_parent"></ListView>
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/iv_schedule_plus_dlg"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="170dp"
+        android:layout_marginRight="70dp"
+        />
+
+        <ImageView
+            android:id="@+id/iv_schedule_plus_from"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/plus"
+            android:visibility="invisible"
+            />
+</RelativeLayout>

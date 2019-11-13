@@ -8,6 +8,9 @@
     android:fitsSystemWindows="true">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
         android:id="@+id/rl_toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -28,7 +31,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:text="장비 스케줄"
-            android:textSize="20dp" />
+            android:textSize="18dp" />
 
         <ImageView
             android:id="@+id/iv_filter"
@@ -116,5 +119,24 @@
             android:divider="#00000000"
             />
         </LinearLayout>
+    </RelativeLayout>
+
+        <include
+            android:id="@+id/v_product_select"
+            layout="@layout/dlg_producr_select"
+            android:visibility="invisible"
+            />
+
+        <ImageView
+            android:id="@+id/iv_schedule_plus"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/plus"
+            />
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

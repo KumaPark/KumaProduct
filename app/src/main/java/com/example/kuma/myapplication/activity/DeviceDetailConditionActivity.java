@@ -186,7 +186,7 @@ public class DeviceDetailConditionActivity extends BaseActivity {
                 mRecyclerView.setAdapter(mDeviceScheduleListAdapter);
             }
             for( int i = 0; i < resprotocol.getListData().size(); i++ ) {
-                String key = resprotocol.getListData().get(i).getSerialNo();
+                String key = resprotocol.getListData().get(i).getId();
                 mDataset.put(key, resprotocol.getListData().get(i));
             }
 
@@ -275,8 +275,8 @@ public class DeviceDetailConditionActivity extends BaseActivity {
                 ScheduleInfo value = (ScheduleInfo)mDataset.get(key);
                 ScheduleListDTO infoDevice  = new ScheduleListDTO();
                 infoDevice.setViewType(DeviceScheduleListAdapter.VIEW_TYPE_DEVICE);
-                infoDevice.setDeviceName(value.getProductCode());
-                infoDevice.setSerialNo(value.getSerialNo());
+//                infoDevice.setDeviceName(value.getProductCode());
+//                infoDevice.setSerialNo(value.getSerialNo());
                 mArrScheduleListDTO.add(infoDevice);
             }
         }

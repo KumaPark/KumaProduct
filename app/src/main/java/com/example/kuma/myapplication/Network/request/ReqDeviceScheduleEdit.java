@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.response.CommonResponse;
-import com.example.kuma.myapplication.Network.response.ResDeviceScheduleInfo;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.Utils.DeviceUtils;
 
@@ -19,19 +18,20 @@ public class ReqDeviceScheduleEdit extends RequestJSON
 
     private StringBuffer m_sbParameter;
 
-    //시리얼번호
-    private String serialNo = "";
-    //제품상태
-    private String state = "";
-    //병원명
-    private String hostpital = "";
+    //데모고유번호
+    private String pk = "";
+
+    // 목적지 고유번호
+    private String destinationPk = "";
     //데모시작일
     private String startDate = "";
     //데모종료일
     private String endDate = "";
-    //배달자
-    private String deliver = "";
-    //수령자
+    //데모명
+    private String title = "";
+    //수산자 구분(본사 및 대리점고유번호)
+    private String receiverAgencyPk = "";
+    //수신자 (회원고유번호)
     private String receiver = "";
     //비고
     private String message = "";
@@ -43,16 +43,12 @@ public class ReqDeviceScheduleEdit extends RequestJSON
         mContext = context;
     }
 
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo;
+    public void setPk(String pk) {
+        this.pk = pk;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setHostpital(String hostpital) {
-        this.hostpital = hostpital;
+    public void setDestinationPk(String destinationPk) {
+        this.destinationPk = destinationPk;
     }
 
     public void setStartDate(String startDate) {
@@ -63,8 +59,12 @@ public class ReqDeviceScheduleEdit extends RequestJSON
         this.endDate = endDate;
     }
 
-    public void setDeliver(String deliver) {
-        this.deliver = deliver;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setReceiverAgencyPk(String receiverAgencyPk) {
+        this.receiverAgencyPk = receiverAgencyPk;
     }
 
     public void setReceiver(String receiver) {
@@ -102,14 +102,14 @@ public class ReqDeviceScheduleEdit extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("hostpital").append("=").append(hostpital).append("&");
-        m_sbParameter.append("state").append("=").append(state).append("&");
+        m_sbParameter.append("pk").append("=").append(pk).append("&");
+        m_sbParameter.append("destinationPk").append("=").append(destinationPk).append("&");
         m_sbParameter.append("startDate").append("=").append(startDate).append("&");
         m_sbParameter.append("endDate").append("=").append(endDate).append("&");
-        m_sbParameter.append("deliver").append("=").append(deliver).append("&");
-        m_sbParameter.append("receiver").append("=").append(receiver).append("&");
+        m_sbParameter.append("title").append("=").append(title).append("&");
+        m_sbParameter.append("receiverAgencyPk").append("=").append(receiverAgencyPk).append("&");
         m_sbParameter.append("message").append("=").append(message).append("&");
-        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("receiver").append("=").append(receiver).append("&");
         m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;

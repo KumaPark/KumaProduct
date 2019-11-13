@@ -14,18 +14,23 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.BuildConfig;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.request.ReqLogin;
+import com.example.kuma.myapplication.Network.request.ReqStateCheck;
 import com.example.kuma.myapplication.Network.request.ReqVersion;
 import com.example.kuma.myapplication.Network.response.ResLogin;
+import com.example.kuma.myapplication.Network.response.ResStateCheck;
 import com.example.kuma.myapplication.Network.response.ResVersion;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
@@ -35,6 +40,7 @@ import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
 import com.example.kuma.myapplication.ui.dialog.CommonDialog;
 import com.example.kuma.myapplication.ui.dialog.IDialogListener;
+import com.journeyapps.barcodescanner.Util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -47,8 +53,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -58,6 +66,7 @@ import java.util.Locale;
 public class IntroActivity extends BaseActivity {
 
     private final static int TAG_VERSION = 100;
+    private final static int TAG_STATE_CHECK = 101;
 
     private final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 1000;
     private File outputFile; //파일명까지 포함한 경로
@@ -70,20 +79,34 @@ public class IntroActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        getPermision();
-    }
-
-    private void getPermision() {
-        // Activity에서 실행하는경우
-        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                ) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE },
-                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        if (Build.VERSION.SDK_INT >= 23) { // 안드로이드 6.0 이상일 경우 퍼미션 체크
+            getPermision();
         } else {
             reqVersion();
         }
     }
+
+
+    private void showToast_PermissionDeny() {
+        Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+    private void getPermision() {
+        // Activity에서 실행하는경우
+        if ( ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,  Manifest.permission.READ_PHONE_STATE},
+                    MY_PERMISSIONS_REQUEST_READ_CONTACTS);
+        } else {
+//            gotoLogin();
+            reqVersion();
+        }
+    }
+    private static final int MULTIPLE_PERMISSIONS = 101;
+
 
     private void gotoLogin(){
 //        getDownloadApk();
@@ -121,7 +144,58 @@ public class IntroActivity extends BaseActivity {
                         showAlterDialog(false, "보다 안정적이고 편리한 서비스 이용을 위해 앱을 최신버전으로 업데이트 해주세요.");
                     }
             } else {
-                gotoLogin();
+                reqStateCheck();
+            }
+        }  else {
+            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
+
+    /**
+     * 상태체크
+     */
+    private void reqStateCheck()
+    {
+        try {
+            ReqStateCheck reqStateCheck = new ReqStateCheck();
+
+            reqStateCheck.setTag(TAG_STATE_CHECK);
+            reqStateCheck.setMacAddr(DeviceUtils.getImei(this));
+            requestProtocol(true, reqStateCheck);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 상태체크 결과
+     */
+    private void resStateCheck(ResStateCheck resprotocol)
+    {
+        KumaLog.d("++++++++++++resStateCheck++++++++++++++");
+        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+//            registed : 등록여부 ex) 1 : 정상등록 됨 , 0 : 미등록 (등록요청중인상태)
+//            actived : 활동여부 (90일) ex) 1 : 정상적인 활동, 0 : 90일이상 활동이 없음
+//            pwChanged : 비밀번호변경여부 (90일) ex) 1 : 비밀번호 정상변경, 0 : 90일이상 변경이 없음
+            KumaLog.d(" resprotocol.getRegisted() : " + resprotocol.getRegisted() );
+            KumaLog.d(" resprotocol.getActived() : " + resprotocol.getActived() );
+            KumaLog.d(" resprotocol.getPwChanged() : " + resprotocol.getPwChanged() );
+            if( resprotocol.getRegisted() == 1 )  {
+                if( resprotocol.getActived() == 1)  {
+                    if( resprotocol.getPwChanged() == 1)  {
+                        gotoLogin();
+                    } else {
+                        showSimpleMessagePopup("90일 이상 비밀번호 변경이 없어 변경이 필요합니다.");
+                    }
+                } else {
+                    showSimpleMessagePopup("90일 이상 활동이 없는 관계로 휴면계정이 되었습니다. 관리자에게 문의 부탁드립니다.");
+                }
+            } else {
+                move2OtherActivity(UserRegistActivity.class, true);
+                // 사용자 등록 화면 이동
             }
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {
@@ -336,6 +410,8 @@ public class IntroActivity extends BaseActivity {
             case TAG_VERSION:
                 resVersion((ResVersion)resProtocol);
                 break;
+            case TAG_STATE_CHECK:
+                resStateCheck((ResStateCheck)resProtocol);
                 default:
                     break;
         }
@@ -344,15 +420,69 @@ public class IntroActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        boolean bGrantState = true;
+
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_READ_CONTACTS:
 
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    reqVersion();
-                } else {
-                    // 권한 거부
-                    // 사용자가 해당권한을 거부했을때 해주어야 할 동작을 수행합니다
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    reqVersion();
+//                } else {
+//                    // 권한 거부
+//                    // 사용자가 해당권한을 거부했을때 해주어야 할 동작을 수행합니다
+//                }
+                if ( grantResults.length > 0 ) {
+                    for(int i = 0; i < grantResults.length; i++ ) {
+
+                        if( grantResults[i] == PackageManager.PERMISSION_GRANTED ) {
+                            Log.d("test", "permissions " + permissions[i] + " true" );
+                            bGrantState = true;
+                        } else {
+                            Log.d("test", "permissions " + permissions[i] + " false" );
+                            bGrantState = false;
+                            break;
+                        }
+                    }
+
+                    if( bGrantState ) {
+                        reqVersion();
+                    } else {
+                        CommonDialog dialog = new CommonDialog(this);
+                        dialog.setType(CommonDialog.DLG_TYPE_YES_NO);
+                        dialog.setDialogListener(1, new IDialogListener() {
+
+                            @Override
+                            public void onDialogResult(int nTag, int nResult, Dialog dialog) {
+                                // TODO Auto-generated method stub
+
+                                if( nResult == CommonDialog.RESULT_OK) {
+                                    Intent i = new Intent();
+                                    i.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    i.addCategory(Intent.CATEGORY_DEFAULT);
+                                    i.setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+                                    startActivity(i);
+                                    finish();
+                                } else {
+                                    finish();
+                                }
+
+                            }
+                        });
+                        dialog.setCancelable(false);
+                        dialog.setMessage("안드로이드 6.0이상에서는 권한승일을 하셔야 원할하게 이용이 가능합니다. 권한을 설정 하시겠습니까?");
+                    }
+
+                }
+                else {
+                    /*
+                     * 권한 획득 실패
+                     * 대안을 찾거나 기능의 수행을 중지한다.
+                     */
+                    Log.d("RESULT", "권한 획득 실패");
                 }
                 return;
         }

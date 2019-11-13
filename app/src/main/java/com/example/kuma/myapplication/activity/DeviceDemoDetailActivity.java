@@ -5,26 +5,40 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.kuma.myapplication.BaseActivity;
 import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
+import com.example.kuma.myapplication.Network.request.ReqAgencyMemberList;
 import com.example.kuma.myapplication.Network.request.ReqDeviceScheduleEdit;
+import com.example.kuma.myapplication.Network.request.ReqDeviceScheduleInfo;
+import com.example.kuma.myapplication.Network.request.ReqDeviceStateEdit;
 import com.example.kuma.myapplication.Network.response.CommonResponse;
+import com.example.kuma.myapplication.Network.response.ResAgencyMemberList;
+import com.example.kuma.myapplication.Network.response.ResDeviceScheduleInfo;
 import com.example.kuma.myapplication.Network.response.ResponseProtocol;
 import com.example.kuma.myapplication.R;
 import com.example.kuma.myapplication.Utils.KumaLog;
+import com.example.kuma.myapplication.data.DropBoaxCommonDTO;
 import com.example.kuma.myapplication.data.ScheduleInfo;
 import com.example.kuma.myapplication.ui.dialog.CommonDialog;
+import com.example.kuma.myapplication.ui.dialog.DropBoxCommonDialog;
+import com.example.kuma.myapplication.ui.dialog.IDialogListener;
+
+import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -32,33 +46,65 @@ import com.example.kuma.myapplication.ui.dialog.CommonDialog;
  */
 
 public class DeviceDemoDetailActivity extends BaseActivity implements View.OnClickListener{
+    private final static int TAG_START_DATE = 100;
+    private final static int TAG_END_DATE = 101;
+
+    private final static int TAG_REQ_DEVICE_INFO = 1000;
     private final static int TAG_REQ_DEVICE_EDIT = 1001;
+
+    private final static int TAG_REQ_DESTINATION_LIST = 1003;
+    private final static int TAG_REQ_AGENCY_LIST = 1004;
+    private final static int TAG_REQ_AGENCY_MEMBER_LIST = 1005;
+
+    private final static int TAG_REQ_DEVICE_STATE_EDIT = 1006;
 
     private final static int DLG_DEVICE_EDIT_REQ = 2001;
     private final static int DLG_DEVICE_RESULT = 2002;
 
-    private final static int DATEPICK_START = 3001;
-    private final static int DATEPICK_END = 3002;
+    private int nStartYear = 0;
+    private int nStartMonth = 0;
+    private int nStartDay = 0;
 
-    private int DATEPICK_STATE = DATEPICK_START;
+    private int nEndYear = 0;
+    private int nEndMonth = 0;
+    private int nEndDay = 0;
 
+    private String strReqStartDate = "";
+    private String strReqEndDate = "";
 
-    private EditText mEvModel;
-    private EditText mEvDeliver;
-    private EditText mEvReceiver;
-    private EditText mEvHospital;
-    private EditText mEvEtc;
+    private String strStartDate = "";
+    private String strEndDate = "";
 
     private TextView mTvStartDate;
     private TextView mTvEndDate;
-    private TextView mTvState;
 
-    private Button mBtnCancle;
-    private Button mBtnConfirm;
+    private TextView mTvProductSelect;
+
+    private RelativeLayout mRlProductSn;
+    private TextView mTvProductSn;
+
+    private  Button mBtnEdit;
+
+    private RelativeLayout mRlAgencySelect;
+    private TextView mTvAgencySelect;
+
+    private RelativeLayout mRlReciverSelect;
+    private TextView mTvReciverSelect;
+
+    private RelativeLayout mRlDestination;
+    private TextView mTvDestination;
+
+
+    private EditText mEvNote;
 
     private ScheduleInfo mScheduleInfo;
+    private ScheduleInfo mDeviceScheduleInfo;
 
-    private boolean  mBEditState = false;
+    private String mCurState = "";
+    private String mPreState = "";
+
+    private ArrayList<DropBoaxCommonDTO> mArrAgencyMemberList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,105 +114,208 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         mScheduleInfo   =  (ScheduleInfo)intent.getSerializableExtra("detailData");
 
         init();
-        mArrDeviceCode = getResources().getStringArray(R.array.arr_device_state_code);
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                reqDeviceScheduleInfo();
+            }
+        }, 100);
     }
 
+    private LinearLayout[] mLlStateLayout = new LinearLayout[5];
+    private TextView[] mTvStateText= new TextView[5];
+
     private void init(){
+        findViewById(R.id.iv_back ).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAppManager().removeActivity(DeviceDemoDetailActivity.this);
+                finish();
+            }
+        });
+
         View view = findViewById(R.id.view_device_demo_detail);
 
-        mEvModel = (EditText) view.findViewById(R.id.ev_model );
-        mTvStartDate = (TextView) view.findViewById(R.id.tv_startdate );
-        mTvEndDate = (TextView) view.findViewById(R.id.tv_enddate );
-        mEvDeliver = (EditText) view.findViewById(R.id.ev_deliver );
-        mEvReceiver = (EditText) view.findViewById(R.id.ev_receiver );
-        mEvHospital = (EditText) view.findViewById(R.id.ev_hospital );
-        mTvState = (TextView) view.findViewById(R.id.tv_state );
-        mEvEtc = (EditText) view.findViewById(R.id.ev_etc );
+        mTvStartDate = (TextView)view.findViewById(R.id.tv_start_date);
+        mTvEndDate = (TextView)view.findViewById(R.id.tv_end_date);
 
-        mBtnCancle = (Button) view.findViewById(R.id.btn_cancle );
-        mBtnConfirm = (Button) view.findViewById(R.id.btn_confirm );
 
-        mBtnConfirm.setOnClickListener(this);
-        mBtnCancle.setOnClickListener(this);
+        mTvProductSelect = (TextView)view.findViewById(R.id.tv_product_select);
 
-        mBtnConfirm.setText(getResources().getString(R.string.str_btn_edit));
+        mRlProductSn = (RelativeLayout)view.findViewById(R.id.rl_product_sn);
+        mTvProductSn = (TextView)view.findViewById(R.id.tv_product_sn);
 
-        mEvModel.setText(mScheduleInfo.getProductCode());
-        mTvStartDate.setText(mScheduleInfo.getStartDate());
-        mTvEndDate.setText(mScheduleInfo.getEndDate());
-        mEvDeliver.setText(mScheduleInfo.getDeliver());
-        mEvReceiver.setText(mScheduleInfo.getReceiver());
-        mEvHospital.setText(mScheduleInfo.getHospital());
-        mEvEtc.setText(mScheduleInfo.getMessage());
+//        mEvDeliver = (EditText) view.findViewById(R.id.ev_deliver );
 
-        changeEditState(false);
+        mRlAgencySelect = (RelativeLayout)view.findViewById(R.id.rl_agency_select);
+        mTvAgencySelect = (TextView)view.findViewById(R.id.tv_agency_select);
+
+        mRlReciverSelect = (RelativeLayout)view.findViewById(R.id.rl_reciver_name);
+        mTvReciverSelect = (TextView)view.findViewById(R.id.tv_reciver_name);
+
+        mRlDestination = (RelativeLayout)view.findViewById(R.id.rl_destination);
+        mTvDestination = (TextView)view.findViewById(R.id.tv_destination);
+        mEvNote = (EditText) view.findViewById(R.id.ev_note);
+
+        mEvNote.setEnabled(false);
+
+        mBtnEdit = (Button) view.findViewById(R.id.btn_confirm );
+
+        ((TextView)view.findViewById(R.id.tv_writer)).setText(Constance.USER_NAME);
+
+        int[] mLlStateLayoutID = {R.id.ll_state, R.id.ll_state_1, R.id.ll_state_2, R.id.ll_state_3, R.id.ll_state_4};
+        int[] mTvStateTextID = {R.id.tv_state, R.id.tv_state_1, R.id.tv_state_2, R.id.tv_state_3, R.id.tv_state_4};
+        for(int i = 0; i < mLlStateLayoutID.length; i++ ){
+            mLlStateLayout[i] = (LinearLayout) view.findViewById(mLlStateLayoutID[i] );
+            mTvStateText[i] = (TextView) view.findViewById(mTvStateTextID[i] );
+        }
+        mRlDestination.setOnClickListener(this);
+        mRlDestination.setClickable(false);
+
+        mBtnEdit.setOnClickListener(this);
+        mBtnEdit.setClickable(false);
+
+        mRlAgencySelect.setOnClickListener(this);
+        mRlAgencySelect.setClickable(false);
+
+        mRlReciverSelect.setOnClickListener(this);
+        mRlReciverSelect.setClickable(false);
+        if(Constance.USER_PERMISSION == 64) {
+            changeEditState(true);
+        }  else {
+            changeEditState(false);
+        }
+
+
+
+        for(int i = 0; i < mLlStateLayout.length; i++ ){
+            mTvStateText[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPreState = (String)v.getTag();
+
+                    Handler handler = new Handler();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            CommonDialog commonDia = new CommonDialog(DeviceDemoDetailActivity.this);
+                            commonDia.setType(CommonDialog.DLG_TYPE_YES_NO);
+                            commonDia.setDialogListener(1, new IDialogListener() {
+                                @Override
+                                public void onDialogResult(int nTag, int nResult, Dialog dialog) {
+                                    if( nResult ==  CommonDialog.RESULT_OK) {
+                                        reqDeviceStateEdit(mPreState, mScheduleInfo.getId());
+                                    }
+                                }
+                            });
+                            commonDia.setCancelable(false);
+                            commonDia.setMessage("장비 상태를 변경하시겠습니까?");
+                            commonDia.show();
+                        }
+                    });
+
+                }
+            });
+        }
+
+
+        findViewById(R.id.tv_start_date).setOnClickListener(this);
+        findViewById(R.id.tv_end_date).setOnClickListener(this);
+
     }
 
     private void changeEditState(boolean state) {
-        mEvModel.setEnabled(state);
+        KumaLog.line();
+        KumaLog.d(" changeEditState >>>>>>>>>>>>>>   state  >>>    " + state);
+//        mEvDeliver.setEnabled(state);
 
-        mEvDeliver.setEnabled(state);
-        mEvReceiver.setEnabled(state);
-        mEvHospital.setEnabled(state);
-        mEvEtc.setEnabled(state);
+        if( state ) {
+            mRlDestination.setClickable(true);
+            mRlDestination.setBackgroundResource(R.drawable.back_input);
 
-        if( !state ) {
-            mEvModel.setText(mScheduleInfo.getProductCode());
-            mTvStartDate.setText(mScheduleInfo.getStartDate());
-            mTvEndDate.setText(mScheduleInfo.getEndDate());
-            mEvDeliver.setText(mScheduleInfo.getDeliver());
-            mEvReceiver.setText(mScheduleInfo.getReceiver());
-            mEvHospital.setText(mScheduleInfo.getHospital());
-            mEvEtc.setText(mScheduleInfo.getMessage());
-            mTvState.setOnClickListener(null);
-            mTvStartDate.setOnClickListener(null);
-            mTvEndDate.setOnClickListener(null);
+            mRlAgencySelect.setClickable(true);
+            mRlAgencySelect.setBackgroundResource(R.drawable.back_input);
+
+            mRlReciverSelect.setClickable(true);
+            mRlReciverSelect.setBackgroundResource(R.drawable.back_input);
+
+            mEvNote.setEnabled(true);
+            mEvNote.setBackgroundResource(R.drawable.back_input);
+
+            mBtnEdit.setClickable(true);
         }  else {
-            mTvState.setOnClickListener(this);
-            mTvStartDate.setOnClickListener(this);
-            mTvEndDate.setOnClickListener(this);
+            mRlDestination.setClickable(false);
+            mRlDestination.setBackgroundResource(R.drawable.back_input_disable);
+
+            mRlAgencySelect.setClickable(false);
+            mRlAgencySelect.setBackgroundResource(R.drawable.back_input_disable);
+
+            mRlReciverSelect.setClickable(false);
+            mRlReciverSelect.setBackgroundResource(R.drawable.back_input_disable);
+
+            mEvNote.setEnabled(false);
+            mEvNote.setBackgroundResource(R.drawable.back_input_disable);
+
+            mBtnEdit.setClickable(false);
+
         }
     }
 
-    private void showDatePicker(String[] arrDate){
-        int mYear = Integer.parseInt(arrDate[0]);
-        int mMonth = Integer.parseInt(arrDate[1]) - 1;
-        int mDay = Integer.parseInt(arrDate[2]);
-        new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth )
-            {
-                int mYear = year;
-                int mMonth = monthOfYear + 1;
-                int mDay = dayOfMonth;
-                if( DATEPICK_STATE == DATEPICK_START ) {
-                    mTvStartDate.setText(getDateText( mYear, mMonth, mDay ));
+    private void showDatePicker(final int nTag){
+        final Calendar cal = Calendar.getInstance();
+        Calendar minDate = Calendar.getInstance();
+        Calendar maxDate = Calendar.getInstance();
+
+
+        DatePickerDialog dialog = new DatePickerDialog(DeviceDemoDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int date) {
+                String msg = String.format("%d 년 %d 월 %d 일", year, month+1, date);
+
+                if( TAG_START_DATE == nTag ) {
+                    nStartYear = year;
+                    nStartMonth = month;
+                    nStartDay = date;
+                    strStartDate = String.format("%d%d%d", year, month, date);
+
+                    strReqStartDate = nStartYear + "-" + ( nStartMonth + 1 ) + "-" + nStartDay;
+
+                    if(TextUtils.isEmpty(strEndDate)) {
+                        strEndDate = strStartDate;
+                    }
+
+                    if( mTvEndDate.getText().length() > 0  || Integer.parseInt(strStartDate ) > Integer.parseInt(strEndDate )) {
+                        mTvEndDate.setText("");
+                    }
+                    mTvEndDate.setBackgroundResource(R.drawable.back_input);
+                    mTvStartDate.setText(msg);
                 } else {
-                    mTvEndDate.setText(getDateText( mYear, mMonth, mDay ));
+                    nEndYear = year;
+                    nEndMonth = month;
+                    nEndDay = date;
+                    strEndDate = String.format("%d%d%d", year, month, date);
+                    mTvEndDate.setText(msg);
+
+                    strReqEndDate = nEndYear + "-" + ( nEndMonth + 1) + "-" + nEndDay;
+
                 }
+
+                KumaLog.d(" DATE : >> " + msg);
             }
-        }, mYear, mMonth, mDay).show();
-    }
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DATE));
 
-    private String getDateText(int year, int monthOfYear, int dayOfMonth) {
-        String strResult = "";
+//        dialog.getDatePicker().setMaxDate(new Date().getTime());    //입력한 날짜 이후로 클릭 안되게 옵션
 
-        String strDate = "";
-        String strDay = "";
-
-        if( monthOfYear < 10 ) {
-            strDate = "0" + monthOfYear;
+        if( nStartYear > 0 && TAG_START_DATE != nTag ) {
+            minDate.set(nStartYear,nStartMonth,nStartDay);
+            dialog.getDatePicker().setMinDate(minDate.getTime().getTime());
         } else {
-            strDate = "" + monthOfYear;
+            dialog.getDatePicker();
         }
 
-        if( dayOfMonth < 10 ) {
-            strDay = "0" + dayOfMonth;
-        } else {
-            strDay = "" + dayOfMonth;
-        }
-
-        strResult = year + "-" + strDate + "-" + strDay;
-        return strResult;
+        dialog.show();
     }
 
     /**
@@ -177,24 +326,209 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         KumaLog.d("++++++++++++ reqDeviceScheduleEdit  ++++++++++++++");
         try {
             ReqDeviceScheduleEdit reqReqDeviceScheduleEdit = new ReqDeviceScheduleEdit(this);
+            int strDestinationPk = -1, strReceiverAgencyPk = -1, strReceiver = -1;
+            if( (int)mTvDestination.getTag() < 0 ) {
+                showSimpleMessagePopup("목적지 정보가 없어 수정이 불가능합니다.");
+                return;
+            }
+            strDestinationPk = (int)mTvDestination.getTag();
+
+            if( (int)mTvAgencySelect.getTag() < 0 ) {
+                showSimpleMessagePopup("대리점 정보가 없어 수정이 불가능합니다.");
+                return;
+            }
+
+            strReceiverAgencyPk = (int)mTvAgencySelect.getTag();
+
+            if( (int)mTvReciverSelect.getTag() < 0 ) {
+                showSimpleMessagePopup("사원 정보가 없어 수정이 불가능합니다.");
+                return;
+            }
+            strReceiver = (int)mTvReciverSelect.getTag();
 
             reqReqDeviceScheduleEdit.setTag(TAG_REQ_DEVICE_EDIT);
-            reqReqDeviceScheduleEdit.setSerialNo(mScheduleInfo.getSerialNo());
-            reqReqDeviceScheduleEdit.setHostpital(mEvHospital.getText().toString().trim());
-            reqReqDeviceScheduleEdit.setStartDate(mTvStartDate.getText().toString().trim());
-            reqReqDeviceScheduleEdit.setEndDate(mTvEndDate.getText().toString().trim());
-            reqReqDeviceScheduleEdit.setDeliver(mEvDeliver.getText().toString().trim());
-            reqReqDeviceScheduleEdit.setReceiver(mEvReceiver.getText().toString().trim());
-            reqReqDeviceScheduleEdit.setState(mArrDeviceCode[mNSeletedDeviceState]);
-            reqReqDeviceScheduleEdit.setMessage(mEvEtc.getText().toString().trim());
-
+            reqReqDeviceScheduleEdit.setPk(mScheduleInfo.getId());
+            reqReqDeviceScheduleEdit.setDestinationPk(String.valueOf(strDestinationPk));
+            reqReqDeviceScheduleEdit.setTitle(mTvDestination.getText().toString().trim());
+            reqReqDeviceScheduleEdit.setStartDate(strReqStartDate);
+            reqReqDeviceScheduleEdit.setEndDate(strReqEndDate);
+            reqReqDeviceScheduleEdit.setReceiverAgencyPk(String.valueOf(strReceiverAgencyPk));
+            reqReqDeviceScheduleEdit.setReceiver(String.valueOf(strReceiver));
+            reqReqDeviceScheduleEdit.setMessage(mEvNote.getText().toString().trim());
 
             requestProtocol(true, reqReqDeviceScheduleEdit);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    /**
+     * 데모상세 정보
+     */
+    private void reqDeviceScheduleInfo() {
+        try {
+            ReqDeviceScheduleInfo reqDeviceScheduleInfo = new ReqDeviceScheduleInfo(this);
 
+            reqDeviceScheduleInfo.setTag(TAG_REQ_DEVICE_INFO);
+            reqDeviceScheduleInfo.setPk(mScheduleInfo.getId());
+            requestProtocol(true, reqDeviceScheduleInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 데모상세 정보
+     */
+    private void resDeviceScheduleInfo(ResDeviceScheduleInfo resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resDeviceScheduleInfo 11  ++++++++++++++");
+
+            mDeviceScheduleInfo = resprotocol.getDeviceInfo();
+
+            mTvProductSn.setText(resprotocol.getDeviceInfo().getSerialNo());
+            mTvProductSelect.setText(resprotocol.getDeviceInfo().getTitle());
+            mTvStartDate.setText( resprotocol.getDeviceInfo().getStartDate()  );
+            mTvEndDate.setText( resprotocol.getDeviceInfo().getEndDate() );
+            mTvAgencySelect.setText( Constance.getAgencyData(resprotocol.getDeviceInfo().getAgencyPk()).getName() );
+            mTvAgencySelect.setTag(resprotocol.getDeviceInfo().getAgencyPk());
+
+            mTvDestination.setText(Constance.getDestinationData(resprotocol.getDeviceInfo().getDestinationPk()).getName());
+            mTvDestination.setTag(resprotocol.getDeviceInfo().getDestinationPk());
+
+
+            mEvNote.setText(resprotocol.getDeviceInfo().getMessage());
+            mCurState = resprotocol.getDeviceInfo().getState();
+            Constance.changeStateView(resprotocol.getDeviceInfo().getState(), mLlStateLayout, mTvStateText);
+
+            reqAgencyMemberList(mDeviceScheduleInfo.getAgencyPk());
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
+
+    /**
+     * 제품데모 상태변경
+     */
+    private void reqDeviceStateEdit(String  state, String pk) {
+        try {
+            ReqDeviceStateEdit reqDeviceStateEdit = new ReqDeviceStateEdit(this);
+
+            reqDeviceStateEdit.setTag(TAG_REQ_DEVICE_STATE_EDIT);
+            reqDeviceStateEdit.setPk(pk);
+            reqDeviceStateEdit.setState(state);
+            requestProtocol(true, reqDeviceStateEdit);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 제품데모 상태변경
+     */
+    private void resDeviceStateEdit(CommonResponse resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resDeviceStateEdit  ++++++++++++++");
+            showSimpleMessagePopup("상태변경이 성공하였습니다.");
+            mCurState = mPreState;
+            Constance.changeStateView(mCurState, mLlStateLayout, mTvStateText);
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
+
+    private boolean mbState = false;
+
+    /**
+     * 본사 및 대리점 회원 조회
+     */
+    private void reqAgencyMemberList(int pk) {
+        try {
+            ReqAgencyMemberList reqAgencyMemberList = new ReqAgencyMemberList(this);
+
+            reqAgencyMemberList.setTag(TAG_REQ_AGENCY_MEMBER_LIST);
+            reqAgencyMemberList.setPk(String.valueOf(pk));
+
+            requestProtocol(true, reqAgencyMemberList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 본사 및 대리점 회원 조회
+     */
+    private void resAgencyMemberList(ResAgencyMemberList resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resAgencyMemberList  ++++++++++++++ mbState >>> "  + mbState);
+            mArrAgencyMemberList.clear();
+            mArrAgencyMemberList.addAll(resprotocol.getmArrDropBoaxCommonDTO());
+            if( !mbState ) {
+                for(int i = 0; i < mArrAgencyMemberList.size();  i++ ) {
+                    if( mArrAgencyMemberList.get(i).getPk() == mDeviceScheduleInfo.getReceiver()) {
+                        mTvReciverSelect.setText(mArrAgencyMemberList.get(i).getName());
+                        mTvReciverSelect.setTag(mArrAgencyMemberList.get(i).getPk());
+                    }
+                }
+            } else if(mbState &&  mArrAgencyMemberList.size() > 0){
+                mTvReciverSelect.setText(mArrAgencyMemberList.get(0).getName());
+                mTvReciverSelect.setTag(mArrAgencyMemberList.get(0).getPk());
+            }
+
+            if( mArrAgencyMemberList.size() == 0 )  {
+                mTvReciverSelect.setText("사원 없음");
+                mTvReciverSelect.setTag(-1);
+            }
+            mbState = false;
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
+
+    private void showDropBoxCommonDialog(final int Tag, ArrayList<DropBoaxCommonDTO> data){
+        DropBoxCommonDialog dlg = new DropBoxCommonDialog(this);
+
+        dlg.setOnItemClickListener(new DropBoxCommonDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int tag, DropBoaxCommonDTO data) {
+                if( TAG_REQ_DESTINATION_LIST  == tag)  {
+                    mTvDestination.setText(data.getName());
+                    mTvDestination.setTag(data.getPk());
+                } else if( TAG_REQ_AGENCY_LIST  == tag)  {
+                    mTvAgencySelect.setText(data.getName());
+                    mTvAgencySelect.setTag(data.getPk());
+                    mbState = true;
+                    reqAgencyMemberList(data.getPk());
+                } else if( TAG_REQ_AGENCY_MEMBER_LIST  == tag)  {
+                    mTvReciverSelect.setText(data.getName());
+                    mTvReciverSelect.setTag(data.getPk());
+                }
+            }
+        });
+        dlg.show();
+
+        dlg.setData(data);
+        dlg.setDataTag(Tag);
+
+//
+//        dlgProductChoide.setDialogListener(DLG_PRODUCT_SELECT, this);
+//        dlgProductChoide.show();
+//        dlgProductChoide.setData(data);
+
+    }
     private void showDialog(int nTag, String msg,  int nType){
         CommonDialog commonDia = new CommonDialog(this);
         commonDia.setType(nType);
@@ -203,43 +537,17 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         commonDia.setMessage(msg);
         commonDia.show();
     }
-    String[] mArrDeviceCode;
-    String[] arrStateName;
-    private int mNSeletedDeviceState = 0;
-
-    private void  showState(){
-        mArrDeviceCode = null;
-        arrStateName = null;
-        mArrDeviceCode = getResources().getStringArray(R.array.arr_device_state_code);
-        arrStateName  = new String[mArrDeviceCode.length];
-
-        for(int i = 0; i < mArrDeviceCode.length; i++  ) {
-            arrStateName[i] = Constance.changeStringToState(mArrDeviceCode[i]);
-        }
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( DeviceDemoDetailActivity.this);
-
-        alertDialogBuilder.setTitle("장비 상태 선택");
-        alertDialogBuilder.setItems(arrStateName,
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        mNSeletedDeviceState = id;
-                        mTvState.setText(arrStateName[mNSeletedDeviceState]);
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
     /**
      * 데모 일정 변경
      */
-    private void resDeviceManage(int tag, CommonResponse resprotocol)
+    private void resDeviceScheduleEdit(int tag, CommonResponse resprotocol)
     {
         KumaLog.d("++++++++++++resDeviceManage++++++++++++++");
         if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
             String resultMsg = "수정되었습니다";
             showDialog(DLG_DEVICE_RESULT, resultMsg, CommonDialog.DLG_TYPE_NOTI);
+
+//            changeEditState(false);
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {
                 showSimpleMessagePopup(resprotocol.getMsg());
@@ -250,7 +558,31 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
     }
     @Override
     public void onResponseProtocol(int nTag, ResponseProtocol resProtocol) {
-        resDeviceManage(nTag, (CommonResponse)resProtocol );
+
+        switch (nTag)  {
+            case TAG_REQ_DEVICE_EDIT : {
+                resDeviceScheduleEdit(nTag, (CommonResponse)resProtocol );
+                break;
+            }
+            case TAG_REQ_DEVICE_STATE_EDIT : {
+                resDeviceStateEdit((CommonResponse)resProtocol);
+                break;
+            }
+            case TAG_REQ_DEVICE_INFO : {
+                resDeviceScheduleInfo((ResDeviceScheduleInfo)resProtocol);
+                break;
+            }
+            case TAG_REQ_AGENCY_MEMBER_LIST : {
+                resAgencyMemberList((ResAgencyMemberList)resProtocol);
+                break;
+            }
+
+            default:
+                break;
+        }
+
+
+
     }
 
 
@@ -274,41 +606,33 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         int id  =  view.getId();
         switch (id)  {
             case R.id.btn_confirm  : {
-                if ( !mBEditState ) {
-                    mBtnConfirm.setText(getResources().getString(R.string.str_btn_confirm));
-                    mBEditState = true;
-                    changeEditState(true);
-                } else {
-                    showDialog(DLG_DEVICE_EDIT_REQ, "수정하시겠습니까?", CommonDialog.DLG_TYPE_YES_NO);
-                }
+                showDialog(DLG_DEVICE_EDIT_REQ, "수정하시겠습니까?", CommonDialog.DLG_TYPE_YES_NO);
                 break;
             }
-            case R.id.btn_cancle  : {
-                if( mBEditState ) {
-                    mBEditState = false;
-                    changeEditState(false);
-                    mBtnConfirm.setText(getResources().getString(R.string.str_btn_edit));
-                } else {
-                    getAppManager().removeActivity(this);
-                    finish();
-                }
+            case R.id.tv_start_date   : {
+                showDatePicker(TAG_START_DATE );
                 break;
             }
-            case R.id.tv_startdate  : {
-                DATEPICK_STATE = DATEPICK_START;
-                showDatePicker(mScheduleInfo.startDate.split("-")  );
-                break;
-            }
-            case R.id.tv_enddate  : {
-                DATEPICK_STATE = DATEPICK_END;
-                showDatePicker(mScheduleInfo.endDate.split("-")  );
-                break;
-            }
-            case R.id.tv_state  : {
-                showState();
+            case R.id.tv_end_date : {
+                showDatePicker(TAG_END_DATE );
                 break;
             }
 
+            case R.id.rl_agency_select : {
+                showDropBoxCommonDialog(TAG_REQ_AGENCY_LIST, Constance.mArrAgencyList);
+                break;
+            }
+
+            case R.id.rl_reciver_name : {
+                if( mArrAgencyMemberList.size() > 0  ) {
+                    showDropBoxCommonDialog(TAG_REQ_AGENCY_MEMBER_LIST, mArrAgencyMemberList);
+                }
+                break;
+            }
+            case R.id.rl_destination : {
+                showDropBoxCommonDialog(TAG_REQ_DESTINATION_LIST, Constance.mArrDestinationList);
+                break;
+            }
             default:
                 break;
         }

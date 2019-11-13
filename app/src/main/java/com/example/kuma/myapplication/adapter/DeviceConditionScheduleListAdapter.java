@@ -139,8 +139,8 @@ public class DeviceConditionScheduleListAdapter extends RecyclerView.Adapter<Rec
 
             for( int i= 0;  i < mArrTv.length; i++)  {
                 if(  i < data.getScheduleInfoList().size() ){
-                    mArrTv[i].setText(data.getScheduleInfoList().get(i).productName);
-                    mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).productColor));
+                    mArrTv[i].setText(data.getScheduleInfoList().get(i).title);
+                    mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).color));
                 } else {
                     setBlankDate(mArrTv[i]);
                 }

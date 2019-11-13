@@ -8,10 +8,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +30,7 @@ import com.example.kuma.myapplication.Utils.KumaLog;
 import com.example.kuma.myapplication.adapter.DeviceConditionScheduleAdapter;
 import com.example.kuma.myapplication.adapter.DeviceConditionScheduleListAdapter;
 import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
+import com.example.kuma.myapplication.adapter.productSelectAdapter;
 import com.example.kuma.myapplication.data.ScheduleInfo;
 import com.example.kuma.myapplication.data.ScheduleListDTO;
 import com.example.kuma.myapplication.data.ScheduleListDayDTO;
@@ -57,7 +61,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-//    private DeviceConditionScheduleListAdapter mDeviceScheduleListAdapter;
+    //    private DeviceConditionScheduleListAdapter mDeviceScheduleListAdapter;
     private DeviceConditionScheduleAdapter mDeviceScheduleListAdapter_1;
 
 
@@ -70,13 +74,30 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
     private String mStrMonth = "";
     private String mStrDay = "";
 
+    private float originWidth = 0;
+    private float originheight = 0;
+    private float targetWidth = 0;
+    private float targetheight = 0;
+    private float originX = 0;
+    private float originY = 0;
+    private float targetX = 0;
+    private float targetY = 0;
+
     private TextView mTvMonth;
     private Calendar mCal;
 
     private boolean mViewTypeSeletedState = false;
     private boolean  onPauseState = false;
 
-    private ProductSelectDialog dlgProductChoide;
+//    private ProductSelectDialog dlgProductChoide;
+
+
+    private productSelectAdapter mProductSelectAdapter;
+    private ListView mProductlist;
+    private TextView mTvDate;
+    private ImageView mIvSchedulePlus;
+    private ImageView mIvSchedulePlusTo;
+    private View mVproductSelect;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,7 +139,102 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.iv_next_month).setOnClickListener(this);
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.iv_filter).setOnClickListener(this);
+
+        initSelecteProduct();
     }
+
+    private void initSelecteProduct(){
+        mVproductSelect = (View) findViewById(R.id.v_product_select);
+        mProductlist = (ListView)mVproductSelect.findViewById(R.id.lv_product_list);
+        mTvDate = (TextView)mVproductSelect.findViewById(R.id.tv_date);
+        mIvSchedulePlus = (ImageView)findViewById(R.id.iv_schedule_plus);
+        mIvSchedulePlusTo = (ImageView)mVproductSelect.findViewById(R.id.iv_schedule_plus_dlg);
+
+
+
+        mProductSelectAdapter = new productSelectAdapter(this, new productSelectAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(ScheduleInfo data) {
+                Intent intent = new Intent(DeviceConditionActivity.this,DeviceDemoDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("detailData",data);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
+
+
+        mProductlist.setAdapter(mProductSelectAdapter);
+
+        mVproductSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mVproductSelect.setVisibility(View.GONE);
+                moveAnim(false);
+            }
+        });
+
+        mIvSchedulePlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                KumaLog.e("ProductSelectDialog onClick");
+            }
+        });
+
+        mIvSchedulePlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                showSimpleMessagePopup("준비중입니다.");
+                move2OtherActivity(DeviceScheduleInsertActivity.class);
+            }
+        });
+
+    }
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        if( originWidth <= 0 ) {
+            originWidth = (float) mIvSchedulePlus.getWidth();
+            originheight = (float) mIvSchedulePlus.getHeight();
+
+            targetWidth = (float) mIvSchedulePlusTo.getWidth();
+            targetheight = (float) mIvSchedulePlusTo.getHeight();
+
+            KumaLog.line();
+
+            KumaLog.e(" originWidth : " + originWidth + " originheight : " + originheight);
+
+            KumaLog.e(" targetheight : " + targetheight + " targetheight : " + targetheight);
+
+            originX = mIvSchedulePlus.getX();
+            originY = mIvSchedulePlus.getY();
+            targetX = mIvSchedulePlusTo.getX();
+            targetY = mIvSchedulePlusTo.getY();
+
+            mVproductSelect.setVisibility(View.GONE);
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onPostCreate(savedInstanceState, persistentState);
+    }
+
+    public void setDataProductSchedule(ScheduleListDayDTO data){
+        KumaLog.e("ProductSelectDialog setData");
+        if( mProductSelectAdapter != null ) {
+            mProductSelectAdapter.setArrayList(data.getScheduleInfoList());
+            mProductSelectAdapter.notifyDataSetChanged();
+        }
+//        data.diplayDay
+        mTvDate.setText(data.getMonth()+ "월 " + data.getDay() + "일");
+//
+    }
+
     /**
      * 데모 정보 조회 리스트
      */
@@ -134,17 +250,18 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
                 mArrScheduleListLowDTO.clear();
             }
 
+//            makeDummyData();
+
 //            mDataset, mArrScheduleListDTO, mArrScheduleListLowDTO
             ReqDeviceScheduleList reqDeviceScheduleList = new ReqDeviceScheduleList(this);
 
             reqDeviceScheduleList.setTag(TAG_REQ_SCHEDULE_LIST);
-
+            reqDeviceScheduleList.setMonth(mStrYear + "-" + mStrMonth);
             requestProtocol(true, reqDeviceScheduleList);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     /**
      * 데모 정보 조회 리스트 결과
      */
@@ -167,7 +284,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
 
             mArrScheduleInfoListDTO.addAll(resprotocol.getListData());
             for( int i = 0; i < resprotocol.getListData().size(); i++ ) {
-                String key = resprotocol.getListData().get(i).getSerialNo();
+                String key = resprotocol.getListData().get(i).getId();
                 mDataset.put(key, resprotocol.getListData().get(i));
             }
 
@@ -188,15 +305,41 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         }
     }
 
-
     private void showProductChoiceDlg(ScheduleListDayDTO data){
-        if( dlgProductChoide == null ) {
-            dlgProductChoide = new ProductSelectDialog(this);
-        }
+//        if( dlgProductChoide == null ) {
+//            dlgProductChoide = new ProductSelectDialog(this);
+//        }
+//
+//        dlgProductChoide.setDialogListener(DLG_PRODUCT_SELECT, this);
+//        dlgProductChoide.show();
+//        dlgProductChoide.setData(data);
 
-        dlgProductChoide.setDialogListener(DLG_PRODUCT_SELECT, this);
-        dlgProductChoide.show();
-        dlgProductChoide.setData(data);
+        setDataProductSchedule(data);
+        mVproductSelect.setVisibility(View.VISIBLE);
+        moveAnim(true);
+    }
+
+    private int nAnimDuration = 400;
+    private void moveAnim(final boolean state){
+        if( state ) {
+            float resizeWidth =  targetWidth / originWidth;
+            float resizeHeight = targetheight / originheight;
+
+            KumaLog.line();
+
+            KumaLog.d(" resizeWidth : " + resizeWidth + " resizeHeight : " + resizeHeight);
+            KumaLog.d(" targetY - originY : " + (targetY - originY));
+
+            mIvSchedulePlus.animate().translationY(targetY - originY).setDuration(nAnimDuration).withLayer();
+            mIvSchedulePlus.animate().translationX(targetX - originX).setDuration(nAnimDuration).withLayer();
+            mIvSchedulePlus.animate().scaleX(resizeWidth).setDuration(nAnimDuration).withLayer();
+            mIvSchedulePlus.animate().scaleY(resizeHeight).setDuration(nAnimDuration).withLayer();
+        } else {
+            mIvSchedulePlus.animate().translationY(0).withLayer();
+            mIvSchedulePlus.animate().translationX(0).withLayer();
+            mIvSchedulePlus.animate().scaleX(1).withLayer();
+            mIvSchedulePlus.animate().scaleY(1).withLayer();
+        }
     }
 
     /**
@@ -332,8 +475,8 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
 
     private void setDateScheduleInfo(ScheduleListDayDTO data, String strDate){
         for( ScheduleInfo info : mArrScheduleInfoListDTO ) {
-            String startDate = info.startDate.replaceAll("-", "");
-            String endDate = info.endDate.replaceAll("-", "");
+            String startDate = info.start.replaceAll("-", "");
+            String endDate = info.end.replaceAll("-", "");
             try {
                 if (Integer.parseInt(startDate) <= Integer.parseInt(strDate)
                         && Integer.parseInt(endDate) >= Integer.parseInt(strDate)) {
@@ -341,7 +484,6 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
                     KumaLog.d(" startDate : " + startDate);
                     KumaLog.d(" endDate : " + endDate);
                     KumaLog.d(" curDate : " + strDate);
-                    KumaLog.d(" serialNo : " + info.serialNo);
                     KumaLog.line();
                     data.setScheduleInfoList(info);
                 }
@@ -391,6 +533,16 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         }
     }
 
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if( mVproductSelect.getVisibility() != View.GONE) {
+            mVproductSelect.setVisibility(View.GONE);
+            moveAnim(false);
+        } else {
+            finish();
+        }
+    }
 
     @Override
     protected void onPause() {
@@ -406,6 +558,10 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         if( onPauseState ) {
             onPauseState = false;
             reqDeviceScheduleList();
+            if( mVproductSelect.getVisibility() != View.GONE) {
+                mVproductSelect.setVisibility(View.GONE);
+                moveAnim(false);
+            }
         }
     }
 
@@ -425,9 +581,9 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
     public void onDialogResult(int nTag, int nResult, Dialog dialog) {
         switch (nTag){
             case DLG_PRODUCT_SELECT:
-                if( dlgProductChoide.getObject() == null ) {
-                    return;
-                }
+//                if( dlgProductChoide.getObject() == null ) {
+//                    return;
+//                }
                 break;
             default:
                 break;
@@ -478,6 +634,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
+                finish();
                 break;
             case R.id.iv_filter:
                 break;

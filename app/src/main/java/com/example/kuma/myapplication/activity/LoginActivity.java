@@ -14,6 +14,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.kuma.myapplication.AppManager;
 import com.example.kuma.myapplication.BaseActivity;
+import com.example.kuma.myapplication.Constance.Constance;
 import com.example.kuma.myapplication.Network.MyVolley;
 import com.example.kuma.myapplication.Network.ProtocolDefines;
 import com.example.kuma.myapplication.Network.request.ReqLogin;
@@ -46,10 +47,13 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        mEvID.setText("admin");
-        mEvPw.setText("admin");
+        mEvID.setText("admin@lionskaphp.co.kr");
+        mEvPw.setText("qwerasdfzxcv123!");
+
+//        mEvID.setText("jiji@cccc.co.kr");
+//        mEvPw.setText("qwerasdfzxcv123!");
     }
-    /**
+    /**``
      * 로그인
      */
     private void reqResetUserInfo()
@@ -66,7 +70,6 @@ public class LoginActivity extends BaseActivity {
                 showSimpleMessagePopup("비밀번호를 입력해주세요.");
                 return;
             }
-
             ReqLogin reqLogin = new ReqLogin();
 
             reqLogin.setTag(1);
@@ -86,6 +89,10 @@ public class LoginActivity extends BaseActivity {
         if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
 
             getAppManager().getShareDataManager().setStringPref(this, SharedPref.PREF_LOGIN_TOKEN, resprotocol.getToken());
+//            permission : 권한 ex) 1 : 대리점, 32 : 임상, 64 : 관리자
+            Constance.USER_NAME  = resprotocol.getName();
+            Constance.USER_PERMISSION  = resprotocol.getPermisson();
+            KumaLog.d("++++++++++++Constance.USER_PERMISSION  ++++++++++++++"  + Constance.USER_PERMISSION);
             move2OtherActivity(MainActivity.class, true);
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {

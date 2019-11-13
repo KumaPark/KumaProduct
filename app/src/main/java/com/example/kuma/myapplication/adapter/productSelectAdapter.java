@@ -69,8 +69,8 @@ public class productSelectAdapter extends BaseAdapter {
             viewHolder = (ViewHolder)v.getTag();
         }
         ScheduleInfo data = getItem(position);
-        viewHolder.tv_title.setText(data.productName);
-        viewHolder.tv_date.setText(data.startDate + " ~ " + data.endDate);
+        viewHolder.tv_title.setText(data.title);
+        viewHolder.tv_date.setText(data.start + " ~ " + data.start);
 
         viewHolder.rl_item.setTag(data);
         viewHolder.rl_item.setOnClickListener(new View.OnClickListener() {

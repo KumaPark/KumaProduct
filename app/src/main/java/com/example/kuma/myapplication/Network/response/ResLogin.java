@@ -18,7 +18,11 @@ public class ResLogin extends ResponseProtocol{
 
     private String m_strToken;
 
-    private String m_strAppUrl;
+    private int permission;
+
+    private int permisson;
+
+    private String name;
 
     public ResLogin()
     {
@@ -40,9 +44,16 @@ public class ResLogin extends ResponseProtocol{
         return m_strToken;
     }
 
-    public String getAppUrl()
-    {
-        return m_strAppUrl;
+    public int getPermission() {
+        return permission;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getPermisson() {
+        return permisson;
     }
 
     @Override
@@ -68,19 +79,22 @@ public class ResLogin extends ResponseProtocol{
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-//                JSONObject object = jsonObject.getJSONObject(JSONDefines.JSON_RESP.STR_APP_VERSION);
                 try {
-//                    m_strAppVerSion = object.getString(JSONDefines.JSON_RESP.STR_APP_VERSION_MAIN).toString();
+                    permission = jsonObject.getInt("permission");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    name = jsonObject.getString("name").toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    permisson = jsonObject.getInt("permisson");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                try {
-//                    m_strAppUrl = object.getString(JSONDefines.JSON_RESP.STR_APP_VERSION_URL).toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
 
             KumaLog.i("+++ ResLogin STR_TAG_RESULT  " + m_strResult);

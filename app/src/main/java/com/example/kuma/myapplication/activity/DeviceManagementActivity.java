@@ -172,11 +172,11 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
             ReqDeviceInsert reqDeviceInsert = new ReqDeviceInsert(this);
 
             reqDeviceInsert.setTag(TAG_REQ_DEVICE_INSERT);
-            reqDeviceInsert.setMakeYear(mEvMakeYear.getText().toString().trim());
-            reqDeviceInsert.setMessage(mEvEtc.getText().toString().trim());
-            reqDeviceInsert.setProductCode(mEvModel.getText().toString().trim());
-            reqDeviceInsert.setSerialNo(mEvSerial.getText().toString().trim());
-            reqDeviceInsert.setVersion(mEvVersion.getText().toString().trim());
+//            reqDeviceInsert.setMakeYear(mEvMakeYear.getText().toString().trim());
+//            reqDeviceInsert.setMessage(mEvEtc.getText().toString().trim());
+//            reqDeviceInsert.setProductCode(mEvModel.getText().toString().trim());
+//            reqDeviceInsert.setSerialNo(mEvSerial.getText().toString().trim());
+//            reqDeviceInsert.setVersion(mEvVersion.getText().toString().trim());
 
             requestProtocol(true, reqDeviceInsert);
         } catch (Exception e) {
@@ -193,11 +193,11 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
             ReqDeviceEdit reqDeviceEdit = new ReqDeviceEdit(this);
 
             reqDeviceEdit.setTag(TAG_REQ_DEVICE_EDIT);
-            reqDeviceEdit.setMakeYear(mEvMakeYear.getText().toString().trim());
-            reqDeviceEdit.setMessage(mEvEtc.getText().toString().trim());
-            reqDeviceEdit.setProductCode(mEvModel.getText().toString().trim());
-            reqDeviceEdit.setSerialNo(mEvSerial.getText().toString().trim());
-            reqDeviceEdit.setVersion(mEvVersion.getText().toString().trim());
+//            reqDeviceEdit.setMakeYear(mEvMakeYear.getText().toString().trim());
+//            reqDeviceEdit.setMessage(mEvEtc.getText().toString().trim());
+//            reqDeviceEdit.setProductCode(mEvModel.getText().toString().trim());
+//            reqDeviceEdit.setSerialNo(mEvSerial.getText().toString().trim());
+//            reqDeviceEdit.setVersion(mEvVersion.getText().toString().trim());
 
 
             requestProtocol(true, reqDeviceEdit);

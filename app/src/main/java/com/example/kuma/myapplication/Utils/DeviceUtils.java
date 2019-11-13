@@ -2,6 +2,10 @@ package com.example.kuma.myapplication.Utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.telephony.TelephonyManager;
 
 import com.example.kuma.myapplication.Utils.SharedPref.ShareDataManager;
 import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
@@ -29,5 +33,37 @@ public class DeviceUtils {
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public static String getImei(Context context){
+//        WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo info = manager.getConnectionInfo();
+//        String address = info.getMacAddress();
+//        Check_UDID(context);
+
+        String Imei = "";
+        try {
+            TelephonyManager telManager = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            Imei = telManager.getImei();
+        }catch (Exception e) {
+
+        }
+
+        return Imei;
+    }
+
+    public static void Check_UDID(Context context) {
+
+        // ?�드??모델�?UDID 구하�?
+
+//
+//        Constance.PHONE_MODEL = Build.MODEL;
+
+        Context tmpCtx = context.getApplicationContext();
+//		WifiManager wfManager = ((WifiManager)tmpCtx.getSystemService(Context.WIFI_SERVICE));
+        String str = ((WifiManager)tmpCtx.getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getMacAddress();
+
+        KumaLog.d( "Constance.MAC : " + str );
     }
 }

@@ -36,10 +36,11 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
     private HashMap<String, Object> mDataset = new HashMap<>();
     private ArrayList<ScheduleListDTO> mDataListInfo = new ArrayList<>();
     private ArrayList<ScheduleListLowDTO> mArrScheduleListLowDTO = new ArrayList<>();
-    private static OnItemClickListener mListener;
+
 
     private Context mContext;
     private LayoutInflater inflater;
+    private static OnItemClickListener mListener;
 
     public interface OnItemClickListener {
         void onItemClick(ScheduleInfo data);
@@ -275,13 +276,13 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
     private void addDeviceArrowView(RecyclerView.ViewHolder holder, final ScheduleInfo info) {
 //        KumaLog.d(" addDeviceArrowView  position : " + position);
 
-        KumaLog.d(" info serialNo : " + info.serialNo);
-        KumaLog.d(" productCode : " + info.productCode);
-        KumaLog.d(" startDate : " + info.startDate);
-        KumaLog.d(" endDate : " + info.endDate);
+//        KumaLog.d(" info serialNo : " + info.serialNo);
+//        KumaLog.d(" productCode : " + info.productCode);
+//        KumaLog.d(" startDate : " + info.startDate);
+//        KumaLog.d(" endDate : " + info.endDate);
         KumaLog.d(" >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> : ");
 
-        String strartDate = info.startDate.replaceAll("-", "");
+        String strartDate = info.start.replaceAll("-", "");
 
 
         boolean bBlankState = true;
@@ -294,15 +295,15 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
             if (Integer.parseInt(strartDate) == Integer.parseInt(strDate)) {
 //                KumaLog.d(" addDeviceArrowView  arrow_start position : " + position);
                 ((ViewHolderDevice) holder).bindStartArrow();
-                KumaLog.w("info  startDate : " + info.startDate);
+                KumaLog.w("info  startDate : " + info.start);
                 KumaLog.w(" startDate : " + strDate);
                 bBlankState = false;
                 nWeightCnt++;
             }
 
             try {
-                if (Integer.parseInt(info.startDate.replaceAll("-", "")) < Integer.parseInt(strDate)
-                        && Integer.parseInt(info.endDate.replaceAll("-", "")) > Integer.parseInt(strDate)) {
+                if (Integer.parseInt(info.start.replaceAll("-", "")) < Integer.parseInt(strDate)
+                        && Integer.parseInt(info.end.replaceAll("-", "")) > Integer.parseInt(strDate)) {
 //                KumaLog.d(" addDeviceArrowView  view_line position : " + position);
                     ((ViewHolderDevice) holder).bindLineArrow();
                     bBlankState = false;
@@ -314,12 +315,12 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
             }
 
             try {
-                if (Integer.parseInt(info.endDate.replaceAll("-", "")) == Integer.parseInt(strDate)) {
+                if (Integer.parseInt(info.end.replaceAll("-", "")) == Integer.parseInt(strDate)) {
 //                KumaLog.d(" addDeviceArrowView  arrow_end position : " + position);
                     ((ViewHolderDevice) holder).bindEndArrow();
                     bBlankState = false;
                     nWeightCnt++;
-                    ((ViewHolderDevice) holder).bindHospital((158 * nWeightCnt ), info.hospital);
+                    ((ViewHolderDevice) holder).bindHospital((158 * nWeightCnt ), info.title);
                 }
             } catch (Exception e) {
                 bBlankState  = true;

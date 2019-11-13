@@ -20,6 +20,7 @@ public class ScheduleListDTO implements Serializable {
     public int nInvalbCnt = 0;
     public int nMoveCnt = 0;
 
+
     public int getViewType() {
         return viewType;
     }

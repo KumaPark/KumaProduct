@@ -6,110 +6,414 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/back_input"
         android:gravity="center_horizontal"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             >
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:text="모델명  : "
-                android:textSize="15dp"
-                android:gravity="center_vertical|right"
-                />
-            <EditText
-                android:id="@+id/ev_model"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:hint="모델명"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            >
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:text="병원명  : "
-                android:textSize="15dp"
-                android:gravity="center_vertical|right"
-                />
-            <EditText
-                android:id="@+id/ev_hospital"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:hint="병원명"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            >
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:text="시작일  : "
-                android:textSize="15dp"
-                android:gravity="center_vertical|right"
-                />
-            <TextView
-                android:id="@+id/tv_startdate"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="작성자 :"
+                android:textColor="#222222"
                 android:gravity="center_vertical"
-                android:hint="ex) 2018-02-01"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
+                android:textSize="16dp"
                 />
+            <RelativeLayout
+                android:id="@+id/rl_writer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/back_input_disable"
+                >
+                <TextView
+                    android:id="@+id/tv_writer"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#222222"
+                    android:textSize="14dp"
+                    />
+            </RelativeLayout>
         </LinearLayout>
-        <LinearLayout
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
+
+
+        <LinearLayout
+            android:id="@+id/ll_start_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
             >
             <TextView
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:text="종료일  : "
-                android:textSize="15dp"
-                android:gravity="center_vertical|right"
-                />
-            <TextView
-                android:id="@+id/tv_enddate"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:text="시작일 :"
+                android:layout_marginLeft="20dp"
+                android:textColor="#222222"
                 android:gravity="center_vertical"
-                android:hint="ex) 2018-02-01"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
+                android:textSize="16dp"
+                />
+            <TextView
+                android:id="@+id/tv_start_date"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:textColor="#222222"
+                android:textSize="14dp"
+                android:background="@drawable/back_input"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/calendar_1"
                 />
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_end_date"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="종료일 :"
+                android:textColor="#222222"
+                android:gravity="center_vertical"
+                android:textSize="16dp"
+                />
+            <TextView
+                android:id="@+id/tv_end_date"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:textColor="#222222"
+                android:background="@drawable/back_input"
+                android:textSize="14dp"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/calendar_1"
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="제품 종류 :"
+                android:textColor="#222222"
+                android:gravity="center_vertical"
+                android:textSize="16dp"
+                />
+            <RelativeLayout
+                android:id="@+id/rl_product_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/back_input_disable"
+                >
+                <TextView
+                    android:id="@+id/tv_product_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#222222"
+                    android:textSize="14dp"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="SN. :"
+                android:textColor="#222222"
+                android:gravity="center_vertical"
+                android:textSize="16dp"
+                />
+            <RelativeLayout
+                android:id="@+id/rl_product_sn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/back_input_disable"
+                >
+                <TextView
+                    android:id="@+id/tv_product_sn"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:textColor="#222222"
+                    android:textSize="14dp"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
+            android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="목적지 :"
+                android:textColor="#222222"
+                android:gravity="center_vertical"
+                android:textSize="16dp"
+                />
+            <RelativeLayout
+                android:id="@+id/rl_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/back_input_disable"
+                >
+                <TextView
+                    android:id="@+id/tv_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toLeftOf="@+id/rl_destination_arrow"
+                    android:gravity="center_vertical"
+                    android:textColor="#222222"
+                    android:textSize="14dp"
+                    />
+                <RelativeLayout
+                    android:id="@+id/rl_destination_arrow"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/back_input_disable"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/down_arow"
+                        />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="수신자 :"
+                android:textColor="#222222"
+                android:gravity="center_vertical"
+                android:textSize="16dp"
+                />
+            <RelativeLayout
+                android:id="@+id/rl_agency_select"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/back_input_disable"
+                >
+                <TextView
+                    android:id="@+id/tv_agency_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toLeftOf="@+id/rl_agency_select_arrow"
+                    android:gravity="center_vertical"
+                    android:textColor="#222222"
+                    android:textSize="14dp"
+                    />
+                <RelativeLayout
+                    android:id="@+id/rl_agency_select_arrow"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/back_input_disable"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/down_arow"
+                        />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            >
+            <RelativeLayout
+                android:id="@+id/rl_reciver_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="105dp"
+                android:background="@drawable/back_input_disable"
+                >
+                <TextView
+                    android:id="@+id/tv_reciver_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toLeftOf="@+id/rl_reciver_name_arrow"
+                    android:gravity="center_vertical"
+                    android:textColor="#222222"
+                    android:textSize="14dp"
+                    />
+                <RelativeLayout
+                    android:id="@+id/rl_reciver_name_arrow"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/back_input_disable"
+                    >
+                    <ImageView
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/down_arow"
+                        />
+                </RelativeLayout>
+            </RelativeLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -118,99 +422,164 @@
             android:layout_marginTop="10dp"
             >
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:text="발송인  : "
-                android:textSize="15dp"
-                android:gravity="center_vertical|right"
-                />
-            <EditText
-                android:id="@+id/ev_deliver"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:hint="모세현"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            >
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:text="수신인  : "
-                android:textSize="15dp"
-                android:gravity="center_vertical|right"
-                />
-            <EditText
-                android:id="@+id/ev_receiver"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:hint="모세현"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginTop="10dp"
-            >
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="10dp"
                 android:text="상태  : "
                 android:textSize="15dp"
                 android:gravity="center_vertical|right"
                 />
-            <TextView
-                android:id="@+id/tv_state"
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:textSize="15dp"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="15dp"
-                />
+            <LinearLayout
+                android:id="@+id/ll_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_state_sel"
+                android:orientation="horizontal"
+                android:gravity="center"
+
+                >
+                <TextView
+                    android:id="@+id/tv_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="예약"
+                    android:textSize="12dp"
+                    android:textColor="#ffffff"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:tag="R"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_state_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_state_non_sel"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+
+                >
+                <TextView
+                    android:id="@+id/tv_state_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="이동(병원)"
+                    android:textSize="12dp"
+                    android:textColor="#222222"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:tag="MD"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_state_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_state_non_sel"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+
+                >
+                <TextView
+                    android:id="@+id/tv_state_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="데모중"
+                    android:textColor="#222222"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:tag="I"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_state_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_state_non_sel"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+
+                >
+                <TextView
+                    android:id="@+id/tv_state_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="이동(회사)"
+                    android:textColor="#222222"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:tag="MC"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_state_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_state_non_sel"
+                android:layout_marginLeft="5dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <TextView
+                    android:id="@+id/tv_state_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="데모완료"
+                    android:textColor="#222222"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:tag="C"
+                    android:layout_margin="10dp"
+                    />
+            </LinearLayout>
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#aae1e1e1"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:orientation="horizontal"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
             >
-            <LinearLayout
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
-                android:orientation="horizontal"
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:text="비 고 :"
+                android:textColor="#222222"
                 android:gravity="center_vertical"
-                >
-
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="비고  : "
-                    android:textSize="15dp"
-                    android:gravity="center_vertical|right"
-                    />
-            </LinearLayout>
+                android:textSize="16dp"
+                />
             <EditText
-                android:id="@+id/ev_etc"
-                android:layout_width="220dp"
+                android:id="@+id/ev_note"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxHeight="15dp"
-                android:minHeight="50dp"
-                android:textSize="15dp"
-                android:layout_marginLeft="15dp"
+                android:minHeight="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:maxLines="20"
+                android:hint="특이사항을 적어주세요."
+                android:textColorHint="#CFCFCF"
+                android:textColor="#222222"
+                android:paddingLeft="5dp"
+                android:background="@drawable/back_input"
+                android:textSize="14dp"
                 />
         </LinearLayout>
         <LinearLayout
@@ -218,36 +587,22 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal"
             android:weightSum="320"
             >
-
-            <Button
-                android:id="@+id/btn_cancle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="150"
-                android:background="@xml/sel_dlg_cancle"
-                android:text="@string/str_btn_cancle"
-                android:textColor="@color/color_white"
-                android:textSize="16dp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="20"
-                />
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="150"
                 android:background="@xml/sel_dlg_confirm"
-                android:text="@string/str_btn_insert"
+                android:text="@string/str_btn_edit"
                 android:textColor="@color/color_white"
                 android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 
-
+    </ScrollView>
 </RelativeLayout>
