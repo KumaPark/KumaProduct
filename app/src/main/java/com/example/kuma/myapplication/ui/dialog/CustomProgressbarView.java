@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.dialog;
+package com.simens.us.myapplication.ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.example.kuma.myapplication.R;
+import com.simens.us.myapplication.R;
 
 /**
  * Created by wtsun on 2016-05-16.

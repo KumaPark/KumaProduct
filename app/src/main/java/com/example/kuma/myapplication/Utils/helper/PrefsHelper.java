@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils.helper;
+package com.simens.us.myapplication.Utils.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;

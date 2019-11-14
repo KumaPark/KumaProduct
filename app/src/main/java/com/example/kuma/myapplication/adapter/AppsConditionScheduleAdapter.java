@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.adapter;
+package com.simens.us.myapplication.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,12 +11,12 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.AppsScheduleListDTO;
-import com.example.kuma.myapplication.data.AppsScheduleListDayDTO;
-import com.example.kuma.myapplication.data.AppsScheduleListLowDTO;
-import com.example.kuma.myapplication.data.ScheduleInfo;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.AppsScheduleListDTO;
+import com.simens.us.myapplication.data.AppsScheduleListDayDTO;
+import com.simens.us.myapplication.data.AppsScheduleListLowDTO;
+import com.simens.us.myapplication.data.ScheduleInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

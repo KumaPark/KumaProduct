@@ -1,9 +1,9 @@
-package com.example.kuma.myapplication.Utils;
+package com.simens.us.myapplication.Utils;
 
 import android.content.Context;
 import android.util.Log;
 
-import com.example.kuma.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Constance.Constance;
 
 
 public class KumaLog {

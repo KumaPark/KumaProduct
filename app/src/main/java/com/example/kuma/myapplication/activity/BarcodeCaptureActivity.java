@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
@@ -7,7 +7,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.kuma.myapplication.R;
+import com.simens.us.myapplication.R;
 import com.journeyapps.barcodescanner.CaptureActivity;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;

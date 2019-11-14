@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
 import java.io.IOException;
 import java.net.InetAddress;

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.adapter;
+package com.simens.us.myapplication.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.SelectItemInfo;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.SelectItemInfo;
 
 import java.util.ArrayList;
 import java.util.List;

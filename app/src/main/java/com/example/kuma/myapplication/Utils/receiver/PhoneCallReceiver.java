@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils.receiver;
+package com.simens.us.myapplication.Utils.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -1,11 +1,11 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
 import android.content.Context;
 
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.response.CommonResponse;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.Utils.DeviceUtils;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.response.CommonResponse;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Utils.DeviceUtils;
 
 /**
  * Created by Kuma on 2018-03-03.

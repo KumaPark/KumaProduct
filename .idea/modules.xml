@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KumaProduct.iml" filepath="$PROJECT_DIR$/KumaProduct.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MyApplication.iml" filepath="$PROJECT_DIR$/MyApplication.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ProductManager/KumaProduct/MyApplication.iml" filepath="$PROJECT_DIR$/../ProductManager/KumaProduct/MyApplication.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SimensProduct2.iml" filepath="$PROJECT_DIR$/SimensProduct2.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../ProductManager/KumaProduct/app/app.iml" filepath="$PROJECT_DIR$/../ProductManager/KumaProduct/app/app.iml" />
     </modules>
   </component>
 </project>

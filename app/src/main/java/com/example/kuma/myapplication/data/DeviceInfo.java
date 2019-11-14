@@ -1,6 +1,6 @@
-package com.example.kuma.myapplication.data;
+package com.simens.us.myapplication.data;
 
-import com.example.kuma.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Constance.Constance;
 
 import java.io.Serializable;
 

@@ -1,9 +1,9 @@
-package com.example.kuma.myapplication.Utils.db;
+package com.simens.us.myapplication.Utils.db;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.example.kuma.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Utils.KumaLog;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.dialog;
+package com.simens.us.myapplication.ui.dialog;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.R;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.R;
 
 /**
  * Created by Kuma on 2018-02-19.

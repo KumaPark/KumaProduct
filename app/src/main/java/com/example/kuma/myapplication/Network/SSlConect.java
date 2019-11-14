@@ -1,8 +1,8 @@
-package com.example.kuma.myapplication.Network;
+package com.simens.us.myapplication.Network;
 
 
-import com.example.kuma.myapplication.Network.request.MyTrustManager;
-import com.example.kuma.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Network.request.MyTrustManager;
+import com.simens.us.myapplication.Utils.KumaLog;
 
 import java.io.IOException;
 import java.net.InetAddress;

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils;
+package com.simens.us.myapplication.Utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

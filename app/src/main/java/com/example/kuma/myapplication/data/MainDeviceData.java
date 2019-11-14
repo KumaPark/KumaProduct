@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.data;
+package com.simens.us.myapplication.data;
 
 /**
  * Created by Kuma on 2018-01-20.

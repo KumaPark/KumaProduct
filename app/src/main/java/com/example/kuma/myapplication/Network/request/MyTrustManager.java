@@ -1,6 +1,6 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
-import com.example.kuma.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Utils.KumaLog;
 
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.conn.ssl.X509HostnameVerifier;

@@ -1,7 +1,7 @@
-package com.example.kuma.myapplication.Network;
+package com.simens.us.myapplication.Network;
 
 
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
 
 public interface ProtocolListener {
 

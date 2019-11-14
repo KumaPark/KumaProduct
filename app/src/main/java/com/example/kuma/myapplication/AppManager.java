@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication;
+package com.simens.us.myapplication;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -6,8 +6,8 @@ import java.util.Hashtable;
 import android.app.Activity;
 import android.app.Application;
 
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.Utils.SharedPref.ShareDataManager;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Utils.SharedPref.ShareDataManager;
 
 public class AppManager extends Application {
 

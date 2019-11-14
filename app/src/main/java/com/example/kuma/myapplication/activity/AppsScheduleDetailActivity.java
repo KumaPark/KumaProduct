@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -15,23 +15,23 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqAgencyMemberList;
-import com.example.kuma.myapplication.Network.request.ReqAppsScheduleDetail;
-import com.example.kuma.myapplication.Network.request.ReqAppsScheduleEdit;
-import com.example.kuma.myapplication.Network.response.CommonResponse;
-import com.example.kuma.myapplication.Network.response.ResAgencyMemberList;
-import com.example.kuma.myapplication.Network.response.ResAppsScheduleDetail;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.AppsScheduleInfo;
-import com.example.kuma.myapplication.data.DropBoaxCommonDTO;
-import com.example.kuma.myapplication.ui.dialog.CommonDialog;
-import com.example.kuma.myapplication.ui.dialog.DropBoxCommonDialog;
-import com.example.kuma.myapplication.ui.dialog.IDialogListener;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqAgencyMemberList;
+import com.simens.us.myapplication.Network.request.ReqAppsScheduleDetail;
+import com.simens.us.myapplication.Network.request.ReqAppsScheduleEdit;
+import com.simens.us.myapplication.Network.response.CommonResponse;
+import com.simens.us.myapplication.Network.response.ResAgencyMemberList;
+import com.simens.us.myapplication.Network.response.ResAppsScheduleDetail;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.AppsScheduleInfo;
+import com.simens.us.myapplication.data.DropBoaxCommonDTO;
+import com.simens.us.myapplication.ui.dialog.CommonDialog;
+import com.simens.us.myapplication.ui.dialog.DropBoxCommonDialog;
+import com.simens.us.myapplication.ui.dialog.IDialogListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication;
+package com.simens.us.myapplication;
 
 import android.content.Context;
 import android.support.design.widget.AppBarLayout;

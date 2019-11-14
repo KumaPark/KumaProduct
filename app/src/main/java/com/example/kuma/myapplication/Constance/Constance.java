@@ -1,12 +1,12 @@
-package com.example.kuma.myapplication.Constance;
+package com.simens.us.myapplication.Constance;
 
 import android.graphics.Color;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.DropBoaxCommonDTO;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.DropBoaxCommonDTO;
 
 import java.util.ArrayList;
 

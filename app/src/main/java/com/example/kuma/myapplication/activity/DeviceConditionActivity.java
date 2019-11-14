@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 /**
  * Created by Kuma on 2018-12-03.
@@ -19,23 +19,23 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqDeviceScheduleList;
-import com.example.kuma.myapplication.Network.response.ResDeviceScheduleList;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.adapter.DeviceConditionScheduleAdapter;
-import com.example.kuma.myapplication.adapter.DeviceConditionScheduleListAdapter;
-import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
-import com.example.kuma.myapplication.adapter.productSelectAdapter;
-import com.example.kuma.myapplication.data.ScheduleInfo;
-import com.example.kuma.myapplication.data.ScheduleListDTO;
-import com.example.kuma.myapplication.data.ScheduleListDayDTO;
-import com.example.kuma.myapplication.data.ScheduleListLowDTO;
-import com.example.kuma.myapplication.ui.dialog.ProductSelectDialog;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqDeviceScheduleList;
+import com.simens.us.myapplication.Network.response.ResDeviceScheduleList;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.adapter.DeviceConditionScheduleAdapter;
+import com.simens.us.myapplication.adapter.DeviceConditionScheduleListAdapter;
+import com.simens.us.myapplication.adapter.DeviceScheduleListAdapter;
+import com.simens.us.myapplication.adapter.productSelectAdapter;
+import com.simens.us.myapplication.data.ScheduleInfo;
+import com.simens.us.myapplication.data.ScheduleListDTO;
+import com.simens.us.myapplication.data.ScheduleListDayDTO;
+import com.simens.us.myapplication.data.ScheduleListLowDTO;
+import com.simens.us.myapplication.ui.dialog.ProductSelectDialog;
 import com.google.zxing.integration.android.IntentIntegrator;
 
 import java.text.DateFormat;

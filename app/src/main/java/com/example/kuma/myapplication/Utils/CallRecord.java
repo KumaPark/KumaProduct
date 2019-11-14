@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils;
+package com.simens.us.myapplication.Utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,9 +7,9 @@ import android.media.MediaRecorder;
 import android.os.Environment;
 import android.util.Log;
 
-import com.example.kuma.myapplication.Utils.helper.PrefsHelper;
-import com.example.kuma.myapplication.Utils.receiver.CallRecordReceiver;
-import com.example.kuma.myapplication.Utils.service.CallRecordService;
+import com.simens.us.myapplication.Utils.helper.PrefsHelper;
+import com.simens.us.myapplication.Utils.receiver.CallRecordReceiver;
+import com.simens.us.myapplication.Utils.service.CallRecordService;
 
 
 /**

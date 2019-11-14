@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.dialog;
+package com.simens.us.myapplication.ui.dialog;
 
 
 
@@ -6,7 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.kuma.myapplication.R;
+import com.simens.us.myapplication.R;
 
 public class BaseDialog extends Dialog
 {

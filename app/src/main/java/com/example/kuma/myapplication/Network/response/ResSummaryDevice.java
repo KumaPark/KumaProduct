@@ -1,10 +1,10 @@
-package com.example.kuma.myapplication.Network.response;
+package com.simens.us.myapplication.Network.response;
 
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.parser.JSONDefines;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.DeviceSummary;
-import com.example.kuma.myapplication.data.ScheduleInfo;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.parser.JSONDefines;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.DeviceSummary;
+import com.simens.us.myapplication.data.ScheduleInfo;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;

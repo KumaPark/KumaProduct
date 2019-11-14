@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.dialog;
+package com.simens.us.myapplication.ui.dialog;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -12,16 +12,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.activity.DeviceDemoDetailActivity;
-import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
-import com.example.kuma.myapplication.adapter.ItemSelectAdapter;
-import com.example.kuma.myapplication.adapter.productSelectAdapter;
-import com.example.kuma.myapplication.data.ScheduleInfo;
-import com.example.kuma.myapplication.data.ScheduleListDayDTO;
-import com.example.kuma.myapplication.data.SelectItemInfo;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.activity.DeviceDemoDetailActivity;
+import com.simens.us.myapplication.adapter.DeviceScheduleListAdapter;
+import com.simens.us.myapplication.adapter.ItemSelectAdapter;
+import com.simens.us.myapplication.adapter.productSelectAdapter;
+import com.simens.us.myapplication.data.ScheduleInfo;
+import com.simens.us.myapplication.data.ScheduleListDayDTO;
+import com.simens.us.myapplication.data.SelectItemInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

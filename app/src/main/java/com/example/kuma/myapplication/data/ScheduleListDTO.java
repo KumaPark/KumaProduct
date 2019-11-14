@@ -1,6 +1,6 @@
-package com.example.kuma.myapplication.data;
+package com.simens.us.myapplication.data;
 
-import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
+import com.simens.us.myapplication.adapter.DeviceScheduleListAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;

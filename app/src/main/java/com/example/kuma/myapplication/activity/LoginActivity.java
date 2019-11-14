@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -12,17 +12,17 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.kuma.myapplication.AppManager;
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.Network.MyVolley;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqLogin;
-import com.example.kuma.myapplication.Network.response.ResLogin;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
+import com.simens.us.myapplication.AppManager;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Network.MyVolley;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqLogin;
+import com.simens.us.myapplication.Network.response.ResLogin;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Utils.SharedPref.SharedPref;
 
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,18 +9,18 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.LinearLayout;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqDeviceScheduleList;
-import com.example.kuma.myapplication.Network.response.ResDeviceScheduleList;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
-import com.example.kuma.myapplication.data.ScheduleInfo;
-import com.example.kuma.myapplication.data.ScheduleListDTO;
-import com.example.kuma.myapplication.data.ScheduleListDayDTO;
-import com.example.kuma.myapplication.data.ScheduleListLowDTO;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqDeviceScheduleList;
+import com.simens.us.myapplication.Network.response.ResDeviceScheduleList;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.adapter.DeviceScheduleListAdapter;
+import com.simens.us.myapplication.data.ScheduleInfo;
+import com.simens.us.myapplication.data.ScheduleListDTO;
+import com.simens.us.myapplication.data.ScheduleListDayDTO;
+import com.simens.us.myapplication.data.ScheduleListLowDTO;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

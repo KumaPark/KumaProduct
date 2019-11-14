@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,15 +8,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqLogin;
-import com.example.kuma.myapplication.Network.request.ReqUserRegist;
-import com.example.kuma.myapplication.Network.response.ResUserRegist;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.DeviceUtils;
-import com.example.kuma.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqLogin;
+import com.simens.us.myapplication.Network.request.ReqUserRegist;
+import com.simens.us.myapplication.Network.response.ResUserRegist;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.DeviceUtils;
+import com.simens.us.myapplication.Utils.KumaLog;
 
 public class UserRegistActivity extends BaseActivity {
 

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils.service;
+package com.simens.us.myapplication.Utils.service;
 
 import android.app.Service;
 import android.content.Context;
@@ -8,8 +8,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.example.kuma.myapplication.Utils.CallRecord;
-import com.example.kuma.myapplication.Utils.helper.PrefsHelper;
+import com.simens.us.myapplication.Utils.CallRecord;
+import com.simens.us.myapplication.Utils.helper.PrefsHelper;
 
 import java.io.File;
 import java.io.IOException;

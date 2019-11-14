@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.kuma.myapplication">
+    package="com.simens.us.myapplication">
     AppManager
     <application
-        android:name="com.example.kuma.myapplication.AppManager"
+        android:name="com.simens.us.myapplication.AppManager"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

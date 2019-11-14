@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -23,23 +23,23 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.BuildConfig;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqLogin;
-import com.example.kuma.myapplication.Network.request.ReqStateCheck;
-import com.example.kuma.myapplication.Network.request.ReqVersion;
-import com.example.kuma.myapplication.Network.response.ResLogin;
-import com.example.kuma.myapplication.Network.response.ResStateCheck;
-import com.example.kuma.myapplication.Network.response.ResVersion;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.DateUtility;
-import com.example.kuma.myapplication.Utils.DeviceUtils;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
-import com.example.kuma.myapplication.ui.dialog.CommonDialog;
-import com.example.kuma.myapplication.ui.dialog.IDialogListener;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.BuildConfig;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqLogin;
+import com.simens.us.myapplication.Network.request.ReqStateCheck;
+import com.simens.us.myapplication.Network.request.ReqVersion;
+import com.simens.us.myapplication.Network.response.ResLogin;
+import com.simens.us.myapplication.Network.response.ResStateCheck;
+import com.simens.us.myapplication.Network.response.ResVersion;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.DateUtility;
+import com.simens.us.myapplication.Utils.DeviceUtils;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Utils.SharedPref.SharedPref;
+import com.simens.us.myapplication.ui.dialog.CommonDialog;
+import com.simens.us.myapplication.ui.dialog.IDialogListener;
 import com.journeyapps.barcodescanner.Util;
 
 import java.io.BufferedInputStream;

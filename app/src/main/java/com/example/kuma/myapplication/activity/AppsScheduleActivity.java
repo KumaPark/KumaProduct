@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -14,21 +14,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqAppsScheduleList;
-import com.example.kuma.myapplication.Network.response.ResAppsScheduleList;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.adapter.AppsConditionScheduleAdapter;
-import com.example.kuma.myapplication.adapter.AppsproductSelectAdapter;
-import com.example.kuma.myapplication.adapter.DeviceScheduleListAdapter;
-import com.example.kuma.myapplication.adapter.productSelectAdapter;
-import com.example.kuma.myapplication.data.AppsScheduleInfo;
-import com.example.kuma.myapplication.data.AppsScheduleListDTO;
-import com.example.kuma.myapplication.data.AppsScheduleListDayDTO;
-import com.example.kuma.myapplication.data.AppsScheduleListLowDTO;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqAppsScheduleList;
+import com.simens.us.myapplication.Network.response.ResAppsScheduleList;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.adapter.AppsConditionScheduleAdapter;
+import com.simens.us.myapplication.adapter.AppsproductSelectAdapter;
+import com.simens.us.myapplication.adapter.DeviceScheduleListAdapter;
+import com.simens.us.myapplication.adapter.productSelectAdapter;
+import com.simens.us.myapplication.data.AppsScheduleInfo;
+import com.simens.us.myapplication.data.AppsScheduleListDTO;
+import com.simens.us.myapplication.data.AppsScheduleListDayDTO;
+import com.simens.us.myapplication.data.AppsScheduleListLowDTO;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.adapter;
+package com.simens.us.myapplication.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.DeviceInfo;
-import com.example.kuma.myapplication.data.MainDeviceData;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.DeviceInfo;
+import com.simens.us.myapplication.data.MainDeviceData;
 
 import java.util.ArrayList;
 

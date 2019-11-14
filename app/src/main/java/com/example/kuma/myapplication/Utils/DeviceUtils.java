@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils;
+package com.simens.us.myapplication.Utils;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -7,8 +7,8 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
-import com.example.kuma.myapplication.Utils.SharedPref.ShareDataManager;
-import com.example.kuma.myapplication.Utils.SharedPref.SharedPref;
+import com.simens.us.myapplication.Utils.SharedPref.ShareDataManager;
+import com.simens.us.myapplication.Utils.SharedPref.SharedPref;
 
 public class DeviceUtils {
     public static String getAppVersion(Context context){

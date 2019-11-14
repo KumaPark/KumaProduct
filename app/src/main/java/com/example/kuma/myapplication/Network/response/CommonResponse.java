@@ -1,8 +1,8 @@
-package com.example.kuma.myapplication.Network.response;
+package com.simens.us.myapplication.Network.response;
 
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.parser.JSONDefines;
-import com.example.kuma.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.parser.JSONDefines;
+import com.simens.us.myapplication.Utils.KumaLog;
 
 import org.json.JSONObject;
 

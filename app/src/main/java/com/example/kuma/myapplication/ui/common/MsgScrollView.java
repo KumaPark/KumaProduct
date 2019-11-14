@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.common;
+package com.simens.us.myapplication.ui.common;
 
 import android.content.Context;
 import android.content.res.Resources;

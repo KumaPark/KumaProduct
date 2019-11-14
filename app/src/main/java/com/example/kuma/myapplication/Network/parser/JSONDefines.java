@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Network.parser;
+package com.simens.us.myapplication.Network.parser;
 
 
 public class JSONDefines {

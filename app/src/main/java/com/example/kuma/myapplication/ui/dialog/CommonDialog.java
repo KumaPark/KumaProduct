@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.dialog;
+package com.simens.us.myapplication.ui.dialog;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.R;
+import com.simens.us.myapplication.R;
 
 /**
  * Created by 재성 on 2016-07-19.

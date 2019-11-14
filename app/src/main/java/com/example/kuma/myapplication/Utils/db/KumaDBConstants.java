@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils.db;
+package com.simens.us.myapplication.Utils.db;
 
 import android.provider.BaseColumns;
 

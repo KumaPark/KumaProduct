@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.data;
+package com.simens.us.myapplication.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;

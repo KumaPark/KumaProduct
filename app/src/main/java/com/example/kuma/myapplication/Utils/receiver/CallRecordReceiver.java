@@ -1,12 +1,12 @@
-    package com.example.kuma.myapplication.Utils.receiver;
+    package com.simens.us.myapplication.Utils.receiver;
 
 import android.content.Context;
 import android.media.MediaRecorder;
 import android.util.Log;
 
 
-import com.example.kuma.myapplication.Utils.CallRecord;
-import com.example.kuma.myapplication.Utils.helper.PrefsHelper;
+import com.simens.us.myapplication.Utils.CallRecord;
+import com.simens.us.myapplication.Utils.helper.PrefsHelper;
 
 import java.io.File;
 import java.io.IOException;

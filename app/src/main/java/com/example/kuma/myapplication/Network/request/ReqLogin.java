@@ -1,8 +1,8 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.response.ResLogin;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.response.ResLogin;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
 
 /**
  * Created by 재성 on 2018-01-20.

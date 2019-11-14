@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -9,19 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.BaseActivity;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.request.ReqDeviceDelete;
-import com.example.kuma.myapplication.Network.request.ReqDeviceEdit;
-import com.example.kuma.myapplication.Network.request.ReqDeviceInsert;
-import com.example.kuma.myapplication.Network.request.ReqMainDeviceList;
-import com.example.kuma.myapplication.Network.response.CommonResponse;
-import com.example.kuma.myapplication.Network.response.ResMainDeviceList;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.data.DeviceInfo;
-import com.example.kuma.myapplication.ui.dialog.CommonDialog;
+import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqDeviceDelete;
+import com.simens.us.myapplication.Network.request.ReqDeviceEdit;
+import com.simens.us.myapplication.Network.request.ReqDeviceInsert;
+import com.simens.us.myapplication.Network.request.ReqMainDeviceList;
+import com.simens.us.myapplication.Network.response.CommonResponse;
+import com.simens.us.myapplication.Network.response.ResMainDeviceList;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.data.DeviceInfo;
+import com.simens.us.myapplication.ui.dialog.CommonDialog;
 
 /**
  * Created by Kuma on 2018-02-22.

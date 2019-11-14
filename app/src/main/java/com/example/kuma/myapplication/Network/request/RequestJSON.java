@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,9 +23,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.kuma.myapplication.Network.ProtocolListener;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Network.ProtocolListener;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Utils.KumaLog;
 
 
 public abstract class RequestJSON {

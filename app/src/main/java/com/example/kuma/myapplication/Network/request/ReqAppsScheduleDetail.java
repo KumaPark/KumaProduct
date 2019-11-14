@@ -1,13 +1,13 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.response.ResAppsScheduleDetail;
-import com.example.kuma.myapplication.Network.response.ResAppsScheduleList;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.Utils.DeviceUtils;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.response.ResAppsScheduleDetail;
+import com.simens.us.myapplication.Network.response.ResAppsScheduleList;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Utils.DeviceUtils;
 
 public class ReqAppsScheduleDetail extends RequestJSON {
 

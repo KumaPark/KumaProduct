@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.adapter;
+package com.simens.us.myapplication.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -9,9 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.data.DropBoaxCommonDTO;
-import com.example.kuma.myapplication.data.ScheduleInfo;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.data.DropBoaxCommonDTO;
+import com.simens.us.myapplication.data.ScheduleInfo;
 
 import java.util.ArrayList;
 

@@ -42,7 +42,7 @@
 
             <!-- message area -->
 
-            <com.example.kuma.myapplication.ui.common.MsgScrollView
+            <com.simens.us.myapplication.ui.common.MsgScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
@@ -64,7 +64,7 @@
                     android:textColor="@color/color_text"
                     android:textSize="13dp" />
             </LinearLayout>
-            </com.example.kuma.myapplication.ui.common.MsgScrollView>
+            </com.simens.us.myapplication.ui.common.MsgScrollView>
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"

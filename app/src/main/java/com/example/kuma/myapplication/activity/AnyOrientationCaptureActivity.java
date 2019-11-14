@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.activity;
+package com.simens.us.myapplication.activity;
 
 import com.journeyapps.barcodescanner.CaptureActivity;
 

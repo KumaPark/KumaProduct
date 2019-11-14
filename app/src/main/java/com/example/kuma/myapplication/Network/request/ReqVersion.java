@@ -1,9 +1,9 @@
-package com.example.kuma.myapplication.Network.request;
+package com.simens.us.myapplication.Network.request;
 
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.response.ResSummaryDevice;
-import com.example.kuma.myapplication.Network.response.ResVersion;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.response.ResSummaryDevice;
+import com.simens.us.myapplication.Network.response.ResVersion;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
 
 public class ReqVersion extends RequestJSON
 {

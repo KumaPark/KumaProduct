@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.Utils.SharedPref;
+package com.simens.us.myapplication.Utils.SharedPref;
 
 
 import android.annotation.TargetApi;

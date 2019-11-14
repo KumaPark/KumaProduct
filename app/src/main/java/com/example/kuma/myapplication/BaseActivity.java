@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication;
+package com.simens.us.myapplication;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,21 +15,21 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.Network.ProtocolDefines;
-import com.example.kuma.myapplication.Network.ProtocolListener;
-import com.example.kuma.myapplication.Network.request.ReqLogOut;
-import com.example.kuma.myapplication.Network.request.ReqVersion;
-import com.example.kuma.myapplication.Network.request.RequestJSON;
-import com.example.kuma.myapplication.Network.response.CommonResponse;
-import com.example.kuma.myapplication.Network.response.ResVersion;
-import com.example.kuma.myapplication.Network.response.ResponseProtocol;
-import com.example.kuma.myapplication.Utils.DeviceUtils;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.Utils.NetUtility;
-import com.example.kuma.myapplication.ui.dialog.CommonDialog;
-import com.example.kuma.myapplication.ui.dialog.CustomProgressbarView;
-import com.example.kuma.myapplication.ui.dialog.IDialogListener;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.ProtocolListener;
+import com.simens.us.myapplication.Network.request.ReqLogOut;
+import com.simens.us.myapplication.Network.request.ReqVersion;
+import com.simens.us.myapplication.Network.request.RequestJSON;
+import com.simens.us.myapplication.Network.response.CommonResponse;
+import com.simens.us.myapplication.Network.response.ResVersion;
+import com.simens.us.myapplication.Network.response.ResponseProtocol;
+import com.simens.us.myapplication.Utils.DeviceUtils;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.Utils.NetUtility;
+import com.simens.us.myapplication.ui.dialog.CommonDialog;
+import com.simens.us.myapplication.ui.dialog.CustomProgressbarView;
+import com.simens.us.myapplication.ui.dialog.IDialogListener;
 
 /**
  * Created by 재성 on 2016-07-12.

@@ -1,4 +1,4 @@
-package com.example.kuma.myapplication.ui.dialog;
+package com.simens.us.myapplication.ui.dialog;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.kuma.myapplication.Constance.Constance;
-import com.example.kuma.myapplication.R;
-import com.example.kuma.myapplication.Utils.KumaLog;
-import com.example.kuma.myapplication.adapter.DropBoxCommonAdapter;
-import com.example.kuma.myapplication.data.DropBoaxCommonDTO;
+import com.simens.us.myapplication.Constance.Constance;
+import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.KumaLog;
+import com.simens.us.myapplication.adapter.DropBoxCommonAdapter;
+import com.simens.us.myapplication.data.DropBoaxCommonDTO;
 import java.util.ArrayList;
 
 public class DropBoxCommonDialog extends BaseDialog implements View.OnClickListener {

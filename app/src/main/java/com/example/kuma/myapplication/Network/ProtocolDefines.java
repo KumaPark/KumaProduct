@@ -1,9 +1,9 @@
-package com.example.kuma.myapplication.Network;
+package com.simens.us.myapplication.Network;
 
 
-import com.example.kuma.myapplication.Constance.Constance;
+import com.simens.us.myapplication.Constance.Constance;
 
-import static com.example.kuma.myapplication.Network.ProtocolDefines.BBUrl.getURL;
+import static com.simens.us.myapplication.Network.ProtocolDefines.BBUrl.getURL;
 
 public class ProtocolDefines {
 
