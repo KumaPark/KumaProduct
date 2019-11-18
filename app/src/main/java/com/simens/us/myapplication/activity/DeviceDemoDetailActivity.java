@@ -182,9 +182,10 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
 
         mRlReciverSelect.setOnClickListener(this);
         mRlReciverSelect.setClickable(false);
-        if(Constance.USER_PERMISSION == 64) {
+        if(Constance.isManager()) {
             changeEditState(true);
         }  else {
+            mBtnEdit.setVisibility(View.GONE);
             changeEditState(false);
         }
 

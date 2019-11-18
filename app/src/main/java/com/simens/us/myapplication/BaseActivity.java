@@ -147,7 +147,6 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
                 // TODO Auto-generated method stub
                 if (nResult == CommonDialog.RESULT_OK) {
                     reqLogOut();
-
                 }
             }
         });
@@ -165,6 +164,8 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
 
             reqLogOut.setTag(22221);
             requestProtocol(true, reqLogOut);
+            finish();
+            android.os.Process.killProcess(android.os.Process.myPid());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -176,8 +177,7 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
     {
         KumaLog.d("++++++++++++resVersion++++++++++++++");
         if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
-            finish();
-            android.os.Process.killProcess(android.os.Process.myPid());
+
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {
                 showSimpleMessagePopup(resprotocol.getMsg());
@@ -483,7 +483,7 @@ public abstract class BaseActivity extends Activity implements ProtocolListener,
         } else if(  nTag == REQ_ID_JOB_NOTICE ){
 //            resJobNotice((ResJobNotice)resProtocol);
         }  else if(  nTag == 22221 ){
-            resLogOut((CommonResponse) resProtocol);
+
         } else {
             onResponseProtocol(nTag, resProtocol);
         }

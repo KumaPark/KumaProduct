@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.simens.us.myapplication.BaseActivity;
+import com.simens.us.myapplication.Constance.Constance;
 import com.simens.us.myapplication.Network.ProtocolDefines;
 import com.simens.us.myapplication.Network.request.ReqAppsScheduleList;
 import com.simens.us.myapplication.Network.response.ResAppsScheduleList;
@@ -181,6 +182,9 @@ public class AppsScheduleActivity extends BaseActivity implements View.OnClickLi
             }
         });
 
+        if(  !Constance.isManager()  )  {
+            mIvSchedulePlus.setVisibility(View.GONE);
+        }
     }
 
     @Override

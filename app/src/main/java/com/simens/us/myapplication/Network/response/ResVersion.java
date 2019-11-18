@@ -43,6 +43,10 @@ public class ResVersion extends ResponseProtocol{
         }
     }
 
+    public String getVersion() {
+        return version;
+    }
+
     public boolean isForceUpdate(){
         KumaLog.line();
         KumaLog.i(">>>> isForceUpdate forceUpdate : " + forceUpdate);

@@ -58,7 +58,32 @@ public class Constance {
         return data;
     }
 
+    // 대리점
+    public static boolean  isAgency(){
+        if( USER_PERMISSION == 1 )  {
+            return true;
+        }
 
+        return false;
+    }
+
+    // 관리자
+    public static boolean  isManager(){
+        if( USER_PERMISSION == 64 )  {
+            return true;
+        }
+
+        return false;
+    }
+
+    // 임상
+    public static boolean  isApps(){
+        if( USER_PERMISSION == 32 )  {
+            return true;
+        }
+
+        return false;
+    }
     /**
      *  장비 :  NX3, NX2, NX3 Elite NX2 Elite  ( 장비명, 기간, 시리얼, 병원명, 상태값, OS Vesion, 담당자)
      *  트랜듀서 : NX2 >> C5-2v, L10-5v

@@ -22,7 +22,9 @@ import android.widget.TextView;
 import com.simens.us.myapplication.BaseActivity;
 import com.simens.us.myapplication.Constance.Constance;
 import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqAgencyList;
 import com.simens.us.myapplication.Network.request.ReqDeviceScheduleList;
+import com.simens.us.myapplication.Network.response.ResAgencyList;
 import com.simens.us.myapplication.Network.response.ResDeviceScheduleList;
 import com.simens.us.myapplication.Network.response.ResponseProtocol;
 import com.simens.us.myapplication.R;
@@ -49,6 +51,7 @@ import java.util.Locale;
 public class DeviceConditionActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int TAG_REQ_SCHEDULE_LIST = 1000;
+    private static final int TAG_REQ_AGENCY_LIST = 1001;
 
     private final static int DLG_PRODUCT_SELECT = 201;
 
@@ -140,6 +143,7 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.iv_filter).setOnClickListener(this);
 
+
         initSelecteProduct();
     }
 
@@ -189,6 +193,13 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
             }
         });
 
+        if(  !Constance.isManager()  )  {
+            findViewById(R.id.iv_back).setVisibility(View.GONE);
+            mIvSchedulePlus.setVisibility(View.GONE);
+        }
+        if( Constance.isAgency()) {
+            reqAgencyList();
+        }
     }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -235,6 +246,39 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
 //
     }
 
+    /**
+     * 본사 및 대리점명 조회
+     */
+    private void reqAgencyList() {
+        try {
+            ReqAgencyList reqAgencyList = new ReqAgencyList(this);
+
+            reqAgencyList.setTag(TAG_REQ_AGENCY_LIST);
+            requestProtocol(true, reqAgencyList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * 본사 및 대리점명 조회
+     */
+    private void resAgencyList(ResAgencyList resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resAgencyList  ++++++++++++++");
+            Constance.mArrAgencyList.clear();
+            Constance.mArrAgencyList.addAll(resprotocol.getmArrDropBoaxCommonDTO());
+
+            KumaLog.i("+++ ResAgencyList Constance.mArrAgencyList.size()  " + Constance.mArrAgencyList.size());
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
+    }
     /**
      * 데모 정보 조회 리스트
      */
@@ -571,6 +615,10 @@ public class DeviceConditionActivity extends BaseActivity implements View.OnClic
             case TAG_REQ_SCHEDULE_LIST:
                 resDeviceScheduleList((ResDeviceScheduleList)resProtocol);
                 break;
+            case TAG_REQ_AGENCY_LIST : {
+                resAgencyList((ResAgencyList)resProtocol);
+                break;
+            }
             default:
                 break;
         }

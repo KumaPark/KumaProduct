@@ -15,22 +15,69 @@
             android:orientation="vertical"
             android:gravity="center"
             >
-            <EditText
-                android:id="@+id/ev_id"
+
+            <RelativeLayout
+                android:id="@+id/rv_id"
                 android:layout_marginTop="150dp"
                 android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:maxLines="1"
-                android:hint="id"
-                />
+                android:layout_height="90dp"
+                android:background="@drawable/back_input"
+                >
             <EditText
-                android:id="@+id/ev_pw"
+                android:id="@+id/ev_id"
                 android:layout_width="250dp"
                 android:layout_height="40dp"
-                android:maxLines="1"
-                android:inputType="textPassword"
-                android:hint="password"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="70dp"
+                android:inputType="text"
+                android:background="#00000000"
+                android:hint="id"
                 />
+
+                <LinearLayout
+                    android:id="@+id/ll_save_id"
+                    android:layout_width="70dp"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center"
+                    >
+                    <CheckBox
+                        android:id="@+id/cv_save_id"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="저장"
+                        />
+                </LinearLayout>
+                <View
+                    android:layout_below="@+id/ev_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="#aae1e1e1"
+                    />
+                <EditText
+                    android:id="@+id/ev_pw"
+                    android:layout_width="250dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:maxLines="1"
+                    android:inputType="textPassword"
+                    android:background="#00000000"
+                    android:hint="password"
+                    />
+            </RelativeLayout>
+
 
             <Button
                 android:id="@+id/btn_login"

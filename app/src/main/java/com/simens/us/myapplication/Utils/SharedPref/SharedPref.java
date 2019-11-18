@@ -13,7 +13,8 @@ public class SharedPref {
 	public static final String NODATA_STRING = "";
 
 	public final static String PREF_LOGIN_TOKEN 		= "PREF_LOGIN_TOKEN";
-
+	public final static String PREF_ID_SAVE_STATE 		= "PREF_ID_SAVE_STATE";
+	public final static String PREF_ID_SAVE 		= "PREF_ID_SAVE";
 
 	private SharedPreferences m_Pref = null;
 	private Context m_Context = null;

@@ -129,6 +129,7 @@ public class IntroActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+    private String  mStrVersion = "";
     /**
      * 버젼조회 결과
      */
@@ -136,8 +137,9 @@ public class IntroActivity extends BaseActivity {
     {
         KumaLog.d("++++++++++++resVersion++++++++++++++");
         if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
-
+            mStrVersion = resprotocol.getVersion();
             if( resprotocol.isUpdate(DeviceUtils.getAppVersion(this))) {
+
                     if( resprotocol.isForceUpdate()) {
                         showAlterDialog(true, "보다 안정적이고 편리한 서비스 이용을 위해 앱을 최신버전으로 업데이트 해주세요.");
                     } else {
@@ -212,17 +214,17 @@ public class IntroActivity extends BaseActivity {
         progressBar.setIndeterminate(true);
         progressBar.setCancelable(true);
 
-        String fileUrl = "http://lionskaphp.cafe24.com/apk/app-debug_v1.0.0.apk";
+        String fileUrl = "http://lionskaphp.cafe24.com/mdevice/support/apk-download";
 
         final DownloadFilesTask downloadTask = new DownloadFilesTask(IntroActivity.this);
         downloadTask.execute(fileUrl);
 
-        progressBar.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                downloadTask.cancel(true);
-            }
-        });
+//        progressBar.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//            @Override
+//            public void onCancel(DialogInterface dialog) {
+//                downloadTask.cancel(true);
+//            }
+//        });
 //        new apkDownload().execute();
     }
     private void showAlterDialog( boolean forceState, String strMsg){
@@ -293,16 +295,24 @@ public class IntroActivity extends BaseActivity {
                 //파일 크기를 가져옴
                 FileSize = connection.getContentLength();
 
+
                 String strFolder = "SIEMENSProduct";
                 String savePath = Environment.getExternalStorageDirectory() + File.separator + strFolder + "/temp/";
+                String strFileName = "app-v" + mStrVersion  +".apk";
 
                 path = new File(savePath);
                 if( !path.isDirectory() ) {
                     path.mkdirs();
                 }
-                outputFile = new File(path, "app-debug_v1.0.0.apk"); //파일명까지 포함함 경로의 File 객체 생성
+                outputFile = new File(path, "app-v" + mStrVersion  +".apk"); //파일명까지 포함함 경로의 File 객체 생성
 
-                m_strApkPath = outputFile.getPath();
+                if( outputFile.exists() ){
+                    outputFile.delete();
+                }
+
+                m_strApkPath = savePath + strFileName;
+
+//                DownloadDatabase(url,  savePath, strFileName);
 
                 if( !outputFile.isFile() ) {
                     //URL 주소로부터 파일다운로드하기 위한 input stream
@@ -332,6 +342,8 @@ public class IntroActivity extends BaseActivity {
                         //파일에 데이터를 기록합니다.
                         output.write(data, 0, count);
                     }
+                    KumaLog.d(" downloadedSize >>>>>> "+ downloadedSize);
+
                     // Flush output
                     output.flush();
 
@@ -339,7 +351,6 @@ public class IntroActivity extends BaseActivity {
                     output.close();
                     input.close();
                 }
-
             } catch (Exception e) {
                 KumaLog.e("Error: ", e.getMessage());
             }finally {
@@ -383,7 +394,6 @@ public class IntroActivity extends BaseActivity {
 
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
                     try {
                         Uri apkUri = FileProvider.getUriForFile(getApplicationContext(), BuildConfig.APPLICATION_ID + ".provider", apkFile);
                         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -391,19 +401,63 @@ public class IntroActivity extends BaseActivity {
                     }catch (Exception e) {
                         KumaLog.e(e.toString());
                     }
-
-
                 } else {
                     intent.setDataAndType( Uri.fromFile(apkFile), "application/vnd.android.package-archive");
                 }
-
                 startActivity(intent);
+                finish();
             } else {
                 KumaLog.e("Error File is Not ");
             }
         }
-
     }
+
+    public void DownloadDatabase(URL DownloadUrl, String savePath, String strFileName) {
+        int count;
+        try {
+            String root = savePath;
+
+            System.out.println("Downloading");
+
+            URLConnection conection = DownloadUrl.openConnection();
+            conection.connect();
+            // getting file length
+            int lenghtOfFile = conection.getContentLength();
+
+            KumaLog.d(" lenghtOfFile : " + lenghtOfFile);
+
+            // input stream to read file - with 8k buffer
+            InputStream input = new BufferedInputStream(DownloadUrl.openStream(), 8192);
+
+            // Output stream to write file
+
+            OutputStream output = new FileOutputStream(root+ strFileName );
+            byte data[] = new byte[1024];
+
+            long total = 0;
+            while ((count = input.read(data)) != -1) {
+                total += count;
+
+                // writing data to file
+                output.write(data, 0, count);
+
+            }
+
+            KumaLog.d(" total : " + total);
+
+            // flushing output
+            output.flush();
+
+            // closing streams
+            output.close();
+            input.close();
+
+        } catch (Exception e) {
+            Log.e("Error: ", e.getMessage());
+        }
+
+        }
+
     @Override
     public void onResponseProtocol(int nTag, ResponseProtocol resProtocol) {
         switch (nTag) {

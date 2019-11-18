@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.android.volley.Request;
@@ -34,6 +36,7 @@ public class LoginActivity extends BaseActivity {
 
     private EditText mEvID;
     private EditText mEvPw;
+    private boolean  mBSaveState = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +50,27 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-        mEvID.setText("admin@lionskaphp.co.kr");
-        mEvPw.setText("qwerasdfzxcv123!");
+
+        mBSaveState = getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_ID_SAVE_STATE, false);
+//        mEvID.setText("admin@lionskaphp.co.kr");
+//        mEvPw.setText("qwerasdfzxcv123!");
+
+        try {
+            if( !TextUtils.isEmpty(getAppManager().getShareDataManager().getStringPref(LoginActivity.this, SharedPref.PREF_ID_SAVE)  ))  {
+                mEvID.setText(getAppManager().getShareDataManager().getStringPref(LoginActivity.this, SharedPref.PREF_ID_SAVE));
+            }
+        }catch (Exception e){
+            KumaLog.e(e.toString());
+        }
+
+
+        ((CheckBox)findViewById(R.id.cv_save_id)).setChecked(mBSaveState);
+        ((CheckBox)findViewById(R.id.cv_save_id)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                getAppManager().getShareDataManager().setBooleanPref(LoginActivity.this, SharedPref.PREF_ID_SAVE_STATE, isChecked);
+            }
+        });
 
 //        mEvID.setText("jiji@cccc.co.kr");
 //        mEvPw.setText("qwerasdfzxcv123!");
@@ -92,7 +114,14 @@ public class LoginActivity extends BaseActivity {
 //            permission : 권한 ex) 1 : 대리점, 32 : 임상, 64 : 관리자
             Constance.USER_NAME  = resprotocol.getName();
             Constance.USER_PERMISSION  = resprotocol.getPermisson();
+            if( getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_ID_SAVE_STATE, false)  )  {
+                getAppManager().getShareDataManager().setStringPref(LoginActivity.this, SharedPref.PREF_ID_SAVE, mEvID.getText().toString().trim());
+            }
             KumaLog.d("++++++++++++Constance.USER_PERMISSION  ++++++++++++++"  + Constance.USER_PERMISSION);
+            if(Constance.isAgency() ){
+                move2OtherActivity(DeviceConditionActivity.class, true);
+                return;
+            }
             move2OtherActivity(MainActivity.class, true);
         }  else {
             if( !TextUtils.isEmpty(resprotocol.getMsg())) {

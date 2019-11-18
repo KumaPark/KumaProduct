@@ -123,7 +123,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             public void run() {
                 reqDataList();
                 reqDestinationList();
-                reqAgencyList();
+                if( Constance.isManager()) {
+                    reqAgencyList();
+                }
             }
         }, 100);
 
@@ -134,6 +136,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.ll_equipment).setOnClickListener(this);
         findViewById(R.id.ll_employ_schedule).setOnClickListener(this);
 
+        if(  !Constance.isManager()  )  {
+            findViewById(R.id.ll_employ_schedule).setVisibility(View.GONE);
+            findViewById(R.id.ll_regist).setVisibility(View.GONE);
+            mFloatingActionButton.setVisibility(View.GONE);
+
+        } else{
+            showSimpleMessagePopup("릴리즈 노트\nv1.0.0\n" +
+                    "-사용자 등록\n" +
+                    "-로그인\n" +
+                    "-앱버전체크\n" +
+                    "-상태체크( 90일 이상 미접속 등 ) \n" +
+                    "-데모  스케줄 조회\n" +
+                    "-데모 스케쥴 상세보기\n" +
+                    "v1.0.1\n" +
+                    "-데모 등록\n" +
+                    "-임상 스케쥴 상세보기\n" +
+                    "v.1.0.2\n" +
+                    "- 데모 일정 등록\n" +
+                    "- 데모 일정 변경 (UI 변경)\n" +
+                    "- Apps 일정변경\n" +
+                    "- Apps 일정 등록\n" +
+                    "v 1.0.3 \n" +
+                    "- 버전 업데이트 관리.\n" +
+                    "v 1.0.4\n" +
+                    "-대리점 분리 로그인");
+        }
     }
 
     private void gotoEdit(DeviceInfo data){
