@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "583843890028",
+    "firebase_url": "https://simens-us-product.firebaseio.com",
+    "project_id": "simens-us-product",
+    "storage_bucket": "simens-us-product.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583843890028:android:5e7db410ece936c73d6949",
+        "android_client_info": {
+          "package_name": "com.simens.us.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583843890028-0iqfb3ovt8u10c29togt2b3oneh9tq89.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBusDsrt5-5KWKBfzBQGsbMe7MvwKrCxeo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583843890028-0iqfb3ovt8u10c29togt2b3oneh9tq89.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

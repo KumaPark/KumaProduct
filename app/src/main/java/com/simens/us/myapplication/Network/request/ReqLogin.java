@@ -15,6 +15,8 @@ public class ReqLogin extends RequestJSON
     //	회원 아이디
     private String userId = "";
     private String password = "";
+    private String regId = "";
+    private String macAddr="";
     //	디바이스아이디
     private String m_strDeviceId = "";
 
@@ -51,6 +53,14 @@ public class ReqLogin extends RequestJSON
         this.password = password;
     }
 
+    public void setRegId(String regId) {
+        this.regId = regId;
+    }
+
+    public void setMacAddr(String macAddr) {
+        this.macAddr = macAddr;
+    }
+
     @Override
     public Integer getTAG() {
         // TODO Auto-generated method stub
@@ -61,6 +71,8 @@ public class ReqLogin extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
+        m_sbParameter.append("regId").append("=").append(regId).append("&");
+        m_sbParameter.append("macAddr").append("=").append(macAddr).append("&");
         m_sbParameter.append("loginId").append("=").append(userId).append("&");
         m_sbParameter.append("loginPw").append("=").append(password);
 

@@ -258,13 +258,14 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
         DatePickerDialog dialog = new DatePickerDialog(DeviceScheduleInsertActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int date) {
-                String msg = String.format("%d 년 %d 월 %d 일", year, month+1, date);
+                String msg = String.format("%d-%d-%d", year, month+1, date);
 
                 if( TAG_START_DATE == nTag ) {
                     nStartYear = year;
                     nStartMonth = month;
                     nStartDay = date;
                     strStartDate = String.format("%d%d%d", year, month, date);
+
 
                     if(TextUtils.isEmpty(strEndDate)) {
                         strEndDate = strStartDate;
@@ -585,8 +586,37 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
 
             KumaLog.d("mTvChoiceDevice.getTag() >>>> " + mTvChoiceDevice.getTag());
             reqDeviceScheduleInsert.setTag(TAG_REQ_DEVICE_SCHEDULE_ADD);
-            reqDeviceScheduleInsert.setStartDate(nStartYear + "-" + ( nStartMonth + 1 ) + "-" + nStartDay);
-            reqDeviceScheduleInsert.setEndDate(nEndYear + "-" + ( nEndMonth + 1) + "-" + nEndDay);
+            String strStartMonth =  "", strStartDay = "";
+
+            if( ( nStartMonth + 1 ) <  10 ) {
+                strStartMonth =  "0" +  ( nStartMonth + 1 );
+            } else {
+                strStartMonth =  "" + ( nStartMonth + 1 );
+            }
+
+            if( nStartDay <  10 ) {
+                strStartDay =  "0" +  ( nStartDay + 1 );
+            } else {
+                strStartDay =  "" + ( nStartDay + 1 );
+            }
+
+            reqDeviceScheduleInsert.setStartDate(nStartYear + "-" + strStartMonth + "-" + strStartDay);
+
+            String strEndMonth =  "", strEndDay = "";
+
+            if( ( nEndMonth + 1 ) <  10 ) {
+                strEndMonth =  "0" +  ( nEndMonth + 1 );
+            } else {
+                strEndMonth =  "" + ( nEndMonth + 1 );
+            }
+
+            if( nEndDay <  10 ) {
+                strEndDay =  "0" +  ( nEndDay + 1 );
+            } else {
+                strEndDay =  "" + ( nEndDay + 1 );
+            }
+
+            reqDeviceScheduleInsert.setEndDate(nEndYear + "-" + strEndMonth + "-" + strEndDay);
 
             reqDeviceScheduleInsert.setKind(mStrKind);
             reqDeviceScheduleInsert.setDestinationPk(String.valueOf((Integer)mTvDestination.getTag()));

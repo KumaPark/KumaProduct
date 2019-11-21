@@ -3,25 +3,39 @@ package com.simens.us.myapplication.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simens.us.myapplication.BaseActivity;
 import com.simens.us.myapplication.Network.ProtocolDefines;
+import com.simens.us.myapplication.Network.request.ReqAgencyMemberList;
 import com.simens.us.myapplication.Network.request.ReqDeviceDelete;
 import com.simens.us.myapplication.Network.request.ReqDeviceEdit;
 import com.simens.us.myapplication.Network.request.ReqDeviceInsert;
+import com.simens.us.myapplication.Network.request.ReqDeviceModelList;
+import com.simens.us.myapplication.Network.request.ReqDeviceOsName;
 import com.simens.us.myapplication.Network.request.ReqMainDeviceList;
+import com.simens.us.myapplication.Network.request.ReqModelOSList;
 import com.simens.us.myapplication.Network.response.CommonResponse;
+import com.simens.us.myapplication.Network.response.ResAgencyMemberList;
+import com.simens.us.myapplication.Network.response.ResDeviceModelList;
+import com.simens.us.myapplication.Network.response.ResDeviceOsName;
 import com.simens.us.myapplication.Network.response.ResMainDeviceList;
 import com.simens.us.myapplication.Network.response.ResponseProtocol;
 import com.simens.us.myapplication.R;
 import com.simens.us.myapplication.Utils.KumaLog;
 import com.simens.us.myapplication.data.DeviceInfo;
+import com.simens.us.myapplication.data.DropBoaxCommonDTO;
 import com.simens.us.myapplication.ui.dialog.CommonDialog;
+import com.simens.us.myapplication.ui.dialog.DropBoxCommonDialog;
+
+import java.util.ArrayList;
 
 /**
  * Created by Kuma on 2018-02-22.
@@ -31,11 +45,16 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
     private final static int TAG_REQ_DEVICE_INSERT = 1001;
     private final static int TAG_REQ_DEVICE_EDIT = 1002;
     private final static int TAG_REQ_DEVICE_DELETE = 1003;
+    private final static int TAG_REQ_DEVICE_OS_LIST = 1004;
+    private final static int TAG_REQ_DEVICE_TYPE_LIST = 1005;
+    private final static int TAG_REQ_DEVICE_MODEL_LIST = 1006;
+
 
     private final static int DLG_DEVICE_INSERT_REQ = 2001;
     private final static int DLG_DEVICE_EDIT_REQ = 2002;
     private final static int DLG_DEVICE_DELETE_REQ = 2003;
     private final static int DLG_DEVICE_RESULT = 2004;
+
 
 
     private final static int TAG_STATE_INSERT = 101;
@@ -44,26 +63,29 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
 
     private int TAG_CURRENT_STATE = TAG_STATE_INSERT;
 
-    private EditText mEvModel;
-    private EditText mEvSerial;
-    private EditText mEvMakeYear;
-    private EditText mEvVersion;
-    private EditText mEvEtc;
+    private RelativeLayout mRlSelectModel;
+    private RelativeLayout mRlModelType;
 
-    private TextView mTvModel;
-    private TextView mTvSerial;
-    private TextView mTvMakeYear;
-    private TextView mTvVersion;
-    private TextView mTvEtc;
+    private TextView mTvSelectModelTitle;
+    private TextView mTvSelectModel;
+    private TextView mTvModelType;
+    private TextView mTvMakeDate;
+
+    private EditText mEvMakeDate;
+    private EditText mEvEtc;
+    private EditText mEvSerialNum;
 
     private Button mBtnConfirm;
-    private Button mBtnCancle;
 
     private DeviceInfo  mDeviceInfo;
 
     private String mSerialNum = "";
 
     private boolean  mBEditState = false;
+
+    private ArrayList<DropBoaxCommonDTO> mArrDeviceOsList = new ArrayList<>();
+    private ArrayList<DropBoaxCommonDTO> mArrModelList = new ArrayList<>();
+    private ArrayList<DropBoaxCommonDTO> mArrDeviceTypeList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,85 +103,172 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
         }
 
         KumaLog.d(" mSerialNum: " + mSerialNum);
+        init();
+
+
+        insertTypeInfo();
+
         if( TAG_CURRENT_STATE  == TAG_STATE_EDIT || TAG_CURRENT_STATE == TAG_STATE_INSERT ) {
-            initInsertEdit();
+//            changeEditState(false);
         } else {
-            initDelete();
+//            changeEditState(false);
         }
     }
 
-    private void initInsertEdit(){
+    private void insertTypeInfo(){
+//        제품종류(M : 장비, P : 프로브 , A : 악세사리)
+        DropBoaxCommonDTO  data1 = new DropBoaxCommonDTO();
+        data1.setModelKind("M");
+        data1.setName("장비");
+
+        DropBoaxCommonDTO  data2 = new DropBoaxCommonDTO();
+        data2.setModelKind("P");
+        data2.setName("프로브");
+
+        DropBoaxCommonDTO  data3 = new DropBoaxCommonDTO();
+        data3.setModelKind("A");
+        data3.setName("악세사리");
+
+        mArrDeviceTypeList.add(data1);
+        mArrDeviceTypeList.add(data2);
+        mArrDeviceTypeList.add(data3);
+
+        mTvModelType.setText(mArrDeviceTypeList.get(0).getName());
+        mTvModelType.setTag(mArrDeviceTypeList.get(0).getModelKind());
+    }
+
+    private  void init(){
         View view = findViewById(R.id.view_insert_edit);
 
         view.setVisibility(View.VISIBLE);
 
-        mEvModel = (EditText) view.findViewById(R.id.ev_model );
-        mEvSerial = (EditText) view.findViewById(R.id.ev_serial );
-        mEvMakeYear = (EditText) view.findViewById(R.id.ev_make );
-        mEvVersion = (EditText) view.findViewById(R.id.ev_version );
-        mEvEtc = (EditText) view.findViewById(R.id.ev_etc );
+        mRlSelectModel = (RelativeLayout) view.findViewById(R.id.rl_select_model );
+        mRlModelType = (RelativeLayout) view.findViewById(R.id.rl_model_type );
 
-        mBtnCancle = (Button) view.findViewById(R.id.btn_cancle );
+        mTvSelectModelTitle = (TextView) view.findViewById(R.id.tv_select_model_title );
+        mTvSelectModel = (TextView) view.findViewById(R.id.tv_select_model );
+        mTvModelType = (TextView) view.findViewById(R.id.tv_model_type );
+        mTvMakeDate = (TextView) view.findViewById(R.id.tv_make_date );
+
+        mEvMakeDate = (EditText) view.findViewById(R.id.ev_make_date );
+        mEvEtc = (EditText) view.findViewById(R.id.ev_etc );
+        mEvSerialNum = (EditText) view.findViewById(R.id.ev_serial );
+
+
         mBtnConfirm = (Button) view.findViewById(R.id.btn_confirm );
 
+        mTvModelType.setOnClickListener(this);
         mBtnConfirm.setOnClickListener(this);
-        mBtnCancle.setOnClickListener(this);
-
+        mRlSelectModel.setOnClickListener(this);
         if( TAG_CURRENT_STATE  == TAG_STATE_EDIT )  {
-            mBtnConfirm.setText(getResources().getString(R.string.str_btn_edit));
-            mEvModel.setText(mDeviceInfo.getProductCode());
-            mEvSerial.setText(mDeviceInfo.getSerialNo());
-            mEvMakeYear.setText(mDeviceInfo.getMakeYear());
-            mEvVersion.setText(mDeviceInfo.getVersion());
-            mEvEtc.setText(mDeviceInfo.getMessage());
-            mEvSerial.setEnabled(false);
-            changeEditState(false);
+//            mBtnConfirm.setText(getResources().getString(R.string.str_btn_edit));
+//            mEvModel.setText(mDeviceInfo.getProductCode());
+//            mEvSerial.setText(mDeviceInfo.getSerialNo());
+//            mEvMakeYear.setText(mDeviceInfo.getMakeYear());
+//            mEvVersion.setText(mDeviceInfo.getVersion());
+//            mEvEtc.setText(mDeviceInfo.getMessage());
+//            mEvSerial.setEnabled(false);
+//            changeEditState(false);
         } else {
-            mBtnConfirm.setText(getResources().getString(R.string.str_btn_insert));
-            if( !TextUtils.isEmpty(mSerialNum)) {
-                mEvSerial.setText(mSerialNum);
-                mEvSerial.setEnabled(false);
+//            mBtnConfirm.setText(getResources().getString(R.string.str_btn_insert));
+//            if( !TextUtils.isEmpty(mSerialNum)) {
+//                mEvSerial.setText(mSerialNum);
+//                mEvSerial.setEnabled(false);
+//            }
+        }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                reqDeviceOsName();
+            }
+        },100);
+    }
+
+
+    private void changeEditState(boolean state) {
+//        mEvModel.setEnabled(state);
+//        mEvVersion.setEnabled(state);
+//        mEvMakeYear.setEnabled(state);
+//        mEvEtc.setEnabled(state);
+//
+//        if( !state ) {
+//            mEvModel.setText(mDeviceInfo.getProductCode());
+//            mEvSerial.setText(mDeviceInfo.getSerialNo());
+//            mEvMakeYear.setText(mDeviceInfo.getMakeYear());
+//            mEvVersion.setText(mDeviceInfo.getVersion());
+//            mEvEtc.setText(mDeviceInfo.getMessage());
+//        }
+    }
+
+    /**
+     * 장비의OS버젼정보 조회
+     */
+    private void reqDeviceOsName() {
+        try {
+            ReqDeviceOsName reqDeviceOsName = new ReqDeviceOsName(this);
+
+            reqDeviceOsName.setTag(TAG_REQ_DEVICE_OS_LIST);
+
+            requestProtocol(true, reqDeviceOsName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 장비의OS버젼정보 조회
+     */
+    private void resDeviceOsName(ResDeviceOsName resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resDeviceOsName  ++++++++++++++  ");
+            mArrDeviceOsList.clear();
+            mArrDeviceOsList.addAll(resprotocol.getmArrDropBoaxCommonDTO());
+            mTvSelectModelTitle.setText("장비 모델  : ");
+            mTvSelectModel.setText(mArrDeviceOsList.get(0).getName());
+            mTvSelectModel.setTag(mArrDeviceOsList.get(0).getPk());
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
             }
         }
     }
 
-    private void changeEditState(boolean state) {
-        mEvModel.setEnabled(state);
-        mEvVersion.setEnabled(state);
-        mEvMakeYear.setEnabled(state);
-        mEvEtc.setEnabled(state);
+    /**
+     * 제품모델 조회
+     */
+    private void reqDeviceModelList(String strType) {
+        try {
+            ReqDeviceModelList reqDeviceModelList = new ReqDeviceModelList(this);
 
-        if( !state ) {
-            mEvModel.setText(mDeviceInfo.getProductCode());
-            mEvSerial.setText(mDeviceInfo.getSerialNo());
-            mEvMakeYear.setText(mDeviceInfo.getMakeYear());
-            mEvVersion.setText(mDeviceInfo.getVersion());
-            mEvEtc.setText(mDeviceInfo.getMessage());
+            reqDeviceModelList.setTag(TAG_REQ_DEVICE_MODEL_LIST);
+            reqDeviceModelList.setKind(strType);
+            requestProtocol(true, reqDeviceModelList);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void initDelete(){
-        View view = findViewById(R.id.view_delete);
+    /**
+     * 장비의OS버젼정보 조회
+     */
+    private void resDeviceModelList(ResDeviceModelList resprotocol) {
+        if (resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            KumaLog.d("++++++++++++ resDeviceModelList  ++++++++++++++  ");
+            mArrModelList.clear();
+            mArrModelList.addAll(resprotocol.getmArrDropBoaxCommonDTO());
 
-        view.setVisibility(View.VISIBLE);
-
-        mTvModel = (TextView) view.findViewById(R.id.tv_model );
-        mTvSerial = (TextView) view.findViewById(R.id.tv_serial );
-        mTvMakeYear = (TextView) view.findViewById(R.id.tv_make );
-        mTvVersion = (TextView) view.findViewById(R.id.tv_version );
-        mTvEtc = (TextView) view.findViewById(R.id.tv_etc );
-
-        mBtnCancle = (Button) view.findViewById(R.id.btn_cancle );
-        mBtnConfirm = (Button) view.findViewById(R.id.btn_confirm );
-
-        mBtnConfirm.setOnClickListener(this);
-        mBtnCancle.setOnClickListener(this);
-
-        mTvModel.setText(mDeviceInfo.getProductCode());
-        mTvSerial.setText(mDeviceInfo.getSerialNo());
-        mTvMakeYear.setText(mDeviceInfo.getMakeYear());
-        mTvVersion.setText(mDeviceInfo.getVersion());
-        mTvEtc.setText(mDeviceInfo.getMessage());
+            mTvSelectModelTitle.setText("모델명 : ");
+            mTvSelectModel.setText(mArrModelList.get(0).getName());
+            mTvSelectModel.setTag(mArrModelList.get(0).getPk());
+        } else {
+            if (!TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
     }
 
     /**
@@ -171,12 +280,27 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
         try {
             ReqDeviceInsert reqDeviceInsert = new ReqDeviceInsert(this);
 
+            String strKind = (String)mTvModelType.getTag();
             reqDeviceInsert.setTag(TAG_REQ_DEVICE_INSERT);
-//            reqDeviceInsert.setMakeYear(mEvMakeYear.getText().toString().trim());
-//            reqDeviceInsert.setMessage(mEvEtc.getText().toString().trim());
-//            reqDeviceInsert.setProductCode(mEvModel.getText().toString().trim());
-//            reqDeviceInsert.setSerialNo(mEvSerial.getText().toString().trim());
-//            reqDeviceInsert.setVersion(mEvVersion.getText().toString().trim());
+
+            reqDeviceInsert.setKind((String)mTvModelType.getTag());
+
+            reqDeviceInsert.setSerialNo(mEvSerialNum.getText().toString().trim());
+
+            String strMakeDate = "";
+
+            if( strKind.equals("M")){
+                String strDate = mEvMakeDate.getText().toString().trim();
+                strMakeDate = strDate.substring(0, 4) +  "-"  + strDate.substring(4, 6) +  "-" + strDate.substring(6, 8);
+                reqDeviceInsert.setOsPk(String.valueOf(mTvSelectModel.getTag()));
+                reqDeviceInsert.setModelPk("");
+            } else {
+                strMakeDate = mEvMakeDate.getText().toString().trim();
+                reqDeviceInsert.setModelPk(String.valueOf(mTvSelectModel.getTag()));
+                reqDeviceInsert.setOsPk("");
+            }
+
+            reqDeviceInsert.setMakeDate(strMakeDate);
 
             requestProtocol(true, reqDeviceInsert);
         } catch (Exception e) {
@@ -215,7 +339,7 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
             ReqDeviceDelete reqDeviceDelete = new ReqDeviceDelete(this);
 
             reqDeviceDelete.setTag(TAG_REQ_DEVICE_DELETE);
-            reqDeviceDelete.setSerialNo(mTvSerial.getText().toString().trim());
+//            reqDeviceDelete.setSerialNo(mTvSerial.getText().toString().trim());
 
             requestProtocol(true, reqDeviceDelete);
         } catch (Exception e) {
@@ -254,9 +378,63 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
             }
         }
     }
+
+    private void showDropBoxCommonDialog(final int Tag, ArrayList<DropBoaxCommonDTO> data){
+        DropBoxCommonDialog dlg = new DropBoxCommonDialog(this);
+
+        dlg.setOnItemClickListener(new DropBoxCommonDialog.OnItemClickListener() {
+            @Override
+            public void onItemClick(int tag, DropBoaxCommonDTO data) {
+                if( TAG_REQ_DEVICE_OS_LIST  == tag)  {
+                    mTvSelectModel.setText(data.getName());
+                    mTvSelectModel.setTag(data.getPk());
+                } else if( TAG_REQ_DEVICE_TYPE_LIST  == tag)  {
+                    mTvModelType.setText(data.getName());
+                    mTvModelType.setTag(data.getModelKind());
+
+                    if( !data.getModelKind().equals("M")) {
+                        mEvMakeDate.setHint("제조년도를 입력해주세요.(ex 2002)");
+                        mEvMakeDate.setFilters(new InputFilter[] {new InputFilter.LengthFilter(4)});
+                        reqDeviceModelList(data.getModelKind());
+                    } else {
+                        mEvMakeDate.setHint("제조일을 입력해주세요.(ex  20020914)");
+                        mEvMakeDate.setFilters(new InputFilter[] {new InputFilter.LengthFilter(8)});
+                        reqDeviceOsName();
+                    }
+                }
+            }
+        });
+        dlg.show();
+
+        dlg.setData(data);
+        dlg.setDataTag(Tag);
+
+//
+//        dlgProductChoide.setDialogListener(DLG_PRODUCT_SELECT, this);
+//        dlgProductChoide.show();
+//        dlgProductChoide.setData(data);
+
+    }
     @Override
     public void onResponseProtocol(int nTag, ResponseProtocol resProtocol) {
-        resDeviceManage(nTag, (CommonResponse)resProtocol );
+        switch (nTag)  {
+            case TAG_REQ_DEVICE_OS_LIST : {
+                resDeviceOsName((ResDeviceOsName) resProtocol );
+                break;
+            }
+            case TAG_REQ_DEVICE_MODEL_LIST : {
+                resDeviceModelList((ResDeviceModelList) resProtocol );
+                break;
+            }
+            case TAG_REQ_DEVICE_INSERT : {
+                resDeviceManage(nTag, (CommonResponse)resProtocol );
+                break;
+            }
+
+            default:
+                break;
+        }
+//
     }
 
 
@@ -323,6 +501,20 @@ public class DeviceManagementActivity extends BaseActivity implements View.OnCli
                 }
                 break;
             }
+            case R.id.rl_select_model  :
+                String strType = String.valueOf(mTvModelType.getTag()) ;
+                if( !strType.equals("M")) {
+                    showDropBoxCommonDialog(TAG_REQ_DEVICE_OS_LIST, mArrModelList);
+                } else {
+                    showDropBoxCommonDialog(TAG_REQ_DEVICE_OS_LIST, mArrDeviceOsList);
+                }
+
+                break;
+            case R.id.tv_model_type  :
+                showDropBoxCommonDialog(TAG_REQ_DEVICE_TYPE_LIST, mArrDeviceTypeList);
+            break;
+
+
             default:
                 break;
         }

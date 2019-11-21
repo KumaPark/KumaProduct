@@ -15,6 +15,7 @@ public class SharedPref {
 	public final static String PREF_LOGIN_TOKEN 		= "PREF_LOGIN_TOKEN";
 	public final static String PREF_ID_SAVE_STATE 		= "PREF_ID_SAVE_STATE";
 	public final static String PREF_ID_SAVE 		= "PREF_ID_SAVE";
+	public final static String PREF_TOKEN 		= "PREF_TOKEN";
 
 	private SharedPreferences m_Pref = null;
 	private Context m_Context = null;

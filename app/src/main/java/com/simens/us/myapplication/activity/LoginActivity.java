@@ -2,18 +2,24 @@ package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.simens.us.myapplication.AppManager;
 import com.simens.us.myapplication.BaseActivity;
 import com.simens.us.myapplication.Constance.Constance;
@@ -23,6 +29,7 @@ import com.simens.us.myapplication.Network.request.ReqLogin;
 import com.simens.us.myapplication.Network.response.ResLogin;
 import com.simens.us.myapplication.Network.response.ResponseProtocol;
 import com.simens.us.myapplication.R;
+import com.simens.us.myapplication.Utils.DeviceUtils;
 import com.simens.us.myapplication.Utils.KumaLog;
 import com.simens.us.myapplication.Utils.SharedPref.SharedPref;
 
@@ -36,7 +43,10 @@ public class LoginActivity extends BaseActivity {
 
     private EditText mEvID;
     private EditText mEvPw;
+
     private boolean  mBSaveState = false;
+
+    private String mStrRegistId = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +82,37 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        getRegistId();
 //        mEvID.setText("jiji@cccc.co.kr");
 //        mEvPw.setText("qwerasdfzxcv123!");
+    }
+
+    private void getRegistId(){
+        FirebaseInstanceId.getInstance().getInstanceId() .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>()
+        {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task)
+            {
+                if (!task.isSuccessful()) {
+                    KumaLog.d("getInstanceId failed >> " + task.getException());
+                    return;
+                }
+
+             String token = task.getResult().getToken();
+            // Log and toast
+            String msg = "TOKEN > "  + token;
+
+            mStrRegistId  = token;
+
+            KumaLog.d( msg);
+//            try {
+//                getAppManager().getShareDataManager().setStringPref(LoginActivity.this, SharedPref.PREF_TOKEN, token);
+//            } catch (Exception e)  {
+//                e.printStackTrace();
+//            }
+//            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     /**``
      * 로그인
@@ -95,6 +134,8 @@ public class LoginActivity extends BaseActivity {
             ReqLogin reqLogin = new ReqLogin();
 
             reqLogin.setTag(1);
+            reqLogin.setRegId(mStrRegistId);
+            reqLogin.setMacAddr(DeviceUtils.getImei(this));
             reqLogin.setUserId( strId );
             reqLogin.setPassword( strPw );
             requestProtocol(true, reqLogin);
@@ -113,7 +154,7 @@ public class LoginActivity extends BaseActivity {
             getAppManager().getShareDataManager().setStringPref(this, SharedPref.PREF_LOGIN_TOKEN, resprotocol.getToken());
 //            permission : 권한 ex) 1 : 대리점, 32 : 임상, 64 : 관리자
             Constance.USER_NAME  = resprotocol.getName();
-            Constance.USER_PERMISSION  = resprotocol.getPermisson();
+            Constance.USER_PERMISSION  = resprotocol.getPermission();
             if( getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_ID_SAVE_STATE, false)  )  {
                 getAppManager().getShareDataManager().setStringPref(LoginActivity.this, SharedPref.PREF_ID_SAVE, mEvID.getText().toString().trim());
             }

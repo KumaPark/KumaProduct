@@ -160,7 +160,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     "v 1.0.3 \n" +
                     "- 버전 업데이트 관리.\n" +
                     "v 1.0.4\n" +
-                    "-대리점 분리 로그인");
+                    "-대리점 분리 로그인" +
+                    "v 1.0.5\n" +
+                    "- 제품등록\n" +
+                    "- 버그픽스\n" +
+                    "v 1.0.6\n" +
+                    "- 푸시 등록");
         }
     }
 

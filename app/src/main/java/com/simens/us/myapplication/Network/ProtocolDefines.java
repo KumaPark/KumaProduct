@@ -97,6 +97,12 @@ public class ProtocolDefines {
 		public static String URL_DEVICE_OS_LIST = getURL() + "mdevice/api_product/get-mdevice-os-names?";
 
 
+		//제품등록
+		public static String URL_DEVICE_ADD = getURL() + "mdevice/api_product/add-product?";
+
+		//제품수정
+		public static String URL_DEVICE_EDIT = getURL() + "mdevice/api_product/edit-product?";
+
 
 		//제품조회
 		public static String URL_DEVICE_INFO = getURL() + "mdevice/api_product/get-product-demos?";
@@ -111,11 +117,6 @@ public class ProtocolDefines {
 		//제품조회 리스트
 		public static String URL_MAIN_LIST = getURL() + "mdevice/api_product/get-products?";
 
-
-		//제품등록
-		public static String URL_DEVICE_INSERT = getURL() + "mdevice/api_product/add?";
-		//제품수정
-		public static String URL_DEVICE_EDIT = getURL() + "mdevice/api_product/edit?";
 		//제품삭제
 		public static String URL_DEVICE_DELETE = getURL() + "mdevice/api_product/delete?";
 

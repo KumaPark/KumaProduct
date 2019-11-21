@@ -20,8 +20,6 @@ public class ResLogin extends ResponseProtocol{
 
     private int permission;
 
-    private int permisson;
-
     private String name;
 
     public ResLogin()
@@ -50,10 +48,6 @@ public class ResLogin extends ResponseProtocol{
 
     public String getName() {
         return name;
-    }
-
-    public int getPermisson() {
-        return permisson;
     }
 
     @Override
@@ -86,11 +80,6 @@ public class ResLogin extends ResponseProtocol{
                 }
                 try {
                     name = jsonObject.getString("name").toString();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
-                    permisson = jsonObject.getInt("permisson");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

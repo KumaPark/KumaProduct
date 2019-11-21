@@ -59,12 +59,13 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
     private TextView mTvDestination;
 
     private EditText mEvEtc;
+    private EditText mEvDestination;
 
     private Button mBtnConfirm;
 
 
-    private LinearLayout[] mLlStateLayout = new LinearLayout[4];
-    private TextView[] mTvStateText= new TextView[4];
+    private LinearLayout[] mLlStateLayout = new LinearLayout[5];
+    private TextView[] mTvStateText= new TextView[5];
 
     private int nStartYear = 0;
     private int nStartMonth = 0;
@@ -124,6 +125,7 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
         mTvDestination = (TextView)view.findViewById(R.id.tv_destination);
 
         mEvEtc = (EditText) view.findViewById(R.id.ev_etc );
+        mEvDestination = (EditText) view.findViewById(R.id.ev_destination );
 
         mBtnConfirm = (Button) view.findViewById(R.id.btn_confirm );
 
@@ -134,8 +136,8 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
         mRlReciver.setOnClickListener(this);
 
         mBtnConfirm.setText(getResources().getString(R.string.str_btn_edit));
-        int[] mLlStateLayoutID = {R.id.ll_state, R.id.ll_state_1, R.id.ll_state_2, R.id.ll_state_3};
-        int[] mTvStateTextID = {R.id.tv_state, R.id.tv_state_1, R.id.tv_state_2, R.id.tv_state_3};
+        int[] mLlStateLayoutID = {R.id.ll_state, R.id.ll_state_1, R.id.ll_state_2, R.id.ll_state_3,   R.id.ll_state_4};
+        int[] mTvStateTextID = {R.id.tv_state, R.id.tv_state_1, R.id.tv_state_2, R.id.tv_state_3, R.id.tv_state_4};
         for(int i = 0; i < mLlStateLayoutID.length; i++ ){
             mLlStateLayout[i] = (LinearLayout) view.findViewById(mLlStateLayoutID[i] );
             mTvStateText[i] = (TextView) view.findViewById(mTvStateTextID[i] );
@@ -155,6 +157,9 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
             mEvEtc.setEnabled(false);
             mEvEtc.setBackgroundResource(R.drawable.back_input_disable);
 
+            mEvDestination.setEnabled(false);
+            mEvDestination.setBackgroundResource(R.drawable.back_input_disable);
+
             mBtnConfirm.setClickable(false);
 
             mRlReciver.setClickable(false);
@@ -168,6 +173,9 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
 
             mEvEtc.setEnabled(true);
             mEvEtc.setBackgroundResource(R.drawable.back_input);
+
+            mEvDestination.setEnabled(true);
+            mEvDestination.setBackgroundResource(R.drawable.back_input);
 
             mBtnConfirm.setClickable(true);
 
@@ -204,14 +212,29 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
         DatePickerDialog dialog = new DatePickerDialog(AppsScheduleDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int date) {
-                String msg = String.format("%d 년 %d 월 %d 일", year, month+1, date);
+                String msg = String.format("%d - %d - %d", year, month+1, date);
 
                 if( TAG_START_DATE == nTag ) {
                     nStartYear = year;
                     nStartMonth = month;
                     nStartDay = date;
                     strStartDate = String.format("%d%d%d", year, month, date);
-                    strReqStartDate = nStartYear + "-" + ( nStartMonth + 1 ) + "-" + nStartDay;
+                    String strStartMonth =  "", strStartDay = "";
+
+                    if( ( nStartMonth + 1 ) <  10 ) {
+                        strStartMonth =  "0" +  ( nStartMonth + 1 );
+                    } else {
+                        strStartMonth =  "" + ( nStartMonth + 1 );
+                    }
+
+                    if( nStartDay <  10 ) {
+                        strStartDay =  "0" +  ( nStartDay + 1 );
+                    } else {
+                        strStartDay =  "" + ( nStartDay + 1 );
+                    }
+
+                    strReqStartDate = nStartYear + "-" +  strStartMonth + "-" + strStartDay;
+
                     if(TextUtils.isEmpty(strEndDate)) {
                         strEndDate = strStartDate;
                     }
@@ -227,7 +250,21 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
                     nEndDay = date;
                     strEndDate = String.format("%d%d%d", year, month, date);
                     mTvEndDate.setText(msg);
-                    strReqEndDate = nEndYear + "-" + ( nEndMonth + 1) + "-" + nEndDay;
+                    String strEndMonth =  "", strEndDay = "";
+
+                    if( ( nEndMonth + 1 ) <  10 ) {
+                        strEndMonth =  "0" +  ( nEndMonth + 1 );
+                    } else {
+                        strEndMonth =  "" + ( nEndMonth + 1 );
+                    }
+
+                    if( nEndDay <  10 ) {
+                        strEndDay =  "0" +  ( nEndDay + 1 );
+                    } else {
+                        strEndDay =  "" + ( nEndDay + 1 );
+                    }
+
+                    strReqEndDate = nEndYear + "-" + strEndMonth + "-" + strEndDay;
                 }
 
                 KumaLog.d(" DATE : >> " + msg);
@@ -304,7 +341,7 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
             strReqStartDate = mObjAppsScheduleDetail.getStartDate();
             strReqEndDate = mObjAppsScheduleDetail.getEndDate();
 
-            mTvDestination.setText(mObjAppsScheduleDetail.getTitle());
+            mEvDestination.setText(mObjAppsScheduleDetail.getTitle());
             mTvStartDate.setText(mObjAppsScheduleDetail.getStartDate());
             mTvEndDate.setText(mObjAppsScheduleDetail.getEndDate());
             mEvEtc.setText(mObjAppsScheduleDetail.getDescription());
@@ -338,11 +375,11 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
 
             reqAppsScheduleEdit.setTag(TAG_REQ_SCHEDULE_EDIT);
             reqAppsScheduleEdit.setPk(mObjAppsScheduleInfo.getId());
-            reqAppsScheduleEdit.setTitle(mTvDestination.getText().toString().trim());
+            reqAppsScheduleEdit.setTitle(mEvDestination.getText().toString().trim());
             reqAppsScheduleEdit.setStartDate(strReqStartDate);
             reqAppsScheduleEdit.setEndDate(strReqEndDate);
             reqAppsScheduleEdit.setKind(mCurState);
-            reqAppsScheduleEdit.setMemberPk(String.valueOf((Integer)mTvReciver.getTag()));
+            reqAppsScheduleEdit.setMemberPk((String)mTvReciver.getTag());
             reqAppsScheduleEdit.setContent(mEvEtc.getText().toString().trim());
             requestProtocol(true, reqAppsScheduleEdit);
         } catch (Exception e) {

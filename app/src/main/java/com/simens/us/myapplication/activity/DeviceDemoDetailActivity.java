@@ -273,7 +273,7 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         DatePickerDialog dialog = new DatePickerDialog(DeviceDemoDetailActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int date) {
-                String msg = String.format("%d 년 %d 월 %d 일", year, month+1, date);
+                String msg = String.format("%d-%d-%d", year, month+1, date);
 
                 if( TAG_START_DATE == nTag ) {
                     nStartYear = year;
@@ -281,7 +281,21 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
                     nStartDay = date;
                     strStartDate = String.format("%d%d%d", year, month, date);
 
-                    strReqStartDate = nStartYear + "-" + ( nStartMonth + 1 ) + "-" + nStartDay;
+                    String strStartMonth =  "", strStartDay = "";
+
+                    if( ( nStartMonth + 1 ) <  10 ) {
+                        strStartMonth =  "0" +  ( nStartMonth + 1 );
+                    } else {
+                        strStartMonth =  "" + ( nStartMonth + 1 );
+                    }
+
+                    if( nStartDay <  10 ) {
+                        strStartDay =  "0" +  ( nStartDay + 1 );
+                    } else {
+                        strStartDay =  "" + ( nStartDay + 1 );
+                    }
+
+                    strReqStartDate = nStartYear + "-" +  strStartMonth + "-" + strStartDay;
 
                     if(TextUtils.isEmpty(strEndDate)) {
                         strEndDate = strStartDate;
@@ -299,7 +313,21 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
                     strEndDate = String.format("%d%d%d", year, month, date);
                     mTvEndDate.setText(msg);
 
-                    strReqEndDate = nEndYear + "-" + ( nEndMonth + 1) + "-" + nEndDay;
+                    String strEndMonth =  "", strEndDay = "";
+
+                    if( ( nEndMonth + 1 ) <  10 ) {
+                        strEndMonth =  "0" +  ( nEndMonth + 1 );
+                    } else {
+                        strEndMonth =  "" + ( nEndMonth + 1 );
+                    }
+
+                    if( nEndDay <  10 ) {
+                        strEndDay =  "0" +  ( nEndDay + 1 );
+                    } else {
+                        strEndDay =  "" + ( nEndDay + 1 );
+                    }
+
+                    strReqEndDate = nEndYear + "-" + strEndMonth + "-" + strEndDay;
 
                 }
 

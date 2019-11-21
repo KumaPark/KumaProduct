@@ -32,11 +32,10 @@
 
     <include
         android:id="@+id/view_insert_edit"
+        layout="@layout/layout_device_insert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/layout_device_insert"
-        android:visibility="gone"
-    />
+        android:visibility="visible" />
 
     <include
         android:id="@+id/view_delete"

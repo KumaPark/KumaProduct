@@ -149,7 +149,7 @@ public class Constance {
                 result = "예약";
                 break;
             case TAG_DEVICE_STATE_MOVE_HOSPITAL:
-                result = "이동(병원)";
+                result = "이동(목적지)";
                 break;
             case TAG_DEVICE_STATE_DEMO:
                 result = "데모중";
@@ -208,19 +208,22 @@ public class Constance {
 
     public static void changeScheduleView(String strCode, LinearLayout[]  back, TextView[] text){
         int position = 0;
-//        - kind : 스케쥴 구분 ex) D : 데모, A : AS, O : 회사, E : 기타
+//        -  ex) D : 데모, F : F/U, S : 설치, O : 회사, E : 기타
         switch (strCode) {
             case "D":
                 position = 0;
                 break;
-            case "A":
+            case "F":
                 position = 1;
                 break;
-            case "O":
+            case "S":
                 position = 2;
                 break;
-            case "E":
+            case "O":
                 position = 3;
+                break;
+            case "E":
+                position = 4;
                 break;
             default:
                 break;

@@ -127,12 +127,12 @@
                     android:id="@+id/tv_state_1"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:text="AS"
+                    android:text="F/U"
                     android:textSize="12dp"
                     android:textColor="#222222"
                     android:gravity="center"
                     android:layout_margin="10dp"
-                    android:tag="A"
+                    android:tag="F"
                     />
             </LinearLayout>
             <LinearLayout
@@ -149,12 +149,12 @@
                     android:id="@+id/tv_state_2"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
-                    android:text="회사"
-                    android:textColor="#222222"
+                    android:text="설치"
                     android:textSize="12dp"
+                    android:textColor="#222222"
                     android:gravity="center"
                     android:layout_margin="10dp"
-                    android:tag="O"
+                    android:tag="S"
                     />
             </LinearLayout>
             <LinearLayout
@@ -169,6 +169,28 @@
                 >
                 <TextView
                     android:id="@+id/tv_state_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:text="회사"
+                    android:textColor="#222222"
+                    android:textSize="12dp"
+                    android:gravity="center"
+                    android:layout_margin="10dp"
+                    android:tag="O"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_state_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back_state_non_sel"
+                android:orientation="horizontal"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+
+                >
+                <TextView
+                    android:id="@+id/tv_state_4"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:text="기타"
@@ -288,6 +310,19 @@
                 android:textSize="15dp"
                 android:gravity="center_vertical|right"
                 />
+
+            <EditText
+                android:id="@+id/ev_destination"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="20dp"
+                android:inputType="text"
+                android:textSize="14dp"
+                android:paddingLeft="5dp"
+                android:background="@drawable/back_input_disable"
+                />
             <RelativeLayout
                 android:id="@+id/rl_destination"
                 android:layout_width="match_parent"
@@ -295,6 +330,7 @@
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal"
                 android:layout_marginLeft="5dp"
+                android:visibility="gone"
                 android:background="@drawable/back_input_disable"
                 >
                 <TextView
