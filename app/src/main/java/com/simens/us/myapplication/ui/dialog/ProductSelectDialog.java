@@ -27,7 +27,7 @@ public class ProductSelectDialog extends BaseDialog implements View.OnClickListe
     public static final int DLG_TYPE_NOTI = 0;
     public static final int DLG_TYPE_YES_NO = 1;
 
-    private int TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_DEVICE;
+    private String TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_DEVICE;
 
     public static final int RESULT_OK       = 101;
     public static final int RESULT_CANCEL   = 0;

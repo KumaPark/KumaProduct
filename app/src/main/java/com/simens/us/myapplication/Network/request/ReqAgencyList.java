@@ -9,6 +9,7 @@ import com.simens.us.myapplication.Network.response.ResAgencyList;
 import com.simens.us.myapplication.Network.response.ResponseProtocol;
 import com.simens.us.myapplication.Utils.DeviceUtils;
 
+//본사 및 대리점명 조회
 public class ReqAgencyList extends RequestJSON
 {
 

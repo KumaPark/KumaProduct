@@ -22,6 +22,7 @@ public class ResMainDeviceList extends ResponseProtocol{
 
     private String m_strMsg = "";
 
+    private String totalCount = "";
     private ArrayList<DeviceInfo> arrResult = new ArrayList<>();
 
     public ResMainDeviceList()
@@ -37,6 +38,10 @@ public class ResMainDeviceList extends ResponseProtocol{
     public String getMsg()
     {
         return m_strMsg;
+    }
+
+    public String getTotalCount() {
+        return totalCount;
     }
 
     public  ArrayList<DeviceInfo> getListData(){
@@ -56,6 +61,11 @@ public class ResMainDeviceList extends ResponseProtocol{
 
             try {
                 m_strMsg = jsonObject.getString(JSONDefines.JSON_RESP.STR_RESULT_MSG).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                totalCount = jsonObject.getString("totalCount").toString();
             } catch (Exception e) {
                 e.printStackTrace();
             }

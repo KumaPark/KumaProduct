@@ -1,6 +1,7 @@
 package com.simens.us.myapplication.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -20,6 +21,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.simens.us.myapplication.AppManager;
 import com.simens.us.myapplication.BaseActivity;
 import com.simens.us.myapplication.Constance.Constance;
@@ -60,7 +63,6 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
-
         mBSaveState = getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_ID_SAVE_STATE, false);
 //        mEvID.setText("admin@lionskaphp.co.kr");
 //        mEvPw.setText("qwerasdfzxcv123!");
@@ -82,6 +84,14 @@ public class LoginActivity extends BaseActivity {
             }
         });
 
+        ((CheckBox)findViewById(R.id.cv_save_auto_login)).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                getAppManager().getShareDataManager().setBooleanPref(LoginActivity.this, SharedPref.PREF_AUTO_LOGIN_STATE, isChecked);
+            }
+        });
+
+
         getRegistId();
 //        mEvID.setText("jiji@cccc.co.kr");
 //        mEvPw.setText("qwerasdfzxcv123!");
@@ -94,6 +104,7 @@ public class LoginActivity extends BaseActivity {
             public void onComplete(@NonNull Task<InstanceIdResult> task)
             {
                 if (!task.isSuccessful()) {
+                    ((CheckBox)findViewById(R.id.cv_save_auto_login)).setChecked(false);
                     KumaLog.d("getInstanceId failed >> " + task.getException());
                     return;
                 }
@@ -105,12 +116,12 @@ public class LoginActivity extends BaseActivity {
             mStrRegistId  = token;
 
             KumaLog.d( msg);
-//            try {
-//                getAppManager().getShareDataManager().setStringPref(LoginActivity.this, SharedPref.PREF_TOKEN, token);
-//            } catch (Exception e)  {
-//                e.printStackTrace();
-//            }
-//            Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+            boolean autoState = getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_AUTO_LOGIN_STATE, false);
+
+             if( autoState ) {
+                 mEvPw.setText(getAppManager().getShareDataManager().getStringPref(LoginActivity.this, SharedPref.PREF_PASS_SAVE));
+                 reqResetUserInfo();
+             }
             }
         });
     }
@@ -138,6 +149,7 @@ public class LoginActivity extends BaseActivity {
             reqLogin.setMacAddr(DeviceUtils.getImei(this));
             reqLogin.setUserId( strId );
             reqLogin.setPassword( strPw );
+
             requestProtocol(true, reqLogin);
         } catch (Exception e) {
             e.printStackTrace();
@@ -158,6 +170,13 @@ public class LoginActivity extends BaseActivity {
             if( getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_ID_SAVE_STATE, false)  )  {
                 getAppManager().getShareDataManager().setStringPref(LoginActivity.this, SharedPref.PREF_ID_SAVE, mEvID.getText().toString().trim());
             }
+
+            boolean autoState = getAppManager().getShareDataManager().getBooleanPref(LoginActivity.this, SharedPref.PREF_AUTO_LOGIN_STATE, false);
+
+            if( autoState )  {
+                getAppManager().getShareDataManager().setStringPref(LoginActivity.this, SharedPref.PREF_PASS_SAVE, mEvPw.getText().toString().trim());
+            }
+
             KumaLog.d("++++++++++++Constance.USER_PERMISSION  ++++++++++++++"  + Constance.USER_PERMISSION);
             if(Constance.isAgency() ){
                 move2OtherActivity(DeviceConditionActivity.class, true);

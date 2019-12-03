@@ -82,7 +82,7 @@ public class DeviceScheduleListAdapter extends RecyclerView.Adapter<RecyclerView
         public ViewHolderDevice(View view) {
             super(view);
             view.setOnClickListener(this);
-            mTextView = (TextView) view.findViewById(R.id.textview);
+//            mTextView = (TextView) view.findViewById(R.id.textview);
             deviceArrowView = (LinearLayout) view.findViewById(R.id.ll_device_schedule_arrow);
             deviceViewHospital = (LinearLayout) view.findViewById(R.id.ll_device_schedule_desr);
         }

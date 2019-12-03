@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.simens.us.myapplication.BaseActivity;
 import com.simens.us.myapplication.Constance.Constance;
@@ -64,7 +65,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<MainDeviceData> dddd = new ArrayList<>();
     FloatingActionButton mFloatingActionButton;
@@ -121,7 +122,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                reqDataList();
                 reqDestinationList();
                 if( Constance.isManager()) {
                     reqAgencyList();
@@ -165,8 +165,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                     "- 제품등록\n" +
                     "- 버그픽스\n" +
                     "v 1.0.6\n" +
-                    "- 푸시 등록");
+                    "- 푸시 등록\n" +
+                    "v 1.0.7\n" +
+                    "- 메인 등록장비 상태조회\n" +
+                    "-  자동로그인 추가\n" +
+                    " -  목적지 자동완성\n" +
+                    "v 1.0.8\n" +
+                    "- 데모 수정시 버그 수정( 상태 무변화 )\n" +
+                    "v 1.0.9\n" +
+                    "- QR 코드 및 바코드 인식으로  장비 입력 및 수정, 삭제 가능.\n"  +
+                    "v 1.1.0\n" +
+                    "- 버그픽스\n" +
+                    "v 1.1.1\n" +
+                    "- 앱스 스케줄 등록 및 수정 버그픽스\n" +
+                    "- 환경 설정 추가( 메인 좌상단 )");
         }
+
+        findViewById(R.id.iv_info ).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                move2OtherActivity(SettingActivity.class);
+            }
+        });
+
+
     }
 
     private void gotoEdit(DeviceInfo data){
@@ -175,27 +197,64 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         bundle.putSerializable("detailData",data);
         intent.putExtras(bundle);
         intent.putExtra("dataState",  true);
-        intent.putExtra("type",  102);
+        intent.putExtra("type",  DeviceManagementActivity.TAG_STATE_EDIT);
+        intent.putExtra("device_type",  data.getKind());
         startActivity(intent);
     }
     private void gotoRegist(String serialNum){
         Intent intent = new Intent(MainActivity.this, DeviceManagementActivity.class);
         intent.putExtra("dataState",  false);
         intent.putExtra("serialNum",  serialNum);
-        intent.putExtra("type",  101);
+        intent.putExtra("type",  DeviceManagementActivity.TAG_STATE_INSERT);
+        intent.putExtra("device_type",  TAG_DEVICE_TYPE);
         startActivity(intent);
     }
 
+    private int mNListSize = 0;
+    private int mNTotalSize = 0;
+    private void setMainListUI(ResMainDeviceList resprotocol){
 
-    private void setMainListUI(ArrayList<DeviceInfo> data){
-        mAdapter = new MyAdapter(data, new MyAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(DeviceInfo data) {
-                gotoEdit(data);
+        mNListSize = resprotocol.getListData().size();
+
+        if( mAdapter == null ) {
+            mNTotalSize = Integer.parseInt(resprotocol.getTotalCount());
+
+            mAdapter = new MyAdapter(resprotocol.getListData(), new MyAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(DeviceInfo data) {
+                    gotoEdit(data);
+                }
+
+                @Override
+                public void onUpdateClick() {
+                    KumaLog.d( " mNTotalSize > " + mNTotalSize );
+                    KumaLog.d( " mNListSize > " + mNListSize);
+                    KumaLog.d( " ( mNTotalSize - mNListSize ) > " + ( mNTotalSize - mNListSize ));
+                    if( ( mNTotalSize - mNListSize ) >=  10 ) {
+                        reqMainDeviceList(String.valueOf( mNListSize + 10));
+                    }else {
+                        reqMainDeviceList(String.valueOf( mNListSize + ( mNTotalSize - mNListSize )));
+                    }
+                }
+            });
+            if( ( mNTotalSize - mNListSize ) >  0 ) {
+                mAdapter.showFooter();
+            }  else {
+                mAdapter.removeFooterView();
             }
-        });
+            mRecyclerView.setAdapter(mAdapter);
+        } else {
+            KumaLog.d( " resprotocol.getListData().size() > " + resprotocol.getListData().size() );
+            KumaLog.d( " mNTotalSize > " + mNTotalSize);
+            if( ( mNTotalSize - mNListSize ) >  0 ) {
+                mAdapter.showFooter();
+            }  else {
+                mAdapter.removeFooterView();
+            }
+            mAdapter.setDataList(resprotocol.getListData());
+        }
+        KumaLog.i("++++++++++++++++++++ mAdapter.getItemCount()  +++++++++++++++++++++++++" +   mAdapter.getItemCount());
 
-        mRecyclerView.setAdapter(mAdapter);
 
     }
 
@@ -230,6 +289,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 showSimpleMessagePopup();
             }
         }
+
+        reqMainDeviceList("10");
     }
 
     /**
@@ -277,13 +338,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     /**
      * 메인 리스트
      */
-    private void reqDataList()
+    private void reqMainDeviceList(String strCount)
     {
         try {
-            ReqAgencyList reqAgencyList = new ReqAgencyList(this);
+            ReqMainDeviceList reqMainDeviceList = new ReqMainDeviceList(this);
 
-            reqAgencyList.setTag(TAG_REQ_DEVICE_LIST);
-            requestProtocol(true, reqAgencyList);
+            reqMainDeviceList.setTag(TAG_REQ_DEVICE_LIST);
+            reqMainDeviceList.setKind("");
+            reqMainDeviceList.setStart("1");
+            reqMainDeviceList.setCount(strCount);
+            requestProtocol(true, reqMainDeviceList);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -294,15 +358,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private void resDataList(ResMainDeviceList resprotocol)
     {
         KumaLog.d("++++++++++++resDataList++++++++++++++");
-//        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
-//            setMainListUI(resprotocol.getListData());
-//        }  else {
-//            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
-//                showSimpleMessagePopup(resprotocol.getMsg());
-//            } else {
-//                showSimpleMessagePopup();
-//            }
-//        }
+        if ( resprotocol.getResult().equals(ProtocolDefines.NetworkDefine.NETWORK_SUCCESS)) {
+            setMainListUI(resprotocol);
+        }  else {
+            if( !TextUtils.isEmpty(resprotocol.getMsg())) {
+                showSimpleMessagePopup(resprotocol.getMsg());
+            } else {
+                showSimpleMessagePopup();
+            }
+        }
     }
     /**
      * 장비 상세 요청
@@ -334,6 +398,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 @Override
                 public void onDialogResult(int nTag, int nResult, Dialog dialog) {
                     if( nResult ==  CommonDialog.RESULT_OK) {
+
                         gotoRegist(mSerialNum);
                     }
                 }
@@ -398,7 +463,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         KumaLog.d("onResume >>> ");
         if( onPauseState ) {
             onPauseState = false;
-//            reqDataList();
+            reqMainDeviceList("10");
         }
     }
 
@@ -418,15 +483,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        KumaLog.d("onActivityResult requestCode >>  " + requestCode);
-        if (resultCode == Activity.RESULT_OK) {
-            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-            mSerialNum = scanResult.getContents();
-            KumaLog.d( "onActivityResult: ." + mSerialNum);
-            reqDeviceInfo();
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+                // todo
+            } else {
+                try {
+                    String strSerialNum = result.getContents();
+                    String[] arrSerial = strSerialNum.split("\u001D");
+                    KumaLog.i(" aaa length >>> " + arrSerial.length);
+
+                    if( arrSerial.length > 1 ) {
+                        for(  int i = 0; i < arrSerial.length; i++ ) {
+                            KumaLog.i(" aaa[ " + i + " ] >>>>>  " + arrSerial[i]);
+                        }
+                        mSerialNum = arrSerial[2].substring(2);
+                    } else {
+                        mSerialNum = result.getContents();
+                        KumaLog.i("result.getContents() : " + result.getContents());
+                    }
+                }catch (Exception e) {
+
+                }
+//                mSerialNum =  "10001";
+//                01040568690028802004217201502837124010789396422410
+//                465810012743
+                reqDeviceInfo();
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                // todo
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @Override
     public void onResponseProtocol(int nTag, ResponseProtocol resProtocol) {
         switch (nTag){
@@ -452,6 +544,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
     }
 
+    private  String TAG_DEVICE_TYPE = "M";
+
     @Override
     public void onDialogResult(int nTag, int nResult, Dialog dialog) {
         switch (nTag){
@@ -459,12 +553,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 if( dlgBarcode.getObject() == null ) {
                     return;
                 }
-               int type = ((Intent)dlgBarcode.getObject()).getIntExtra("type", Constance.TAG_CAPTURE_DEVICE);
-                KumaLog.d(" type : " + type);
+                TAG_DEVICE_TYPE = ((Intent)dlgBarcode.getObject()).getStringExtra("type");
+                KumaLog.d(" type : " + TAG_DEVICE_TYPE);
                 //                바코드 스캐너 동작
-                IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
-                integrator.setCaptureActivity(BarcodeCaptureActivity.class);
-                integrator.initiateScan();
+
+                IntentIntegrator qrScan = new IntentIntegrator(this);
+                qrScan.setOrientationLocked(false); // default가 세로모드인데 휴대폰 방향에 따라 가로, 세로로 자동 변경됩니다.
+                qrScan.setPrompt("");
+                qrScan.initiateScan();
+
                 break;
             default:
                 break;

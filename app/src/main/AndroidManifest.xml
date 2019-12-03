@@ -9,6 +9,7 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
+        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activity.IntroActivity"
@@ -88,7 +89,12 @@
             android:screenOrientation="portrait"
             android:label="@string/app_name"/>
 
-
+        <!-- 환경 설정 -->
+        <activity
+            android:name=".activity.SettingActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+            android:screenOrientation="portrait"
+            android:label="@string/app_name"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

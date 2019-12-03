@@ -105,10 +105,7 @@ public class ProtocolDefines {
 
 
 		//제품조회
-		public static String URL_DEVICE_INFO = getURL() + "mdevice/api_product/get-product-demos?";
-
-
-
+		public static String URL_DEVICE_INFO = getURL() + "mdevice/api_product/get-product?";
 
 		// 제품 요약 집계
 		public static String URL_SUMMARY_DEVICE = getURL() + "mdevice/api_product/get-summary-by-state?";
@@ -118,7 +115,7 @@ public class ProtocolDefines {
 		public static String URL_MAIN_LIST = getURL() + "mdevice/api_product/get-products?";
 
 		//제품삭제
-		public static String URL_DEVICE_DELETE = getURL() + "mdevice/api_product/delete?";
+		public static String URL_DEVICE_DELETE = getURL() + "mdevice/api_product/delete-product?";
 
 
 

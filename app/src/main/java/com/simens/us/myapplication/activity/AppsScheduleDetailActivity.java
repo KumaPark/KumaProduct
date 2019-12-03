@@ -228,9 +228,9 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
                     }
 
                     if( nStartDay <  10 ) {
-                        strStartDay =  "0" +  ( nStartDay + 1 );
+                        strStartDay =  "0" +  nStartDay;
                     } else {
-                        strStartDay =  "" + ( nStartDay + 1 );
+                        strStartDay =  "" + nStartDay;
                     }
 
                     strReqStartDate = nStartYear + "-" +  strStartMonth + "-" + strStartDay;
@@ -259,9 +259,9 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
                     }
 
                     if( nEndDay <  10 ) {
-                        strEndDay =  "0" +  ( nEndDay + 1 );
+                        strEndDay =  "0" +  nEndDay;
                     } else {
-                        strEndDay =  "" + ( nEndDay + 1 );
+                        strEndDay =  "" + nEndDay;
                     }
 
                     strReqEndDate = nEndYear + "-" + strEndMonth + "-" + strEndDay;
@@ -343,6 +343,8 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
 
             mEvDestination.setText(mObjAppsScheduleDetail.getTitle());
             mTvStartDate.setText(mObjAppsScheduleDetail.getStartDate());
+            strReqStartDate = mObjAppsScheduleDetail.getStartDate();
+            strReqEndDate = mObjAppsScheduleDetail.getEndDate();
             mTvEndDate.setText(mObjAppsScheduleDetail.getEndDate());
             mEvEtc.setText(mObjAppsScheduleDetail.getDescription());
             mTvReciver.setText(mObjAppsScheduleDetail.getMemberName());
@@ -379,7 +381,9 @@ public class AppsScheduleDetailActivity extends BaseActivity implements View.OnC
             reqAppsScheduleEdit.setStartDate(strReqStartDate);
             reqAppsScheduleEdit.setEndDate(strReqEndDate);
             reqAppsScheduleEdit.setKind(mCurState);
-            reqAppsScheduleEdit.setMemberPk((String)mTvReciver.getTag());
+            int memberPk = (Integer)mTvReciver.getTag();
+            reqAppsScheduleEdit.setMemberPk(String.valueOf(memberPk));
+
             reqAppsScheduleEdit.setContent(mEvEtc.getText().toString().trim());
             requestProtocol(true, reqAppsScheduleEdit);
         } catch (Exception e) {

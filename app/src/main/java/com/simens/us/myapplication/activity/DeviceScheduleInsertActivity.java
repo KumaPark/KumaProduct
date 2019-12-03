@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -89,7 +91,7 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
     private TextView mTvReciverSelect;
 
     private RelativeLayout mRlDestination;
-    private TextView mTvDestination;
+    private AutoCompleteTextView mTvDestination;
 
     private LinearLayout mLlChoiceDevice;
     private TextView mTvChoiceDevice;
@@ -144,7 +146,7 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
         mTvReciverSelect = (TextView)findViewById(R.id.tv_reciver_name);
 
         mRlDestination = (RelativeLayout)findViewById(R.id.rl_destination);
-        mTvDestination = (TextView)findViewById(R.id.tv_destination);
+        mTvDestination = (AutoCompleteTextView)findViewById(R.id.tv_destination);
 
         mBtnSearch = (Button)findViewById(R.id.btn_search);
         mBtnInsert = (Button)findViewById(R.id.btn_demo_schedule_insert);
@@ -161,8 +163,9 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
         findViewById(R.id.ll_end_date).setOnClickListener(this);
         findViewById(R.id.iv_back).setOnClickListener(this);
 
-        mRlDestination.setOnClickListener(this);
-        mRlDestination.setClickable(false);
+        mTvDestination.setEnabled(false);
+//        mRlDestination.setOnClickListener(this);
+//        mRlDestination.setClickable(false);
 
         mRlProductSelect.setOnClickListener(this);
         mRlProductSelect.setClickable(false);
@@ -210,6 +213,19 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
         mArrKindList.add(2, dataA);
 
         mTvStartDate.requestFocus();
+
+        getAutoCompList();
+
+        mTvDestination.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,  mListDestinationName ));
+
+    }
+
+    private  ArrayList<String> mListDestinationName  = new ArrayList<>();
+    private void getAutoCompList(){
+        for(int i = 0; i < Constance.mArrDestinationList.size(); i++) {
+            mListDestinationName.add(Constance.mArrDestinationList.get(i).getName());
+        }
     }
 
     private void showDropBoxCommonDialog(final int Tag, ArrayList<DropBoaxCommonDTO> data){
@@ -306,8 +322,10 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
         mRlProductSelect.setClickable(true);
         mRlProductSelect.setBackgroundResource(R.drawable.back_input);
 
-        mRlDestination.setClickable(true);
+        mTvDestination.setEnabled(true);
         mRlDestination.setBackgroundResource(R.drawable.back_input);
+//        mRlDestination.setClickable(true);
+//        mRlDestination.setBackgroundResource(R.drawable.back_input);
 
         mRlProductKindSelect.setClickable(true);
         mRlProductKindSelect.setBackgroundResource(R.drawable.back_input);
@@ -334,8 +352,11 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
         mRlProductSelect.setClickable(false);
         mRlProductSelect.setBackgroundResource(R.drawable.back_input_disable);
 
-        mRlDestination.setClickable(false);
+        mTvDestination.setEnabled(false);
         mRlDestination.setBackgroundResource(R.drawable.back_input_disable);
+
+//        mRlDestination.setClickable(false);
+//        mRlDestination.setBackgroundResource(R.drawable.back_input_disable);
 
         mRlProductKindSelect.setClickable(false);
         mRlProductKindSelect.setBackgroundResource(R.drawable.back_input_disable);
@@ -595,9 +616,9 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
             }
 
             if( nStartDay <  10 ) {
-                strStartDay =  "0" +  ( nStartDay + 1 );
+                strStartDay =  "0" +  nStartDay;
             } else {
-                strStartDay =  "" + ( nStartDay + 1 );
+                strStartDay =  "" + nStartDay;
             }
 
             reqDeviceScheduleInsert.setStartDate(nStartYear + "-" + strStartMonth + "-" + strStartDay);
@@ -611,15 +632,23 @@ public class DeviceScheduleInsertActivity extends BaseActivity implements View.O
             }
 
             if( nEndDay <  10 ) {
-                strEndDay =  "0" +  ( nEndDay + 1 );
+                strEndDay =  "0" +  nEndDay;
             } else {
-                strEndDay =  "" + ( nEndDay + 1 );
+                strEndDay =  "" + nEndDay;
             }
 
             reqDeviceScheduleInsert.setEndDate(nEndYear + "-" + strEndMonth + "-" + strEndDay);
 
+            String strDestinationPk = "";
+
+            if( mTvDestination.getText().toString().trim().length() < 0 ) {
+                showSimpleMessagePopup("목적지 정보가 없어 수정이 불가능합니다.");
+                return;
+            }
+            strDestinationPk = mTvDestination.getText().toString().trim();
+
             reqDeviceScheduleInsert.setKind(mStrKind);
-            reqDeviceScheduleInsert.setDestinationPk(String.valueOf((Integer)mTvDestination.getTag()));
+            reqDeviceScheduleInsert.setDestinationPk(strDestinationPk);
             reqDeviceScheduleInsert.setReceiver(String.valueOf((Integer)mTvReciverSelect.getTag()));
             reqDeviceScheduleInsert.setReceiverAgencyPk(String.valueOf((Integer)mTvAgencySelect.getTag()));
             reqDeviceScheduleInsert.setProductPk(String.valueOf((Integer)mTvChoiceDevice.getTag()));

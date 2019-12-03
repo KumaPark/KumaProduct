@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -92,7 +94,7 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
     private TextView mTvReciverSelect;
 
     private RelativeLayout mRlDestination;
-    private TextView mTvDestination;
+    private AutoCompleteTextView mTvDestination;
 
 
     private EditText mEvNote;
@@ -156,7 +158,7 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         mTvReciverSelect = (TextView)view.findViewById(R.id.tv_reciver_name);
 
         mRlDestination = (RelativeLayout)view.findViewById(R.id.rl_destination);
-        mTvDestination = (TextView)view.findViewById(R.id.tv_destination);
+        mTvDestination = (AutoCompleteTextView)view.findViewById(R.id.tv_destination);
         mEvNote = (EditText) view.findViewById(R.id.ev_note);
 
         mEvNote.setEnabled(false);
@@ -171,8 +173,10 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
             mLlStateLayout[i] = (LinearLayout) view.findViewById(mLlStateLayoutID[i] );
             mTvStateText[i] = (TextView) view.findViewById(mTvStateTextID[i] );
         }
-        mRlDestination.setOnClickListener(this);
-        mRlDestination.setClickable(false);
+//        mRlDestination.setOnClickListener(this);
+//        mRlDestination.setClickable(false);
+
+        mTvDestination.setEnabled(false);
 
         mBtnEdit.setOnClickListener(this);
         mBtnEdit.setClickable(false);
@@ -225,6 +229,18 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         findViewById(R.id.tv_start_date).setOnClickListener(this);
         findViewById(R.id.tv_end_date).setOnClickListener(this);
 
+        getAutoCompList();
+
+        mTvDestination.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,  mListDestinationName ));
+
+    }
+
+    private  ArrayList<String> mListDestinationName  = new ArrayList<>();
+    private void getAutoCompList(){
+        for(int i = 0; i < Constance.mArrDestinationList.size(); i++) {
+            mListDestinationName.add(Constance.mArrDestinationList.get(i).getName());
+        }
     }
 
     private void changeEditState(boolean state) {
@@ -233,7 +249,8 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
 //        mEvDeliver.setEnabled(state);
 
         if( state ) {
-            mRlDestination.setClickable(true);
+//            mRlDestination.setClickable(true);
+            mTvDestination.setEnabled(true);
             mRlDestination.setBackgroundResource(R.drawable.back_input);
 
             mRlAgencySelect.setClickable(true);
@@ -247,7 +264,8 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
 
             mBtnEdit.setClickable(true);
         }  else {
-            mRlDestination.setClickable(false);
+//            mRlDestination.setClickable(false);
+            mTvDestination.setEnabled(false);
             mRlDestination.setBackgroundResource(R.drawable.back_input_disable);
 
             mRlAgencySelect.setClickable(false);
@@ -290,9 +308,9 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
                     }
 
                     if( nStartDay <  10 ) {
-                        strStartDay =  "0" +  ( nStartDay + 1 );
+                        strStartDay =  "0" +  nStartDay;
                     } else {
-                        strStartDay =  "" + ( nStartDay + 1 );
+                        strStartDay =  "" + nStartDay;
                     }
 
                     strReqStartDate = nStartYear + "-" +  strStartMonth + "-" + strStartDay;
@@ -322,9 +340,9 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
                     }
 
                     if( nEndDay <  10 ) {
-                        strEndDay =  "0" +  ( nEndDay + 1 );
+                        strEndDay =  "0" +  nEndDay;
                     } else {
-                        strEndDay =  "" + ( nEndDay + 1 );
+                        strEndDay =  "" + nEndDay;
                     }
 
                     strReqEndDate = nEndYear + "-" + strEndMonth + "-" + strEndDay;
@@ -355,12 +373,19 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
         KumaLog.d("++++++++++++ reqDeviceScheduleEdit  ++++++++++++++");
         try {
             ReqDeviceScheduleEdit reqReqDeviceScheduleEdit = new ReqDeviceScheduleEdit(this);
-            int strDestinationPk = -1, strReceiverAgencyPk = -1, strReceiver = -1;
-            if( (int)mTvDestination.getTag() < 0 ) {
+            int /**strDestinationPk = -1,*/ strReceiverAgencyPk = -1, strReceiver = -1;
+//            if( (int)mTvDestination.getTag() < 0 ) {
+//                showSimpleMessagePopup("목적지 정보가 없어 수정이 불가능합니다.");
+//                return;
+//            }
+//            strDestinationPk = (int)mTvDestination.getTag();
+            String strDestinationPk = "";
+
+            if( mTvDestination.getText().toString().trim().length() < 0 ) {
                 showSimpleMessagePopup("목적지 정보가 없어 수정이 불가능합니다.");
                 return;
             }
-            strDestinationPk = (int)mTvDestination.getTag();
+            strDestinationPk = mTvDestination.getText().toString().trim();
 
             if( (int)mTvAgencySelect.getTag() < 0 ) {
                 showSimpleMessagePopup("대리점 정보가 없어 수정이 불가능합니다.");
@@ -418,11 +443,15 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
             mTvProductSelect.setText(resprotocol.getDeviceInfo().getTitle());
             mTvStartDate.setText( resprotocol.getDeviceInfo().getStartDate()  );
             mTvEndDate.setText( resprotocol.getDeviceInfo().getEndDate() );
+
+            strReqStartDate = resprotocol.getDeviceInfo().getStartDate();
+            strReqEndDate = resprotocol.getDeviceInfo().getEndDate();
+
             mTvAgencySelect.setText( Constance.getAgencyData(resprotocol.getDeviceInfo().getAgencyPk()).getName() );
             mTvAgencySelect.setTag(resprotocol.getDeviceInfo().getAgencyPk());
 
             mTvDestination.setText(Constance.getDestinationData(resprotocol.getDeviceInfo().getDestinationPk()).getName());
-            mTvDestination.setTag(resprotocol.getDeviceInfo().getDestinationPk());
+//            mTvDestination.setTag(resprotocol.getDeviceInfo().getDestinationPk());
 
 
             mEvNote.setText(resprotocol.getDeviceInfo().getMessage());
@@ -621,6 +650,14 @@ public class DeviceDemoDetailActivity extends BaseActivity implements View.OnCli
             case DLG_DEVICE_EDIT_REQ : {
                 if( nResult == CommonDialog.RESULT_OK) {
                     reqDeviceScheduleEdit();
+                }
+                break;
+            }
+
+            case DLG_DEVICE_RESULT : {
+                if( nResult == CommonDialog.RESULT_OK) {
+                    getAppManager().removeActivity(DeviceDemoDetailActivity.this);
+                    finish();
                 }
                 break;
             }

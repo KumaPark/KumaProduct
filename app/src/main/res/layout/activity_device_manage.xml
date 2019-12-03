@@ -14,11 +14,12 @@
         android:background="#aaFF9436"
         >
         <ImageView
+            android:id="@+id/iv_back"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/menu_icon"
+            android:background="@drawable/back_arrow_1"
             />
         <TextView
             android:layout_width="140dp"

@@ -39,7 +39,15 @@ public class Constance {
             if(mArrDestinationList.get(i).pk ==  pk)  {
                 data = mArrDestinationList.get(i);
                 KumaLog.d("  getDestinationData getName  >>>  " + data.getName());
+                break;
             }
+        }
+
+        if( data == null )  {
+            KumaLog.d("  data == null getName  >>>  " );
+            data = new DropBoaxCommonDTO();
+            data.setName("");
+            data.setPk(0);
         }
         return data;
     }
@@ -94,19 +102,15 @@ public class Constance {
      */
     /**
      * 바코드  Type
-     *  장비
-     *  트랜듀서
-     *  풋 스위치
-     *  바이옵시
-     *  동글
-     *  워크스테이션
+     * 제품종류 (M : 장비, P : 프로브 , A : 악세사리)
      */
-    public static final int TAG_CAPTURE_DEVICE = 1001;
-    public static final int TAG_CAPTURE_TRANDUCER = 1002;
-    public static final int TAG_CAPTURE_FOOT_SWITCH = 1003;
-    public static final int TAG_CAPTURE_BIOPSY = 1004;
-    public static final int TAG_CAPTURE_DOGGLE = 1005;
-    public static final int TAG_CAPTURE_WORK_STATION = 1006;
+
+    public static final String TAG_CAPTURE_DEVICE = "M";
+    public static final String TAG_CAPTURE_PROBE = "P";
+    public static final String TAG_CAPTURE_ACC = "A";
+//    public static final int TAG_CAPTURE_BIOPSY = 1004;
+//    public static final int TAG_CAPTURE_DOGGLE = 1005;
+//    public static final int TAG_CAPTURE_WORK_STATION = 1006;
 
     /**
      * 장비 상태
@@ -135,7 +139,7 @@ public class Constance {
      판매완료 : 데모제품을 판매한 상태
      */
     public static final String TAG_DEVICE_STATE_STANDBY = "R";
-    public static final String TAG_DEVICE_STATE_MOVE_HOSPITAL = "MH";
+    public static final String TAG_DEVICE_STATE_MOVE_HOSPITAL = "MD";
     public static final String TAG_DEVICE_STATE_DEMO = "I";
     public static final String TAG_DEVICE_STATE_MOVE_COMPANY = "MC";
     public static final String TAG_DEVICE_STATE_DEMO_COMPLETE = "C";
@@ -164,6 +168,7 @@ public class Constance {
                 result = "취소";
                 break;
             default:
+                result = "대기";
                 break;
         }
         return result;

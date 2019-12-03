@@ -180,7 +180,12 @@ public class DeviceConditionScheduleAdapter extends BaseAdapter {
             if(  i < data.getScheduleInfoList().size() ){
                 mArrTv[i].setText(data.getScheduleInfoList().get(i).title);
                 mArrTv[i].setTextColor(Color.parseColor("#ffffff"));
-                mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).color));
+
+                try {
+                    mArrTv[i].setBackgroundColor(Color.parseColor(data.getScheduleInfoList().get(i).color));
+                }catch (Exception e) {
+                    mArrTv[i].setBackgroundColor(Color.parseColor("#B2CCFF"));
+                }
             } else {
                 setBlankDate(mArrTv[i]);
             }

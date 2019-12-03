@@ -18,7 +18,7 @@ public class ReqDeviceDelete extends RequestJSON
 
     private int m_nTag;
     //	시리얼번호
-    private String serialNo = "";
+    private String pk = "";
 
     private StringBuffer m_sbParameter;
 
@@ -45,8 +45,8 @@ public class ReqDeviceDelete extends RequestJSON
         m_nTag = nTag;
     }
 
-    public void setSerialNo(String serialNo) {
-        this.serialNo = serialNo;
+    public void setPk(String pk) {
+        this.pk = pk;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ReqDeviceDelete extends RequestJSON
 
         m_sbParameter = new StringBuffer();
 
-        m_sbParameter.append("serialNo").append("=").append(serialNo).append("&");
+        m_sbParameter.append("pk").append("=").append(pk).append("&");
         m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;

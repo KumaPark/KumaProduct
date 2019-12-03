@@ -33,11 +33,12 @@
             android:text="장비명 : "
             />
         <TextView
-            android:id="@+id/textview"
+            android:id="@+id/tv_product_name"
             android:gravity="center|left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
+            android:textColor="#222222"
             />
         </LinearLayout>
         <LinearLayout
@@ -50,34 +51,15 @@
                 android:gravity="center|left"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:text="기간 : "
+                android:text="목적지 : "
                 />
             <TextView
-                android:id="@+id/tv_date"
+                android:id="@+id/tv_destination"
                 android:gravity="center|left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            >
-            <TextView
-                android:gravity="center|left"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="병원명 : "
-                />
-            <TextView
-                android:id="@+id/tv_hospital"
-                android:gravity="center|left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
+                android:textColor="#222222"
                 />
         </LinearLayout>
         <LinearLayout
@@ -98,8 +80,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
+                android:textColor="#222222"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            >
+            <TextView
+                android:id="@+id/tv_make_date_title"
+                android:gravity="center|left"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text=" 제조일 : "
+                />
+            <TextView
+                android:id="@+id/tv_make_date"
+                android:gravity="center|left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#222222"
+                />
+        </LinearLayout>
+
+
     </LinearLayout>
     <View
         android:layout_width="match_parent"

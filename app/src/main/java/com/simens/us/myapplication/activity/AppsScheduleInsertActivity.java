@@ -227,9 +227,9 @@ public class AppsScheduleInsertActivity extends BaseActivity implements View.OnC
                     }
 
                     if( nStartDay <  10 ) {
-                        strStartDay =  "0" +  ( nStartDay + 1 );
+                        strStartDay =  "0" +  nStartDay;
                     } else {
-                        strStartDay =  "" + ( nStartDay + 1 );
+                        strStartDay =  "" + nStartDay;
                     }
 
                     strReqStartDate = nStartYear + "-" +  strStartMonth + "-" + strStartDay;
@@ -259,9 +259,9 @@ public class AppsScheduleInsertActivity extends BaseActivity implements View.OnC
                     }
 
                     if( nEndDay <  10 ) {
-                        strEndDay =  "0" +  ( nEndDay + 1 );
+                        strEndDay =  "0" +  nEndDay;
                     } else {
-                        strEndDay =  "" + ( nEndDay + 1 );
+                        strEndDay =  "" + nEndDay;
                     }
 
                     strReqEndDate = nEndYear + "-" + strEndMonth + "-" + strEndDay;
@@ -294,7 +294,7 @@ public class AppsScheduleInsertActivity extends BaseActivity implements View.OnC
                     mTvDestination.setTag(data);
                 } else if( TAG_REQ_AGENCY_MEMBER_LIST  == tag)  {
                     mTvReciver.setText(data.getName());
-                    mTvReciver.setTag(data);
+                    mTvReciver.setTag(data.getPk());
                 }
             }
         });
@@ -375,7 +375,8 @@ public class AppsScheduleInsertActivity extends BaseActivity implements View.OnC
             ReqAppsScheduleAdd reqAppsScheduleAdd = new ReqAppsScheduleAdd(this);
 
             reqAppsScheduleAdd.setTag(TAG_REQ_SCHEDULE_INSERT);
-            reqAppsScheduleAdd.setMemberPk(String.valueOf((Integer)mTvReciver.getTag()));
+            int memberPk = (Integer)mTvReciver.getTag();
+            reqAppsScheduleAdd.setMemberPk(String.valueOf(memberPk));
             reqAppsScheduleAdd.setTitle(mEvDestination.getText().toString().trim());
             reqAppsScheduleAdd.setStartDate(strReqStartDate);
             reqAppsScheduleAdd.setEndDate(strReqEndDate);

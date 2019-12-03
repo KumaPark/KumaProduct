@@ -22,7 +22,7 @@ public class BarcodeTypeSelectDialog extends BaseDialog implements View.OnClickL
     public static final int DLG_TYPE_NOTI = 0;
     public static final int DLG_TYPE_YES_NO = 1;
 
-    private int TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_DEVICE;
+    private String TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_DEVICE;
 
     public static final int RESULT_OK       = 101;
     public static final int RESULT_CANCEL   = 0;
@@ -53,42 +53,21 @@ public class BarcodeTypeSelectDialog extends BaseDialog implements View.OnClickL
 
         mVSeleteedView = findViewById(R.id.barcode_type_device);
 
-        findViewById(R.id.barcode_type_tranducer).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.barcode_type_probe).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_TRANDUCER;
+                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_PROBE;
                 setSelectedBacground(v);
             }
         });
-        findViewById(R.id.barcode_type_foot_switch).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.barcode_type_acc).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_FOOT_SWITCH;
+                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_ACC;
                 setSelectedBacground(v);
             }
         });
 
-        findViewById(R.id.barcode_type_biopsy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_BIOPSY;
-                setSelectedBacground(v);
-            }
-        });
-        findViewById(R.id.barcode_type_doggle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_DOGGLE;
-                setSelectedBacground(v);
-            }
-        });
-        findViewById(R.id.barcode_type_work_station).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TAG_SELECTED_TYPE = Constance.TAG_CAPTURE_WORK_STATION;
-                setSelectedBacground(v);
-            }
-        });
     }
 
     @Override

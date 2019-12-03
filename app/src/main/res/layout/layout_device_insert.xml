@@ -260,13 +260,24 @@
             />
         <LinearLayout
             android:id="@+id/ll_dlg_yes_no"
-            android:layout_width="300dp"
+            android:layout_width="330dp"
             android:layout_height="40dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="40dp"
             android:orientation="horizontal"
             android:gravity="center"
             >
+            <Button
+                android:id="@+id/btn_delete"
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+                android:background="@xml/sel_dlg_cancle"
+                android:text="@string/str_btn_delete"
+                android:textColor="@color/color_white"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"
+                android:textSize="16dp" />
+
             <Button
                 android:id="@+id/btn_confirm"
                 android:layout_width="160dp"

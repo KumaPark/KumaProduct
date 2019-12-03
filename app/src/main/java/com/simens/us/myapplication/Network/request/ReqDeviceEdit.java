@@ -25,6 +25,8 @@ public class ReqDeviceEdit extends RequestJSON
     //	OS버젼 (장비인 경우에만 해당)
     private String osPk = "";
 
+    private String state = "";
+
     private StringBuffer m_sbParameter;
 
     private Context mContext;
@@ -59,6 +61,10 @@ public class ReqDeviceEdit extends RequestJSON
         this.modelPk = modelPk;
     }
 
+    public void setState(String state) {
+        this.state = state;
+    }
+
     public void setMakeDate(String makeDate) {
         this.makeDate = makeDate;
     }
@@ -81,6 +87,7 @@ public class ReqDeviceEdit extends RequestJSON
         m_sbParameter.append("modelPk").append("=").append(modelPk).append("&");
         m_sbParameter.append("makeDate").append("=").append(makeDate).append("&");
         m_sbParameter.append("osPk").append("=").append(osPk).append("&");
+        m_sbParameter.append("state").append("=").append(state).append("&");
         m_sbParameter.append("token").append("=").append(DeviceUtils.getToken(mContext));
 
         return m_sbParameter;
